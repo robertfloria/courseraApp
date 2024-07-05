@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 import Button from "../components/Button";
+import { useNavigation } from "expo-router";
 
-type Props = React.ComponentProps<{
-  navigation?: (arg: any) => any;
-}>;
+const WelcomeScreen = () => {
+  const navigation = useNavigation();
 
-const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -20,7 +19,7 @@ const WelcomeScreen = ({ navigation }) => {
       </View>
       <Button
         onPress={() => {
-          navigation.navigate("Subscribe");
+          // navigation.navigate("Subscribe");
         }}
       >
         Newsletter
