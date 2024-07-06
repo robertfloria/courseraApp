@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Alert, Image, StyleSheet, Text, TextInput, View } from "react-native";
-import { validateEmail } from "../utils";
-import Button from "../components/Button";
+import { validateEmail } from "../../utils";
+import Button from "../../components/Button";
 
 const SubscribeScreen = () => {
   const [email, setEmail] = React.useState('');
@@ -12,7 +12,7 @@ const SubscribeScreen = () => {
       <View style={styles.titleContainer}>
         <Image
           style={styles.logo}
-          source={require("../assets/images/little-lemon-logo-grey.png")}
+          source={require("../../assets/images/little-lemon-logo-grey.png")}
         />
         <Text style={styles.title}>
           Subscribe to our newsletter for our latest delicious recipes!

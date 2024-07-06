@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
-import Button from "../components/Button";
-import { useNavigation, useRouter } from "expo-router";
+import Button from "../../components/Button";
+import { useRouter } from "expo-router";
 
 const WelcomeScreen = () => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const WelcomeScreen = () => {
       <View style={styles.contentContainer}>
         <Image
           style={styles.logo}
-          source={require("../assets/images/little-lemon-logo.png")}
+          source={require("../../assets/images/little-lemon-logo.png")}
         />
         <Text style={styles.title}>
           Little Lemon, your local Mediterranean Bistro
