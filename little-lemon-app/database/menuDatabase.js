@@ -1,6 +1,6 @@
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from 'expo-sqlite/legacy';
 
-const db = SQLite.openDatabaseAsync('little_lemon');
+const db = SQLite.openDatabase('littlelemon.db');
 
 export async function createTable() {
   return new Promise((resolve, reject) => {
