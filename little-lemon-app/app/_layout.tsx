@@ -4,6 +4,7 @@ import MenuScreen from "./menuScreen";
 import { SQLiteProvider } from "expo-sqlite";
 
 export default function RootLayout() {
+  <script src="http://localhost:8097"></script>
   return (
     <Fragment>
       <SQLiteProvider databaseName="littleLemon.db" useSuspense>

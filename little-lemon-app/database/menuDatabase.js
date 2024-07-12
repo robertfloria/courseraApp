@@ -16,11 +16,12 @@ export async function getMenuItems(db) {
 }
 
 export function saveMenuItems(menuItems, db) {
-  // db.transaction((tx) => {
-  // 2. Implement a single SQL statement to save all menu data in a table called menuitems.
-  // Check the createTable() function above to see all the different columns the table has
-  // Hint: You need a SQL statement to insert multiple rows at once.
-  // });
+  menuItems.forEach(async (element) => {
+    await db.runAsync(
+      `INSERT INTO menuitems(id, title, price, category) VALUES (${element.id, element.title, element.price, element.category});`,
+    );
+  });
+
 }
 
 /**
