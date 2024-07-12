@@ -19,6 +19,7 @@ import Filters from './components/Filters';
 import { useUpdateEffect } from '@/hooks/useUpdateEffect';
 import { filterByQueryAndCategories, getSectionListData } from './functions';
 import { useSQLiteContext } from 'expo-sqlite';
+import { readBlobData } from '@/utils/functions';
 
 const API_URL =
   'https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json';
@@ -33,54 +34,53 @@ const Item = ({ title, price }: { title: string; price: number }) => (
 
 export default function MenuScreen() {
   const [data, setData] = useState<Array<any>>([]);
-  const [searchBarText, setSearchBarText] = useState('');
-  const [query, setQuery] = useState('');
-  const [filterSelections, setFilterSelections] = useState(
+  const [searchBarText, setSearchBarText] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
+  const [filterSelections, setFilterSelections] = useState<Array<any>>(
     sections.map(() => false)
   );
 
-  const db = useSQLiteContext();
+  // const db = useSQLiteContext();
 
   const fetchData = async () => {
     try {
-      const data = await fetch(API_URL);
-      debugger
-      return data;
-    }
-    catch (e: any) {
-      Alert.alert(e.message);
-    }
+      const response = await fetch(API_URL);
 
-    // 1. Implement this function
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-    // Fetch the menu from the API_URL endpoint. You can visit the API_URL in your browser to inspect the data returned
-    // The category field comes as an object with a property called "title". You just need to get the title value and set it under the key "category".
-    // So the server response should be slighly transformed in this function (hint: map function) to flatten out each menu item in the array,
-    return [];
+      const readResponse = await readBlobData(response);
+      return readResponse;
+    }
+    catch (error: any) {
+      Alert.alert(error.message);
+    }
   }
 
   useEffect(() => {
-    (async () => {
-      try {
-        await createTable(db);
-        let menuItems = await getMenuItems(db);
+    fetchData();
+    // (async () => {
+    //   try {
+    //     await createTable(db);
+    //     let menuItems = await getMenuItems(db);
 
-        // The application only fetches the menu data once from a remote URL
-        // and then stores it into a SQLite database.
-        // After that, every application restart loads the menu from the database
+    //     // The application only fetches the menu data once from a remote URL
+    //     // and then stores it into a SQLite database.
+    //     // After that, every application restart loads the menu from the database
 
-        if (!menuItems.length) {
-          const menuItems = await fetchData();
-          saveMenuItems(menuItems, db);
-        }
+    //     if (!menuItems.length) {
+    //       const menuItems = await fetchData();
+    //       saveMenuItems(menuItems, db);
+    //     }
 
-        const sectionListData = getSectionListData(menuItems);
-        setData(sectionListData);
-      } catch (e: any) {
-        // Handle error
-        Alert.alert(e.message);
-      }
-    })();
+    //     const sectionListData = getSectionListData(menuItems);
+    //     setData(sectionListData);
+    //   } catch (e: any) {
+    //     // Handle error
+    //     Alert.alert(e.message);
+    //   }
+    // })();
   }, []);
 
   useUpdateEffect(() => {
