@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Text,
   View,
@@ -7,23 +7,23 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
-} from 'react-native';
-import { Searchbar } from 'react-native-paper';
+} from "react-native";
+import { Searchbar } from "react-native-paper";
 // import debounce from 'lodash.debounce';
 import {
   createTable,
   getMenuItems,
   saveMenuItems,
-} from '../../database/menuDatabase';
-import Filters from './components/Filters';
-import { useUpdateEffect } from '@/hooks/useUpdateEffect';
-import { filterByQueryAndCategories, getSectionListData } from './functions';
-import { useSQLiteContext } from 'expo-sqlite';
-import { readBlobData } from '@/utils/functions';
+} from "../../database/menuDatabase";
+import Filters from "./components/Filters";
+import { useUpdateEffect } from "@/hooks/useUpdateEffect";
+import { filterByQueryAndCategories, getSectionListData } from "./functions";
+import { useSQLiteContext } from "expo-sqlite";
+import { readBlobData } from "@/utils/functions";
 
 const API_URL =
-  'https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json';
-const sections = ['Appetizers', 'Salads', 'Beverages'];
+  "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json";
+const sections = ["Appetizers", "Salads", "Beverages"];
 
 const Item = ({ title, price }: { title: string; price: number }) => (
   <View style={styles.item}>
@@ -34,53 +34,50 @@ const Item = ({ title, price }: { title: string; price: number }) => (
 
 export default function MenuScreen() {
   const [data, setData] = useState<Array<any>>([]);
-  const [searchBarText, setSearchBarText] = useState<string>('');
-  const [query, setQuery] = useState<string>('');
+  const [searchBarText, setSearchBarText] = useState<string>("");
+  const [query, setQuery] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>(
-    sections.map(() => false)
+    sections.map(() => false),
   );
 
-  // const db = useSQLiteContext();
+  const db = useSQLiteContext();
 
   const fetchData = async () => {
     try {
       const response = await fetch(API_URL);
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const readResponse = await readBlobData(response);
       return readResponse;
-    }
-    catch (error: any) {
+    } catch (error: any) {
       Alert.alert(error.message);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData();
-    // (async () => {
-    //   try {
-    //     await createTable(db);
-    //     let menuItems = await getMenuItems(db);
+    (async () => {
+      try {
+        await createTable(db);
+        let menuItems = await getMenuItems(db);
 
-    //     // The application only fetches the menu data once from a remote URL
-    //     // and then stores it into a SQLite database.
-    //     // After that, every application restart loads the menu from the database
+        // The application only fetches the menu data once from a remote URL
+        // and then stores it into a SQLite database.
+        // After that, every application restart loads the menu from the database
 
-    //     if (!menuItems.length) {
-    //       const menuItems = await fetchData();
-    //       saveMenuItems(menuItems, db);
-    //     }
+        if (!menuItems.length) {
+          const menuItems = await fetchData();
+          saveMenuItems(menuItems, db);
+        }
 
-    //     const sectionListData = getSectionListData(menuItems);
-    //     setData(sectionListData);
-    //   } catch (e: any) {
-    //     // Handle error
-    //     Alert.alert(e.message);
-    //   }
-    // })();
+        const sectionListData = getSectionListData(menuItems);
+        setData(sectionListData);
+      } catch (e: any) {
+        Alert.alert(e.message);
+      }
+    })();
   }, []);
 
   useUpdateEffect(() => {
@@ -95,7 +92,7 @@ export default function MenuScreen() {
       try {
         const menuItems = await filterByQueryAndCategories(
           query,
-          activeCategories
+          activeCategories,
         );
         const sectionListData = getSectionListData(menuItems);
         setData(sectionListData);
@@ -131,7 +128,7 @@ export default function MenuScreen() {
         value={searchBarText}
         style={styles.searchBar}
         iconColor="white"
-        inputStyle={{ color: 'white' }}
+        inputStyle={{ color: "white" }}
         elevation={0}
       />
       <Filters
@@ -158,31 +155,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: StatusBar.currentHeight,
-    backgroundColor: '#495E57',
+    backgroundColor: "#495E57",
   },
   sectionList: {
     paddingHorizontal: 16,
   },
   searchBar: {
     marginBottom: 24,
-    backgroundColor: '#495E57',
+    backgroundColor: "#495E57",
     shadowRadius: 0,
     shadowOpacity: 0,
   },
   item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
   },
   header: {
     fontSize: 24,
     paddingVertical: 8,
-    color: '#FBDABB',
-    backgroundColor: '#495E57',
+    color: "#FBDABB",
+    backgroundColor: "#495E57",
   },
   title: {
     fontSize: 20,
-    color: 'white',
+    color: "white",
   },
 });

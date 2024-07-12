@@ -21,19 +21,19 @@ const Button: React.FC<Props> = ({ children, onPress, disabled }) => {
 const styles = StyleSheet.create({
   buttonWrapper: {
     borderRadius: 8,
-    backgroundColor: '#495E57',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    backgroundColor: "#495E57",
+    flexDirection: "row",
+    justifyContent: "center",
     padding: 8,
   },
   disabled: {
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
     opacity: 0.5,
   },
   text: {
     fontSize: 16,
-    color: 'white',
-  }
+    color: "white",
+  },
 });
 
 export default Button;

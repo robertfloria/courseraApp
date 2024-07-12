@@ -6,20 +6,20 @@ export async function createTable(db) {
     title text, 
     price text, 
     category text
-    );`
-  )
+    );`,
+  );
 }
 
 export async function getMenuItems(db) {
-  const menuItems = await db.getAllAsync('select * from menuitems');
+  const menuItems = await db.getAllAsync("select * from menuitems");
   return menuItems;
 }
 
 export function saveMenuItems(menuItems, db) {
   // db.transaction((tx) => {
-    // 2. Implement a single SQL statement to save all menu data in a table called menuitems.
-    // Check the createTable() function above to see all the different columns the table has
-    // Hint: You need a SQL statement to insert multiple rows at once.
+  // 2. Implement a single SQL statement to save all menu data in a table called menuitems.
+  // Check the createTable() function above to see all the different columns the table has
+  // Hint: You need a SQL statement to insert multiple rows at once.
   // });
 }
 

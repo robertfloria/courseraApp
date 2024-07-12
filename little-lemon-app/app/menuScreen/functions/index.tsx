@@ -1,31 +1,31 @@
 export const SECTION_LIST_MOCK_DATA = [
   {
-    title: 'Appetizers',
+    title: "Appetizers",
     data: [
       {
-        id: '1',
-        title: 'Pasta',
-        price: '10',
+        id: "1",
+        title: "Pasta",
+        price: "10",
       },
       {
-        id: '3',
-        title: 'Pizza',
-        price: '8',
+        id: "3",
+        title: "Pizza",
+        price: "8",
       },
     ],
   },
   {
-    title: 'Salads',
+    title: "Salads",
     data: [
       {
-        id: '2',
-        title: 'Caesar',
-        price: '2',
+        id: "2",
+        title: "Caesar",
+        price: "2",
       },
       {
-        id: '4',
-        title: 'Greek',
-        price: '3',
+        id: "4",
+        title: "Greek",
+        price: "3",
       },
     ],
   },
@@ -40,12 +40,15 @@ export const SECTION_LIST_MOCK_DATA = [
 export function getSectionListData(data: any) {
   // SECTION_LIST_MOCK_DATA is an example of the data structure you need to return from this function.
   // The title of each section should be the category.
-  // The data property should contain an array of menu items. 
+  // The data property should contain an array of menu items.
   // Each item has the following properties: "id", "title" and "price"
   return SECTION_LIST_MOCK_DATA;
 }
 
-export async function filterByQueryAndCategories(query: any, activeCategories: any) {
+export async function filterByQueryAndCategories(
+  query: any,
+  activeCategories: any,
+) {
   return new Promise((resolve, reject) => {
     resolve(SECTION_LIST_MOCK_DATA);
   });

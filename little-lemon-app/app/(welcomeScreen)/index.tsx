@@ -17,9 +17,7 @@ const WelcomeScreen = () => {
           Little Lemon, your local Mediterranean Bistro
         </Text>
       </View>
-      <Button
-        onPress={() => router.push('/subscribeScreen')}
-      >
+      <Button onPress={() => router.push("/subscribeScreen")}>
         Newsletter
       </Button>
     </View>
@@ -30,13 +28,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: 'white',
-    justifyContent: 'space-between',
+    backgroundColor: "white",
+    justifyContent: "space-between",
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
     height: 200,

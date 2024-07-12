@@ -4,7 +4,7 @@ import { validateEmail } from "../../utils";
 import Button from "../../components/Button";
 
 const SubscribeScreen = () => {
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState("");
   const isEmailValid = validateEmail(email);
 
   return (
@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   titleContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     color: "#333333",
