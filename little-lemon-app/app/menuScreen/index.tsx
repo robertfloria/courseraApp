@@ -18,6 +18,7 @@ import {
 import Filters from './components/Filters';
 import { useUpdateEffect } from '@/hooks/useUpdateEffect';
 import { filterByQueryAndCategories, getSectionListData } from './functions';
+import { useSQLiteContext } from 'expo-sqlite';
 
 const API_URL =
   'https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json';
@@ -38,7 +39,18 @@ export default function MenuScreen() {
     sections.map(() => false)
   );
 
+  const db = useSQLiteContext();
+
   const fetchData = async () => {
+    try {
+      const data = await fetch(API_URL);
+      debugger
+      return data;
+    }
+    catch (e: any) {
+      Alert.alert(e.message);
+    }
+
     // 1. Implement this function
 
     // Fetch the menu from the API_URL endpoint. You can visit the API_URL in your browser to inspect the data returned
@@ -50,20 +62,20 @@ export default function MenuScreen() {
   useEffect(() => {
     (async () => {
       try {
-        await createTable();
-        // let menuItems = await getMenuItems();
+        await createTable(db);
+        let menuItems = await getMenuItems(db);
 
         // The application only fetches the menu data once from a remote URL
         // and then stores it into a SQLite database.
         // After that, every application restart loads the menu from the database
 
-        // if (!menuItems.length) {
-        //   const menuItems = await fetchData();
-        //   saveMenuItems(menuItems);
-        // }
+        if (!menuItems.length) {
+          const menuItems = await fetchData();
+          saveMenuItems(menuItems, db);
+        }
 
-        // const sectionListData = getSectionListData(menuItems);
-        // setData(sectionListData);
+        const sectionListData = getSectionListData(menuItems);
+        setData(sectionListData);
       } catch (e: any) {
         // Handle error
         Alert.alert(e.message);
