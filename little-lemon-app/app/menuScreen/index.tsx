@@ -71,10 +71,6 @@ export default function MenuScreen() {
         await createTable(db);
         let menuItems = await getMenuItems(db);
 
-        // The application only fetches the menu data once from a remote URL
-        // and then stores it into a SQLite database.
-        // After that, every application restart loads the menu from the database
-
         if (!menuItems.length) {
           const menuItems = await fetchData();
           saveMenuItems(menuItems, db);
