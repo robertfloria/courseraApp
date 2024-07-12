@@ -50,8 +50,16 @@ export default function MenuScreen() {
         throw new Error("Network response was not ok");
       }
 
-      const readResponse = await readBlobData(response);
-      return readResponse;
+      const readedResponse = await readBlobData(response) as any;
+      const manipulatedResponse = readedResponse.menu.map((item: any) => {
+        return {
+          ...item,
+          category: item.category.title
+        }
+      })
+
+      return manipulatedResponse;
+
     } catch (error: any) {
       Alert.alert(error.message);
     }
