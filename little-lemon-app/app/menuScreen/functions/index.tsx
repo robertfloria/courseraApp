@@ -31,17 +31,37 @@ export const SECTION_LIST_MOCK_DATA = [
   },
 ];
 
-/**
- * 3. Implement this function to transform the raw data
- * retrieved by the getMenuItems() function inside the database.js file
- * into the data structure a SectionList component expects as its "sections" prop.
- * @see https://reactnative.dev/docs/sectionlist as a reference
- */
-export function getSectionListData(data: any) {
-  // SECTION_LIST_MOCK_DATA is an example of the data structure you need to return from this function.
-  // The title of each section should be the category.
-  // The data property should contain an array of menu items.
-  // Each item has the following properties: "id", "title" and "price"
+
+export function getSectionListData(data: Array<any>) {
+  let sectionList = [];
+
+  for (let i = 0; i < data.length; i++) {
+    if (sectionList.length == 0) {
+      sectionList.push(
+        {
+          category: data[i].category,
+          data: [
+            {
+              id: data[i].id,
+              title: data[i].title,
+              price: data[i].price
+            }
+          ]
+        }
+      );
+    }
+    for (let j = i + 1; j < data.length; j++) {
+      if (data[i].category == data[j].category) {
+
+      }
+    }
+  }
+
+  data.forEach((i: any) => {
+    data.foreEach((j) => {
+      if (i.category != j.category)
+    })
+  });
   return SECTION_LIST_MOCK_DATA;
 }
 
