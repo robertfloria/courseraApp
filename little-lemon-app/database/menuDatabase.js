@@ -15,13 +15,12 @@ export async function getMenuItems(db) {
   return menuItems;
 }
 
-export function saveMenuItems(menuItems, db) {
-  menuItems.forEach(async (element) => {
-    await db.runAsync(
-      `INSERT INTO menuitems(id, title, price, category) VALUES (${element.id, element.title, element.price, element.category});`,
-    );
-  });
-
+export async function saveMenuItems(menuItems, db) {
+  await db.execAsync(
+    `INSERT INTO menuitems(uuid, title, price, category) VALUES 
+    ${menuItems.map((item) => `(${element.id, element.title, element.price, element.category})`).join(', ')}
+    `,
+  )
 }
 
 /**

@@ -73,7 +73,7 @@ export default function MenuScreen() {
         console.log(menuItems)
         if (!menuItems.length) {
           const menuItems = await fetchData();
-          saveMenuItems(menuItems, db);
+          await saveMenuItems(menuItems, db);
         }
 
         const sectionListData = getSectionListData(menuItems);
