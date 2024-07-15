@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
-// import debounce from 'lodash.debounce';
+
 import {
   createTable,
   getMenuItems,
@@ -33,9 +33,9 @@ const Item = ({ title, price }: { title: string; price: number }) => (
 );
 
 export default function MenuScreen() {
-  const [data, setData] = useState<Array<any>>([]);
+  const [data, setData] = useState<any>([]);
+  const [filteredData, setFilteredData] = useState<any>([]);
   const [searchBarText, setSearchBarText] = useState<string>("");
-  const [query, setQuery] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>(
     sections.map(() => false),
   );
@@ -78,6 +78,7 @@ export default function MenuScreen() {
 
         const sectionListData = getSectionListData(menuItems);
         setData(sectionListData);
+        setFilteredData(sectionListData);
       } catch (e: any) {
         Alert.alert(e.message);
       }
@@ -94,27 +95,21 @@ export default function MenuScreen() {
         return filterSelections[i];
       });
       try {
-        const menuItems = await filterByQueryAndCategories(
-          query,
+        const sectionListData = await filterByQueryAndCategories(
+          searchBarText,
           activeCategories,
+          data
         );
-        const sectionListData = getSectionListData(menuItems);
-        setData(sectionListData);
+
+        setFilteredData(sectionListData);
       } catch (e: any) {
         Alert.alert(e.message);
       }
     })();
-  }, [filterSelections, query]);
-
-  const lookup = useCallback((q: any) => {
-    setQuery(q);
-  }, []);
-
-  // const debouncedLookup = useMemo(() => debounce(lookup, 500), [lookup]);
+  }, [filterSelections, searchBarText]);
 
   const handleSearchChange = (text: string) => {
     setSearchBarText(text);
-    // debouncedLookup(text);
   };
 
   const handleFiltersChange = async (index: any) => {
@@ -142,7 +137,7 @@ export default function MenuScreen() {
       />
       <SectionList
         style={styles.sectionList}
-        sections={data}
+        sections={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Item title={item.title} price={item.price} />
