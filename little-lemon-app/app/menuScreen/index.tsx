@@ -70,9 +70,9 @@ export default function MenuScreen() {
       try {
         await createTable(db);
         let menuItems = await getMenuItems(db);
-        
+
         if (!menuItems.length) {
-          const menuItems = await fetchData();
+          menuItems = await fetchData();
           await saveMenuItems(menuItems, db);
         }
 

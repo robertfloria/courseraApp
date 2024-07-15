@@ -32,37 +32,44 @@ export const SECTION_LIST_MOCK_DATA = [
 ];
 
 
-export function getSectionListData(data: Array<any>) {
-  let sectionList = [];
+export function getSectionListData(data: any) {
+  let sectionList: Array<any> = [];
+
+  const insertSection = (section: any) => {
+    sectionList.push(
+      {
+        category: section.category,
+        data: [
+          {
+            id: section.id,
+            title: section.title,
+            price: section.price
+          }
+        ]
+      }
+    );
+  }
+
+  const checkIfSectionExist = (category: string) => sectionList.some((item) => item.category == category);
 
   for (let i = 0; i < data.length; i++) {
-    if (sectionList.length == 0) {
-      sectionList.push(
-        {
-          category: data[i].category,
-          data: [
-            {
-              id: data[i].id,
-              title: data[i].title,
-              price: data[i].price
-            }
-          ]
-        }
-      );
+    if (sectionList.length == 0 || checkIfSectionExist(data[i].category)) {
+      insertSection(data[i]);
     }
     for (let j = i + 1; j < data.length; j++) {
       if (data[i].category == data[j].category) {
-
+        sectionList[i].data.push(
+          {
+            id: data[j].id,
+            title: data[j].title,
+            price: data[j].price
+          }
+        )
       }
-    }
-  }
-
-  data.forEach((i: any) => {
-    data.foreEach((j) => {
-      if (i.category != j.category)
-    })
-  });
-  return SECTION_LIST_MOCK_DATA;
+    };
+  };
+  console.log(sectionList);
+  return sectionList;
 }
 
 export async function filterByQueryAndCategories(
