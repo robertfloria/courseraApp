@@ -48,12 +48,18 @@ export function filterByQueryAndCategories(
 
   const dataByCategories = data.filter((section: any) => activeCategories.includes(section.title));
 
-  const dataByQueryAndCategories = dataByCategories.map((section: any) => {
-    return {
-      ...section,
-      data: section.data.filter((sectionData: any) => sectionData.title.toLowerCase().includes(query.toLowerCase()))
+  const dataByQueryAndCategories = dataByCategories.reduce((accumulator: any, currentValue: any) => {
+    const hasData = currentValue.data.some((sectionData: any) => sectionData.title.toLowerCase().includes(query.toLowerCase()))
+    if (hasData) {
+      accumulator.push(
+        {
+          ...currentValue,
+          data: currentValue.data.filter((sectionData: any) => sectionData.title.toLowerCase().includes(query.toLowerCase()))
+        }
+      )
     }
-  });
+    return accumulator;
+  }, []);
 
   return dataByQueryAndCategories;
 }
