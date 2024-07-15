@@ -38,37 +38,34 @@ export function getSectionListData(data: any) {
   const insertSection = (section: any) => {
     sectionList.push(
       {
-        category: section.category,
-        data: [
-          {
-            id: section.id,
-            title: section.title,
-            price: section.price
-          }
-        ]
+        title: section.category,
+        data: []
       }
     );
   }
 
-  const checkIfSectionExist = (category: string) => sectionList.some((item) => item.category == category);
+  const checkIfSectionExist = (category: string) => sectionList.some((item) => item.title == category);
 
   for (let i = 0; i < data.length; i++) {
-    if (sectionList.length == 0 || checkIfSectionExist(data[i].category)) {
+    if (sectionList.length == 0 || !checkIfSectionExist(data[i].category)) {
       insertSection(data[i]);
     }
-    for (let j = i + 1; j < data.length; j++) {
-      if (data[i].category == data[j].category) {
-        sectionList[i].data.push(
-          {
-            id: data[j].id,
-            title: data[j].title,
-            price: data[j].price
-          }
-        )
-      }
-    };
+    if (checkIfSectionExist(data[i].category)) {
+      sectionList.map((section) => {
+        if (section.title == data[i].category) {
+          section.data.push(
+            {
+              id: data[i].id,
+              title: data[i].title,
+              price: data[i].price
+            }
+          )
+        };
+        return section;
+      })
+    }
   };
-  console.log(sectionList);
+
   return sectionList;
 }
 
