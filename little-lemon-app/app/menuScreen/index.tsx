@@ -86,26 +86,24 @@ export default function MenuScreen() {
   }, []);
 
   useUpdateEffect(() => {
-    (async () => {
-      const activeCategories = sections.filter((s, i) => {
-        // If all filters are deselected, all categories are active
-        if (filterSelections.every((item) => item === false)) {
-          return true;
-        }
-        return filterSelections[i];
-      });
-      try {
-        const sectionListData = await filterByQueryAndCategories(
-          searchBarText,
-          activeCategories,
-          data
-        );
-
-        setFilteredData(sectionListData);
-      } catch (e: any) {
-        Alert.alert(e.message);
+    const activeCategories = sections.filter((s, i) => {
+      // If all filters are deselected, all categories are active
+      if (filterSelections.every((item) => item === false)) {
+        return true;
       }
-    })();
+      return filterSelections[i];
+    });
+    try {
+      const sectionListData = filterByQueryAndCategories(
+        searchBarText,
+        activeCategories,
+        data
+      );
+
+      setFilteredData(sectionListData);
+    } catch (e: any) {
+      Alert.alert(e.message);
+    }
   }, [filterSelections, searchBarText]);
 
   const handleSearchChange = (text: string) => {

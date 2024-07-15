@@ -35,21 +35,25 @@ export function getSectionListData(data: any) {
   return sectionList;
 }
 
-export async function filterByQueryAndCategories(
+export function filterByQueryAndCategories(
   query: any,
   activeCategories: any,
   data: any
 ) {
-  return new Promise((resolve, reject) => {
-    const dataByCategories = data.filter((section: any) => activeCategories.includes(section.title));
+  // I do not want to make a database querry for filtering because it will execute too many request to the database
+  // Therefore i created a filteredData state to store the filter data
+  // The old data state is used to store the initial data, and like this i make the get request only once at the first page render
+  // And i manipulate the filteredState data, helping me by the data state, which will never change(only if i updated the database and i need to make a get request again)
+  // In other words, i make a front-end filtering instead of backend
 
-    const dataByQueryAndCategories = dataByCategories.map((section: any) => {
-      return {
-        ...section,
-        data: section.data.filter((sectionData: any) => sectionData.title.includes(query))
-      }
-    })
+  const dataByCategories = data.filter((section: any) => activeCategories.includes(section.title));
 
-    resolve(() => dataByQueryAndCategories);
+  const dataByQueryAndCategories = dataByCategories.map((section: any) => {
+    return {
+      ...section,
+      data: section.data.filter((sectionData: any) => sectionData.title.toLowerCase().includes(query.toLowerCase()))
+    }
   });
+
+  return dataByQueryAndCategories;
 }

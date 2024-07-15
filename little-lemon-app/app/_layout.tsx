@@ -9,6 +9,7 @@ export default function RootLayout() {
     <Fragment>
       <SQLiteProvider databaseName="littleLemon.db" useSuspense>
         <MenuScreen />
+        {/* This is the others screens roots setup */}
         {/* <Stack>
         <Stack.Screen name="(welcomeScreen)" options={{ title: 'Welcome' }} />
         <Stack.Screen name="subscribeScreen" options={{ title: 'Subscribe' }} />
