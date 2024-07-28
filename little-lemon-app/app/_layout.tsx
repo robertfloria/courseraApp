@@ -4,16 +4,15 @@ import MenuScreen from "./menuScreen";
 import { SQLiteProvider } from "expo-sqlite";
 
 export default function RootLayout() {
-  <script src="http://localhost:8097"></script>
   return (
     <Fragment>
       <SQLiteProvider databaseName="littleLemon.db" useSuspense>
         <MenuScreen />
-        {/* This is the others screens roots setup */}
-        {/* <Stack>
-        <Stack.Screen name="(welcomeScreen)" options={{ title: 'Welcome' }} />
-        <Stack.Screen name="subscribeScreen" options={{ title: 'Subscribe' }} />
-      </Stack> */}
+        <Stack>
+          <Stack.Screen name="(welcomeScreen)" options={{ title: 'Welcome' }} />
+          <Stack.Screen name="subscribeScreen" options={{ title: 'Subscribe' }} />
+          <Stack.Screen name="menuScreen" options={{ title: 'Menu' }} />
+        </Stack>
       </SQLiteProvider>
     </Fragment>
   );
