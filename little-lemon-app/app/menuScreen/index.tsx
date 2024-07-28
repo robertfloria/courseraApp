@@ -17,12 +17,13 @@ import {
 } from "../../database/menuDatabase";
 import Filters from "./components/Filters";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
-import { filterByQueryAndCategories, getSectionListData } from "./functions";
+import {
+  filterByQueryAndCategories,
+  getSectionListData,
+} from "./utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
-import { readBlobData } from "@/utils/functions";
+import { menuItemsMock } from "./utils/mockData/menuItemsMock";
 
-const API_URL =
-  "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json";
 const sections = ["Appetizers", "Salads", "Beverages"];
 
 const Item = ({ title, price }: { title: string; price: number }) => (
@@ -42,29 +43,6 @@ export default function MenuScreen() {
 
   const db = useSQLiteContext();
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(API_URL);
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const readedResponse = await readBlobData(response) as any;
-      const manipulatedResponse = readedResponse.menu.map((item: any) => {
-        return {
-          ...item,
-          category: item.category.title
-        }
-      })
-
-      return manipulatedResponse;
-
-    } catch (error: any) {
-      Alert.alert(error.message);
-    }
-  };
-
   useEffect(() => {
     (async () => {
       try {
@@ -72,7 +50,7 @@ export default function MenuScreen() {
         let menuItems = await getMenuItems(db);
 
         if (!menuItems.length) {
-          menuItems = await fetchData();
+          menuItems = menuItemsMock;
           await saveMenuItems(menuItems, db);
         }
 
@@ -97,7 +75,7 @@ export default function MenuScreen() {
       const sectionListData = filterByQueryAndCategories(
         searchBarText,
         activeCategories,
-        data
+        data,
       );
 
       setFilteredData(sectionListData);

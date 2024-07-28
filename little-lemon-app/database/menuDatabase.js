@@ -16,8 +16,13 @@ export async function getMenuItems(db) {
 }
 
 export async function saveMenuItems(menuItems, db) {
-  const rows = menuItems.map((item) => `(${item.id}, '${item.id}', '${item.title}', '${item.price}', '${item.category}')`).join(', ');
+  const rows = menuItems
+    .map(
+      (item) =>
+        `(${item.id}, '${item.id}', '${item.title}', '${item.price}', '${item.category}')`,
+    )
+    .join(", ");
   await db.execAsync(
     `INSERT INTO menuitems(id, uuid, title, price, category) VALUES ${rows};`,
-  )
+  );
 }
