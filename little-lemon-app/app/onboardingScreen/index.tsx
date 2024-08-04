@@ -23,7 +23,7 @@ export default function MenuScreen() {
           source={require("../../assets/images/little-lemon-logo.png")}
         />
         <Text style={styles.title}>
-          Let us get tio know you
+          Let us get to know you
         </Text>
       </View>
       <View style={styles.infoContainer}>
