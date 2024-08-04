@@ -5,7 +5,8 @@ export const retrieveAuthentication = async () => {
   try {
     const value = await AsyncStorage.getItem("authentication");
     if (value !== null) {
-      return value;
+      const parsedData = JSON.parse(value);
+      return parsedData;
     }
   } catch (error) {
     Alert.alert('Ne pare rau, a aparut o eroare!');

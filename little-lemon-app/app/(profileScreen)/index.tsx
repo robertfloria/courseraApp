@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { removeAuthentication } from "@/store/asyncStorage/removeData";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -49,6 +50,10 @@ export default function ProfileScreen() {
     specialOffers: true,
     newsletter: true
   });
+
+  const handleLogOut = async () => {
+    await removeAuthentication();
+  }
 
   return (
     <View style={styles.container}>
@@ -115,7 +120,7 @@ export default function ProfileScreen() {
           renderItem={({ item }) => {
             const key = item.id as keyof Notifications;
             return (
-              <Checkbox
+              <Checkbox.Item
                 status={checkNotifications[key] ? 'checked' : 'unchecked'}
                 onPress={() => {
                   setCheckNotifications((prevState) => ({
@@ -123,6 +128,9 @@ export default function ProfileScreen() {
                     [key]: !prevState[key]
                   }));
                 }}
+                label={item.label}
+                position='leading'
+                labelStyle={{ textAlign: 'left' }}
               />
             )
           }}
@@ -130,9 +138,7 @@ export default function ProfileScreen() {
         />
       </View>
       <Button
-        onPress={() => {
-          Alert.alert("Thanks for subscribing, stay tuned!");
-        }}
+        onPress={handleLogOut}
       >
         Log Out
       </Button>
