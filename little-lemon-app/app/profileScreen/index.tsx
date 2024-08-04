@@ -2,14 +2,12 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   View,
   Image,
   Text,
   TextInput,
   Alert,
-  ScrollView,
   FlatList
 } from "react-native";
 import { Checkbox } from "react-native-paper";
@@ -53,103 +51,128 @@ export default function ProfileScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/images/little-lemon-logo.png")}
+    <View style={styles.container}>
+      <Text>Personal information</Text>
+      <View style={styles.logoContainer}>
+        <Image
+          style={styles.logo}
+          source={require("../../assets/images/little-lemon-logo.png")}
 
-          />
-          <Button
-            onPress={() => {
-              Alert.alert("Thanks for subscribing, stay tuned!");
-            }}
-          >
-            Subscribe
-          </Button>
-          <Button
-            onPress={() => {
-              Alert.alert("Thanks for subscribing, stay tuned!");
-            }}
-          >
-            Subscribe
-          </Button>
-        </View>
-        <View style={styles.infoContainer}>
-          <TextInput
-            style={styles.input}
-            value={firstName}
-            onChangeText={setFirstName}
-            keyboardType='default'
-            textContentType='givenName'
-            placeholder={"Type first name"}
-          />
-          <TextInput
-            style={styles.input}
-            value={lastName}
-            onChangeText={setLastName}
-            keyboardType='default'
-            textContentType='familyName'
-            placeholder={"Type last name"}
-          />
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            placeholder={"Type your email"}
-          />
-          <TextInput
-            style={styles.input}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType='phone-pad'
-            textContentType='telephoneNumber'
-            placeholder={"Type your phone number"}
-          />
-        </View>
-        <View style={styles.notificationContainer}>
-          <FlatList
-            data={checkNotificationsData}
-            renderItem={({ item }) => {
-              const key = item.id as keyof Notifications;
-              return (
-                <Checkbox
-                  status={checkNotifications[key] ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setCheckNotifications((prevState) => ({
-                      ...prevState,
-                      [key]: !prevState[key]
-                    }));
-                  }}
-                />
-              )
-            }}
-            keyExtractor={item => item.id}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        />
+        <Button
+          onPress={() => {
+            Alert.alert("Thanks for subscribing, stay tuned!");
+          }}
+        >
+          Change
+        </Button>
+        <Button
+          onPress={() => {
+            Alert.alert("Thanks for subscribing, stay tuned!");
+          }}
+        >
+          Remove
+        </Button>
+      </View>
+      <View style={styles.infoContainer}>
+        <TextInput
+          style={styles.input}
+          value={firstName}
+          onChangeText={setFirstName}
+          keyboardType='default'
+          textContentType='givenName'
+          placeholder={"Type first name"}
+        />
+        <TextInput
+          style={styles.input}
+          value={lastName}
+          onChangeText={setLastName}
+          keyboardType='default'
+          textContentType='familyName'
+          placeholder={"Type last name"}
+        />
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          placeholder={"Type your email"}
+        />
+        <TextInput
+          style={styles.input}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          keyboardType='phone-pad'
+          textContentType='telephoneNumber'
+          placeholder={"Type your phone number"}
+        />
+      </View>
+      <View style={styles.notificationContainer}>
+        <Text>Email notifications</Text>
+        <FlatList
+          data={checkNotificationsData}
+          renderItem={({ item }) => {
+            const key = item.id as keyof Notifications;
+            return (
+              <Checkbox
+                status={checkNotifications[key] ? 'checked' : 'unchecked'}
+                onPress={() => {
+                  setCheckNotifications((prevState) => ({
+                    ...prevState,
+                    [key]: !prevState[key]
+                  }));
+                }}
+              />
+            )
+          }}
+          keyExtractor={item => item.id}
+        />
+      </View>
+      <Button
+        onPress={() => {
+          Alert.alert("Thanks for subscribing, stay tuned!");
+        }}
+      >
+        Log Out
+      </Button>
+      <View style={styles.handleChangesContainer}>
+        <Button
+          onPress={() => {
+            Alert.alert("Thanks for subscribing, stay tuned!");
+          }}
+        >
+          Discard changes
+        </Button>
+        <Button
+          onPress={() => {
+            Alert.alert("Thanks for subscribing, stay tuned!");
+          }}
+        >
+          Save changes
+        </Button>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     padding: 10,
-    alignItems: 'center',
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#93baad",
+    overflow: 'scroll',
+    gap: 20
   },
   infoContainer: {
     display: 'flex',
-    width: '80%'
+    width: '100%',
+    rowGap: 20
   },
   input: {
     height: 40,
-    marginVertical: 24,
     borderRadius: 8,
     borderWidth: 1,
     padding: 10,
@@ -158,11 +181,18 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: 'row',
     flexWrap: 'nowrap',
     height: 'auto',
+    gap: 10
+  },
+  handleChangesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
     gap: 10
   },
   notificationContainer: {
