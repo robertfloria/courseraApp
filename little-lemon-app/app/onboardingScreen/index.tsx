@@ -1,5 +1,8 @@
 import Button from "@/components/Button";
-import { useState } from "react";
+import { storeAuthentication } from "@/store/asyncStorage/storeData";
+import { validateEmail } from "@/utils";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,8 +15,38 @@ import {
 } from "react-native";
 
 export default function MenuScreen() {
-  const [firstName, setFirstName] = useState('');
-  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [validForm, setValidForm] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const handleSubscribe = async () => {
+    if (firstName && email) {
+      const isEmailValid = validateEmail(email);
+
+      if (isEmailValid) {
+        const authenticationData = {
+          firstName: firstName,
+          email: email
+        };
+        await storeAuthentication(authenticationData, router);
+      }
+      else {
+        Alert.alert('Email-ul introdus nu este corect!');
+      }
+    }
+    else {
+      Alert.alert('Please, fill all the required inputs!');
+    }
+  };
+
+  useEffect(() => {
+    const isFormValid = Boolean(firstName && email);
+    if (validForm != isFormValid) {
+      setValidForm(isFormValid);
+    }
+  }, [email, firstName])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -31,7 +64,7 @@ export default function MenuScreen() {
           style={styles.input}
           value={firstName}
           onChangeText={setFirstName}
-          // keyboardType='phone-pad'
+          keyboardType='default'
           textContentType='givenName'
           placeholder={"Type first name"}
         />
@@ -44,9 +77,8 @@ export default function MenuScreen() {
           placeholder={"Type your email"}
         />
         <Button
-          onPress={() => {
-            Alert.alert("Thanks for subscribing, stay tuned!");
-          }}
+          onPress={handleSubscribe}
+          disabled={!validForm}
         >
           Subscribe
         </Button>
@@ -58,8 +90,8 @@ export default function MenuScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:10,
-    alignItems:'center',
+    padding: 10,
+    alignItems: 'center',
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#93baad",
   },
@@ -82,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    height:'auto'
+    height: 'auto'
   },
   title: {
     color: "#333333",
