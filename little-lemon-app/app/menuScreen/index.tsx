@@ -23,6 +23,7 @@ import {
 } from "./utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
 import { menuItemsMock } from "./utils/mockData/menuItemsMock";
+import { getFoodMenuItems } from "../api";
 
 const sections = ["Appetizers", "Salads", "Beverages"];
 
@@ -41,20 +42,21 @@ export default function MenuScreen() {
     sections.map(() => false),
   );
 
-  const db = useSQLiteContext();
+  // const db = useSQLiteContext();
 
   useEffect(() => {
     (async () => {
       try {
-        await createTable(db);
-        let menuItems = await getMenuItems(db);
+        // await createTable(db);
+        // let menuItems = await getMenuItems(db);
 
-        if (!menuItems.length) {
-          menuItems = menuItemsMock;
-          await saveMenuItems(menuItems, db);
-        }
+        // if (!menuItems.length) {
+        //   menuItems = menuItemsMock;
+        //   await saveMenuItems(menuItems, db);
+        // }
+        let menuItems = await getFoodMenuItems();
+        const sectionListData = getSectionListData(menuItems.menu);
 
-        const sectionListData = getSectionListData(menuItems);
         setData(sectionListData);
         setFilteredData(sectionListData);
       } catch (e: any) {
@@ -118,8 +120,8 @@ export default function MenuScreen() {
         renderItem={({ item }) => (
           <Item title={item.title} price={item.price} />
         )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.header}>{title}</Text>
+        renderSectionHeader={({ section: { category } }) => (
+          <Text style={styles.header}>{category}</Text>
         )}
       />
     </SafeAreaView>

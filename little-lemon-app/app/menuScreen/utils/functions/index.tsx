@@ -1,34 +1,31 @@
 export function getSectionListData(data: any) {
-  let sectionList: Array<any> = [];
+  let sectionList: Array<any> = data.reduce(
+    (accumulator: any, currentValue: any) => {
+      debugger
+      const category = currentValue.category;
+      let categoryGroup = [accumulator].find(
+        (item: any) => item.category === category,
+      );
 
-  const insertSection = (section: any) => {
-    sectionList.push({
-      title: section.category,
-      data: [],
-    });
-  };
+      if (!categoryGroup) {
+        categoryGroup = {
+          category: category,
+          data: [],
+        };
+        accumulator.push(categoryGroup);
+      }
 
-  const checkIfSectionExist = (category: string) =>
-    sectionList.some((item) => item.title == category);
-
-  for (let i = 0; i < data.length; i++) {
-    if (!checkIfSectionExist(data[i].category)) {
-      insertSection(data[i]);
-    }
-    if (checkIfSectionExist(data[i].category)) {
-      sectionList.map((section) => {
-        if (section.title == data[i].category) {
-          section.data.push({
-            id: data[i].id,
-            title: data[i].title,
-            price: data[i].price,
-          });
-        }
-        return section;
+      categoryGroup.data.push({
+        id: currentValue.name,
+        description: currentValue.description,
+        title: currentValue.name,
+        price: currentValue.price,
+        image: currentValue.image,
       });
-    }
-  }
 
+      return accumulator;
+    },[]
+  );
   return sectionList;
 }
 
@@ -44,7 +41,7 @@ export function filterByQueryAndCategories(
   // In other words, i make a front-end filtering instead of backend
 
   const dataByCategories = data.filter((section: any) =>
-    activeCategories.includes(section.title),
+    activeCategories.includes(section.category),
   );
 
   const dataByQueryAndCategories = dataByCategories.reduce(

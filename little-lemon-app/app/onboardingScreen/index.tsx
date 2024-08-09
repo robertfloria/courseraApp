@@ -11,12 +11,12 @@ import {
   Image,
   Text,
   TextInput,
-  Alert
+  Alert,
 } from "react-native";
 
 export default function MenuScreen() {
-  const [firstName, setFirstName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [validForm, setValidForm] = useState<boolean>(false);
 
   const router = useRouter();
@@ -28,16 +28,14 @@ export default function MenuScreen() {
       if (isEmailValid) {
         const authenticationData = {
           firstName: firstName,
-          email: email
+          email: email,
         };
         await storeAuthentication(authenticationData, router);
+      } else {
+        Alert.alert("Email-ul introdus nu este corect!");
       }
-      else {
-        Alert.alert('Email-ul introdus nu este corect!');
-      }
-    }
-    else {
-      Alert.alert('Please, fill all the required inputs!');
+    } else {
+      Alert.alert("Please, fill all the required inputs!");
     }
   };
 
@@ -46,7 +44,7 @@ export default function MenuScreen() {
     if (validForm != isFormValid) {
       setValidForm(isFormValid);
     }
-  }, [email, firstName])
+  }, [email, firstName]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,17 +53,15 @@ export default function MenuScreen() {
           style={styles.logo}
           source={require("../../assets/images/little-lemon-logo.png")}
         />
-        <Text style={styles.title}>
-          Let us get to know you
-        </Text>
+        <Text style={styles.title}>Let us get to know you</Text>
       </View>
       <View style={styles.infoContainer}>
         <TextInput
           style={styles.input}
           value={firstName}
           onChangeText={setFirstName}
-          keyboardType='default'
-          textContentType='givenName'
+          keyboardType="default"
+          textContentType="givenName"
           placeholder={"Type first name"}
         />
         <TextInput
@@ -76,10 +72,7 @@ export default function MenuScreen() {
           textContentType="emailAddress"
           placeholder={"Type your email"}
         />
-        <Button
-          onPress={handleSubscribe}
-          disabled={!validForm}
-        >
+        <Button onPress={handleSubscribe} disabled={!validForm}>
           Subscribe
         </Button>
       </View>
@@ -91,13 +84,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#93baad",
   },
   infoContainer: {
-    display: 'flex',
-    width: '80%'
+    display: "flex",
+    width: "80%",
   },
   input: {
     height: 40,
@@ -112,9 +105,9 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    height: 'auto'
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    height: "auto",
   },
   title: {
     color: "#333333",

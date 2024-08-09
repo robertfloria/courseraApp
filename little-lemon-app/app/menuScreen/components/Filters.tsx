@@ -22,6 +22,7 @@ const Filters = ({ onChange, selections, sections }: FiltersProps) => {
             borderWidth: 1,
             borderColor: "white",
           }}
+          key={index}
         >
           <View>
             <Text style={{ color: selections[index] ? "black" : "white" }}>

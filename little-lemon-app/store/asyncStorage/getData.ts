@@ -9,6 +9,6 @@ export const retrieveAuthentication = async () => {
       return parsedData;
     }
   } catch (error) {
-    Alert.alert('Ne pare rau, a aparut o eroare!');
+    Alert.alert("Ne pare rau, a aparut o eroare!");
   }
 };

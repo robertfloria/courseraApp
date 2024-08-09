@@ -1,6 +1,6 @@
 export const menuItemsMock = [
   {
-    title: "Appetizers",
+    category: "Appetizers",
     data: [
       { id: 1, title: "Spinach Artichoke Dip", price: "10" },
       { id: 2, title: "Hummus", price: "10" },

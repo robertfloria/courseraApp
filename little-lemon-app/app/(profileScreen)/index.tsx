@@ -9,26 +9,26 @@ import {
   Text,
   TextInput,
   Alert,
-  FlatList
+  FlatList,
 } from "react-native";
 import { Checkbox } from "react-native-paper";
 
 const checkNotificationsData = [
   {
-    id: 'orderStatuses',
-    label: 'Order statuses',
+    id: "orderStatuses",
+    label: "Order statuses",
   },
   {
-    id: 'passwordChanges',
-    label: 'Password changes',
+    id: "passwordChanges",
+    label: "Password changes",
   },
   {
-    id: 'specialOffers',
-    label: 'Special offers',
+    id: "specialOffers",
+    label: "Special offers",
   },
   {
-    id: 'newsletter',
-    label: 'Newsletter',
+    id: "newsletter",
+    label: "Newsletter",
   },
 ];
 
@@ -40,20 +40,20 @@ interface Notifications {
 }
 
 export default function ProfileScreen() {
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [checkNotifications, setCheckNotifications] = useState<Notifications>({
     orderStatuses: true,
     passwordChanges: true,
     specialOffers: true,
-    newsletter: true
+    newsletter: true,
   });
 
   const handleLogOut = async () => {
     await removeAuthentication();
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -62,7 +62,6 @@ export default function ProfileScreen() {
         <Image
           style={styles.logo}
           source={require("../../assets/images/little-lemon-logo.png")}
-
         />
         <Button
           onPress={() => {
@@ -84,16 +83,16 @@ export default function ProfileScreen() {
           style={styles.input}
           value={firstName}
           onChangeText={setFirstName}
-          keyboardType='default'
-          textContentType='givenName'
+          keyboardType="default"
+          textContentType="givenName"
           placeholder={"Type first name"}
         />
         <TextInput
           style={styles.input}
           value={lastName}
           onChangeText={setLastName}
-          keyboardType='default'
-          textContentType='familyName'
+          keyboardType="default"
+          textContentType="familyName"
           placeholder={"Type last name"}
         />
         <TextInput
@@ -108,8 +107,8 @@ export default function ProfileScreen() {
           style={styles.input}
           value={phoneNumber}
           onChangeText={setPhoneNumber}
-          keyboardType='phone-pad'
-          textContentType='telephoneNumber'
+          keyboardType="phone-pad"
+          textContentType="telephoneNumber"
           placeholder={"Type your phone number"}
         />
       </View>
@@ -121,27 +120,23 @@ export default function ProfileScreen() {
             const key = item.id as keyof Notifications;
             return (
               <Checkbox.Item
-                status={checkNotifications[key] ? 'checked' : 'unchecked'}
+                status={checkNotifications[key] ? "checked" : "unchecked"}
                 onPress={() => {
                   setCheckNotifications((prevState) => ({
                     ...prevState,
-                    [key]: !prevState[key]
+                    [key]: !prevState[key],
                   }));
                 }}
                 label={item.label}
-                position='leading'
-                labelStyle={{ textAlign: 'left' }}
+                position="leading"
+                labelStyle={{ textAlign: "left" }}
               />
-            )
+            );
           }}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       </View>
-      <Button
-        onPress={handleLogOut}
-      >
-        Log Out
-      </Button>
+      <Button onPress={handleLogOut}>Log Out</Button>
       <View style={styles.handleChangesContainer}>
         <Button
           onPress={() => {
@@ -164,18 +159,18 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
     padding: 10,
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#93baad",
-    overflow: 'scroll',
-    gap: 20
+    overflow: "scroll",
+    gap: 20,
   },
   infoContainer: {
-    display: 'flex',
-    width: '100%',
-    rowGap: 20
+    display: "flex",
+    width: "100%",
+    rowGap: 20,
   },
   input: {
     height: 40,
@@ -189,25 +184,25 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    height: 'auto',
-    gap: 10
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    height: "auto",
+    gap: 10,
   },
   handleChangesContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    gap: 10
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "center",
+    gap: 10,
   },
   notificationContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    height: 'auto',
+    height: "auto",
     gap: 10,
-    width: '100%'
+    width: "100%",
   },
   title: {
     color: "#333333",
