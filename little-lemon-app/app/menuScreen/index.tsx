@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
+  Image,
+  ImageSourcePropType,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 
@@ -19,6 +21,7 @@ import Filters from "./components/Filters";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import {
   filterByQueryAndCategories,
+  getImage,
   getSectionListData,
 } from "./utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
@@ -27,12 +30,38 @@ import { getFoodMenuItems } from "../api";
 
 const sections = ["Starters", "Mains", "Desserts", "Drinks"];
 
-const Item = ({ title, price }: { title: string; price: number }) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.title}>${price}</Text>
-  </View>
-);
+interface MenuItem {
+  title: string;
+  price: number;
+  description: string;
+  imageName: string
+}
+
+const Item = ({ title, price, description, imageName }: MenuItem) => {
+  const [image, setImage] = useState<ImageSourcePropType>();
+
+  useEffect(() => {
+    if (imageName) {
+      const imagePath = getImage(imageName)
+      setImage(imagePath);
+    }
+  }, [imageName]);
+
+  return (
+    <View style={styles.menuItemContainer}>
+      <View style={styles.menuItemDetailsContainer}>
+        <Text style={styles.menuItemTitle}>{title}</Text>
+        <Text style={styles.menuItemDescription}>{description}</Text>
+        <Text style={styles.menuItemPrice}>${price}</Text>
+      </View>
+      <Image
+        style={styles.menuItemImage}
+        source={image}
+        resizeMode='cover'
+      />
+    </View>
+  )
+};
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -54,7 +83,6 @@ export default function MenuScreen() {
         //   menuItems = menuItemsMock;
         //   await saveMenuItems(menuItems, db);
         // }
-        debugger
         let menuItems = await getFoodMenuItems();
         const sectionListData = getSectionListData(menuItems.menu);
 
@@ -119,10 +147,10 @@ export default function MenuScreen() {
         sections={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Item title={item.title} price={item.price} />
+          <Item title={item.title} price={item.price} description={item.description} imageName={item.image} />
         )}
         renderSectionHeader={({ section: { category } }) => (
-          <Text style={styles.header}>{category}</Text>
+          <Text style={styles.menuItemHeader}>{category}</Text>
         )}
       />
     </SafeAreaView>
@@ -144,20 +172,39 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOpacity: 0,
   },
-  item: {
+  menuItemContainer: {
+    display: 'flex',
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     padding: 16,
   },
-  header: {
+  menuItemDetailsContainer: {
+    flex: 1,
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'space-between',
+  },
+  menuItemHeader: {
     fontSize: 24,
     paddingVertical: 8,
     color: "#FBDABB",
     backgroundColor: "#495E57",
   },
-  title: {
+  menuItemTitle: {
     fontSize: 20,
     color: "white",
+  },
+  menuItemPrice: {
+    fontSize: 20,
+    color: "white",
+  },
+  menuItemDescription: {
+    fontSize: 20,
+    color: "grey",
+  },
+  menuItemImage: {
+    width: 200,
+    height: 200
   },
 });

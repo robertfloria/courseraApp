@@ -57,3 +57,15 @@ export function filterByQueryAndCategories(
 
   return dataByQueryAndCategories;
 }
+
+export const getImage = (imageName: string) => {
+  switch (imageName) {
+    case 'greekSalad.jpg': {
+      return require('../../../../assets/images/little-lemon-logo.png');
+    }
+    case 'bruschetta.jpg': {
+      return require('../../../../assets/images/little-lemon-logo-grey.png')
+    }
+    default: return require('../../../../assets/images/icon.png');
+  }
+};
