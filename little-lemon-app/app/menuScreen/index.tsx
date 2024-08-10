@@ -25,7 +25,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { menuItemsMock } from "./utils/mockData/menuItemsMock";
 import { getFoodMenuItems } from "../api";
 
-const sections = ["Appetizers", "Salads", "Beverages"];
+const sections = ["Starters", "Mains", "Desserts", "Drinks"];
 
 const Item = ({ title, price }: { title: string; price: number }) => (
   <View style={styles.item}>
@@ -54,6 +54,7 @@ export default function MenuScreen() {
         //   menuItems = menuItemsMock;
         //   await saveMenuItems(menuItems, db);
         // }
+        debugger
         let menuItems = await getFoodMenuItems();
         const sectionListData = getSectionListData(menuItems.menu);
 
