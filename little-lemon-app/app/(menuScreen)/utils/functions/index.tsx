@@ -16,7 +16,7 @@ export function getSectionListData(data: any) {
       }
 
       categoryGroup.data.push({
-        id: currentValue.name,
+        id: currentValue.id,
         description: currentValue.description,
         title: currentValue.name,
         price: currentValue.price,
@@ -26,6 +26,25 @@ export function getSectionListData(data: any) {
       return accumulator;
     }, []);
   return sectionList;
+}
+
+export function getCategoriesFromMenuItems(data: any) {
+  let categoryList: Array<any> = data.reduce(
+    (accumulator: any, currentValue: any) => {
+
+      const category = currentValue.category;
+      let categoryExist = accumulator.find(
+        (item: any) => item === category,
+      );
+
+      if (!categoryExist) {
+        accumulator.push(category);
+      }
+
+      return accumulator;
+    }, []);
+
+  return categoryList;
 }
 
 export function filterByQueryAndCategories(

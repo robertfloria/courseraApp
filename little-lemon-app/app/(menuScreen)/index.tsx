@@ -1,93 +1,67 @@
 import { useEffect, useState } from "react";
 import {
   Text,
-  View,
   StyleSheet,
   SectionList,
   SafeAreaView,
   StatusBar,
   Alert,
-  Image,
-  ImageSourcePropType,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 
 import {
   createTable,
+  getCategories,
   getMenuItems,
+  saveCategories,
   saveMenuItems,
 } from "../../database/menuDatabase";
 import Filters from "./components/Filters";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import {
   filterByQueryAndCategories,
-  getImage,
+  getCategoriesFromMenuItems,
   getSectionListData,
 } from "./utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
-import { menuItemsMock } from "./utils/mockData/menuItemsMock";
-import { getFoodMenuItems } from "../api";
+import { getFoodMenuItems } from "../../api";
+import { FoodItem } from "./components/FoodItem";
+import { ScrollView } from "react-native-gesture-handler";
 
-const sections = ["Starters", "Mains", "Desserts", "Drinks"];
-
-interface MenuItem {
-  title: string;
-  price: number;
-  description: string;
-  imageName: string
-}
-
-const Item = ({ title, price, description, imageName }: MenuItem) => {
-  const [image, setImage] = useState<ImageSourcePropType>();
-
-  useEffect(() => {
-    if (imageName) {
-      const imagePath = getImage(imageName)
-      setImage(imagePath);
-    }
-  }, [imageName]);
-
-  return (
-    <View style={styles.menuItemContainer}>
-      <View style={styles.menuItemDetailsContainer}>
-        <Text style={styles.menuItemTitle}>{title}</Text>
-        <Text style={styles.menuItemDescription}>{description}</Text>
-        <Text style={styles.menuItemPrice}>${price}</Text>
-      </View>
-      <Image
-        style={styles.menuItemImage}
-        source={image}
-        resizeMode='cover'
-      />
-    </View>
-  )
-};
+// const db = useSQLiteContext();
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
   const [filteredData, setFilteredData] = useState<any>([]);
+  const [categories, setCategories] = useState<Array<string>>([]);
   const [searchBarText, setSearchBarText] = useState<string>("");
-  const [filterSelections, setFilterSelections] = useState<Array<any>>(
-    sections.map(() => false),
-  );
-
-  // const db = useSQLiteContext();
-
+  const [filterSelections, setFilterSelections] = useState<Array<any>>([]);
+  const db = useSQLiteContext();
   useEffect(() => {
     (async () => {
       try {
-        // await createTable(db);
-        // let menuItems = await getMenuItems(db);
+        // await db.runAsync('DROP TABLE menuitems');
+        // await db.runAsync('DROP TABLE categories');
 
-        // if (!menuItems.length) {
-        //   menuItems = menuItemsMock;
-        //   await saveMenuItems(menuItems, db);
-        // }
-        let menuItems = await getFoodMenuItems();
-        const sectionListData = getSectionListData(menuItems.menu);
+        await createTable(db);
+        let menuItems = await getMenuItems(db);
+        let categoryList = await getCategories(db);
 
+        if (!menuItems.length) {
+          menuItems = (await getFoodMenuItems()).menu;
+          await saveMenuItems(menuItems, db);
+        }
+
+        if (!categoryList.length) {
+          categoryList = getCategoriesFromMenuItems(menuItems);
+          await saveCategories(categoryList, db);
+        }
+
+        const sectionListData = getSectionListData(menuItems);
         setData(sectionListData);
         setFilteredData(sectionListData);
+        setCategories(categoryList);
+        setFilterSelections(categoryList.map(() => false));
       } catch (e: any) {
         Alert.alert(e.message);
       }
@@ -95,7 +69,7 @@ export default function MenuScreen() {
   }, []);
 
   useUpdateEffect(() => {
-    const activeCategories = sections.filter((s, i) => {
+    const activeCategories = categories.filter((s, i) => {
       // If all filters are deselected, all categories are active
       if (filterSelections.every((item) => item === false)) {
         return true;
@@ -140,14 +114,14 @@ export default function MenuScreen() {
       <Filters
         selections={filterSelections}
         onChange={handleFiltersChange}
-        sections={sections}
+        sections={categories}
       />
       <SectionList
         style={styles.sectionList}
         sections={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Item title={item.title} price={item.price} description={item.description} imageName={item.image} />
+          <FoodItem title={item.title} price={item.price} description={item.description} imageName={item.image} />
         )}
         renderSectionHeader={({ section: { category } }) => (
           <Text style={styles.menuItemHeader}>{category}</Text>
@@ -172,39 +146,10 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOpacity: 0,
   },
-  menuItemContainer: {
-    display: 'flex',
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-  },
-  menuItemDetailsContainer: {
-    flex: 1,
-    display: 'flex',
-    height: '100%',
-    justifyContent: 'space-between',
-  },
   menuItemHeader: {
     fontSize: 24,
     paddingVertical: 8,
     color: "#FBDABB",
     backgroundColor: "#495E57",
-  },
-  menuItemTitle: {
-    fontSize: 20,
-    color: "white",
-  },
-  menuItemPrice: {
-    fontSize: 20,
-    color: "white",
-  },
-  menuItemDescription: {
-    fontSize: 20,
-    color: "grey",
-  },
-  menuItemImage: {
-    width: 200,
-    height: 200
   },
 });

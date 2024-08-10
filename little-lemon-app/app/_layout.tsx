@@ -20,24 +20,24 @@ export default function RootLayout() {
 
   return (
     <Fragment>
-      {/* <SQLiteProvider databaseName="littleLemon.db" useSuspense> */}
-      <Stack>
-        {authenticated ? (
-          <Fragment>
-            <Stack.Screen name="menuScreen" options={{ title: "Menu" }} />
+      <SQLiteProvider databaseName="littleLemon.db" useSuspense>
+        <Stack>
+          {authenticated ? (
+            <Fragment>
+              <Stack.Screen name="(menuScreen)" options={{ title: "Menu" }} />
+              <Stack.Screen
+                name="profileScreen"
+                options={{ title: "Profile" }}
+              />
+            </Fragment>
+          ) : (
             <Stack.Screen
-              name="(profileScreen)"
-              options={{ title: "Profile" }}
+              name="onboardingScreen"
+              options={{ title: "Onboarding" }}
             />
-          </Fragment>
-        ) : (
-          <Stack.Screen
-            name="onboardingScreen"
-            options={{ title: "Onboarding" }}
-          />
-        )}
-      </Stack>
-      {/* </SQLiteProvider> */}
+          )}
+        </Stack>
+      </SQLiteProvider>
     </Fragment>
   );
 }

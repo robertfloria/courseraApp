@@ -27,3 +27,5 @@ export const menuItemsMock = [
     ],
   },
 ];
+
+export const sectionsMock = ["Starters", "Mains", "Desserts", "Drinks"];

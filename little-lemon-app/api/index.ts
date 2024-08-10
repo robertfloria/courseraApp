@@ -3,7 +3,10 @@ import { Alert } from "react-native";
 const api =
   "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json";
 
-export const getFoodMenuItems = async (): Promise<any> => {
+interface menu {
+  menu: Array<any>
+}
+export const getFoodMenuItems = async (): Promise<menu> => {
   try {
     const response = await fetch(api);
 
