@@ -37,6 +37,7 @@ export const FoodItem = ({ title, price, description, imageName }: MenuItem) => 
 
 const styles = StyleSheet.create({
     menuItemContainer: {
+        flex:1,
         display: 'flex',
         flexDirection: "row",
         justifyContent: "center",
@@ -63,6 +64,6 @@ const styles = StyleSheet.create({
     },
     menuItemImage: {
         width: 200,
-        height: 200
+        height: 200,
     }
 });

@@ -47,3 +47,14 @@ export async function saveCategories(categories, db) {
     `INSERT INTO categories (id, name) VALUES ${rows};`,
   );
 };
+
+export async function filterByCategory(categories, db) {
+  const splittedCategories = categories.join(", ");
+
+  const filteredMenuItems = await db.getAllAsync(`
+    SELECT * FROM menuitems 
+    WHERE category IN (${splittedCategories})
+    `);
+
+  return filteredMenuItems;
+};

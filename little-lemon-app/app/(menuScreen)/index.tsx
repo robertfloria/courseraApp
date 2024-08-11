@@ -6,11 +6,13 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
+  ScrollView,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 
 import {
   createTable,
+  filterByCategory,
   getCategories,
   getMenuItems,
   saveCategories,
@@ -26,7 +28,6 @@ import {
 import { useSQLiteContext } from "expo-sqlite";
 import { getFoodMenuItems } from "../../api";
 import { FoodItem } from "./components/FoodItem";
-import { ScrollView } from "react-native-gesture-handler";
 
 // const db = useSQLiteContext();
 
@@ -77,6 +78,11 @@ export default function MenuScreen() {
       return filterSelections[i];
     });
     try {
+      (async () => {
+        const test = await filterByCategory(activeCategories, db);
+        console.log(test);
+      })();
+
       const sectionListData = filterByQueryAndCategories(
         searchBarText,
         activeCategories,
@@ -133,12 +139,15 @@ export default function MenuScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
+    width: '100%',
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#495E57",
   },
   sectionList: {
-    paddingHorizontal: 16,
+    display: 'flex',
+    paddingHorizontal: 16
   },
   searchBar: {
     marginBottom: 24,
