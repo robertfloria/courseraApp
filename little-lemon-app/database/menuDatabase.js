@@ -48,8 +48,20 @@ export async function saveCategories(categories, db) {
   );
 };
 
-export async function filterByCategory(categories, db) {
-  const splittedCategories = categories.join(", ");
+export async function filterByCategoryAndText(categories, text, db) {
+  const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
+
+  const filteredMenuItems = await db.getAllAsync(`
+    SELECT * FROM menuitems 
+    WHERE category IN (${splittedCategories})
+    AND LOWER(name) LIKE LOWER('%${text}%');
+    `);
+
+  return filteredMenuItems;
+};
+
+export async function filterByText(categories, db) {
+  const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
 
   const filteredMenuItems = await db.getAllAsync(`
     SELECT * FROM menuitems 

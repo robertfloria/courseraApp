@@ -12,7 +12,7 @@ import { Searchbar } from "react-native-paper";
 
 import {
   createTable,
-  filterByCategory,
+  filterByCategoryAndText,
   getCategories,
   getMenuItems,
   saveCategories,
@@ -21,7 +21,6 @@ import {
 import Filters from "./components/Filters";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import {
-  filterByQueryAndCategories,
   getCategoriesFromMenuItems,
   getSectionListData,
 } from "./utils/functions";
@@ -33,7 +32,6 @@ import { FoodItem } from "./components/FoodItem";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
-  const [filteredData, setFilteredData] = useState<any>([]);
   const [categories, setCategories] = useState<Array<string>>([]);
   const [searchBarText, setSearchBarText] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>([]);
@@ -60,7 +58,6 @@ export default function MenuScreen() {
 
         const sectionListData = getSectionListData(menuItems);
         setData(sectionListData);
-        setFilteredData(sectionListData);
         setCategories(categoryList);
         setFilterSelections(categoryList.map(() => false));
       } catch (e: any) {
@@ -78,18 +75,11 @@ export default function MenuScreen() {
       return filterSelections[i];
     });
     try {
-      (async () => {
-        const test = await filterByCategory(activeCategories, db);
-        console.log(test);
-      })();
-
-      const sectionListData = filterByQueryAndCategories(
-        searchBarText,
-        activeCategories,
-        data,
-      );
-
-      setFilteredData(sectionListData);
+      setTimeout(async () => {
+        const filteredMenuItems = await filterByCategoryAndText(activeCategories, searchBarText, db);
+        const sectionListData = getSectionListData(filteredMenuItems);
+        setData(sectionListData);
+      }, searchBarText ? 500 : 0);
     } catch (e: any) {
       Alert.alert(e.message);
     }
@@ -124,7 +114,7 @@ export default function MenuScreen() {
       />
       <SectionList
         style={styles.sectionList}
-        sections={filteredData}
+        sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <FoodItem title={item.title} price={item.price} description={item.description} imageName={item.image} />

@@ -47,36 +47,6 @@ export function getCategoriesFromMenuItems(data: any) {
   return categoryList;
 }
 
-export function filterByQueryAndCategories(
-  query: any,
-  activeCategories: any,
-  data: any,
-) {
-  const dataByCategories = data.filter((section: any) =>
-    activeCategories.map((item: string) => item.toLowerCase()).includes(section.category.toLowerCase()),
-  );
-
-  const dataByQueryAndCategories = dataByCategories.reduce(
-    (accumulator: any, currentValue: any) => {
-      const hasData = currentValue.data.some((sectionData: any) =>
-        sectionData.title.toLowerCase().includes(query.toLowerCase()),
-      );
-      if (hasData) {
-        accumulator.push({
-          ...currentValue,
-          data: currentValue.data.filter((sectionData: any) =>
-            sectionData.title.toLowerCase().includes(query.toLowerCase()),
-          ),
-        });
-      }
-      return accumulator;
-    },
-    [],
-  );
-
-  return dataByQueryAndCategories;
-}
-
 export const getImage = (imageName: string) => {
   switch (imageName) {
     case 'greekSalad.jpg': {
