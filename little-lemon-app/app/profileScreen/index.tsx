@@ -7,12 +7,11 @@ import {
   StyleSheet,
   StatusBar,
   View,
-  Image,
   Text,
   TextInput,
   Alert,
   FlatList,
-  SafeAreaView,
+  ScrollView,
 } from "react-native";
 import { Avatar, Checkbox } from "react-native-paper";
 
@@ -73,7 +72,7 @@ export default function ProfileScreen() {
   }, [])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollContainer}>
       <Text>Personal information</Text>
       <View style={styles.logoContainer}>
         {image ?
@@ -152,6 +151,7 @@ export default function ProfileScreen() {
             );
           }}
           keyExtractor={(item) => item.id}
+          nestedScrollEnabled
         />
       </View>
       <Button onPress={handleLogOut}>Log Out</Button>
@@ -171,19 +171,17 @@ export default function ProfileScreen() {
           Save changes
         </Button>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContainer: {
     display: "flex",
     flex: 1,
     padding: 10,
-    paddingTop: StatusBar.currentHeight,
-    backgroundColor: "#93baad",
-    overflow: "scroll",
     gap: 20,
+    backgroundColor: "#93baad",
   },
   infoContainer: {
     display: "flex",

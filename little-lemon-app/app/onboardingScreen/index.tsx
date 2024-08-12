@@ -47,7 +47,7 @@ export default function MenuScreen() {
   }, [email, firstName]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Image
           style={styles.logo}
@@ -76,14 +76,15 @@ export default function MenuScreen() {
           Subscribe
         </Button>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
-    padding: 10,
+    padding: 20,
     alignItems: "center",
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#93baad",
