@@ -23,7 +23,7 @@ export default function RootLayout() {
       <SQLiteProvider databaseName="littleLemon.db" useSuspense>
         <Stack
           screenOptions={{
-            headerShown: false
+            headerShown: false,
           }}
         >
           {authenticated ? (

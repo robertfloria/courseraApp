@@ -30,7 +30,8 @@ export default function MenuScreen() {
           firstName: firstName,
           email: email,
         };
-        await storeAuthentication(authenticationData, router);
+        await storeAuthentication(authenticationData);
+        router.push("/");
       } else {
         Alert.alert("Email-ul introdus nu este corect!");
       }
@@ -82,7 +83,7 @@ export default function MenuScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
     padding: 20,
     alignItems: "center",

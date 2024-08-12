@@ -4,7 +4,7 @@ const api =
   "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json";
 
 interface menu {
-  menu: Array<any>
+  menu: Array<any>;
 }
 export const getFoodMenuItems = async (): Promise<menu> => {
   try {

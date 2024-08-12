@@ -72,11 +72,18 @@ export default function MenuScreen() {
       return filterSelections[i];
     });
     try {
-      setTimeout(async () => {
-        const filteredMenuItems = await filterByCategoryAndText(activeCategories, searchBarText, db);
-        const sectionListData = getSectionListData(filteredMenuItems);
-        setData(sectionListData);
-      }, searchBarText ? 500 : 0);
+      setTimeout(
+        async () => {
+          const filteredMenuItems = await filterByCategoryAndText(
+            activeCategories,
+            searchBarText,
+            db,
+          );
+          const sectionListData = getSectionListData(filteredMenuItems);
+          setData(sectionListData);
+        },
+        searchBarText ? 500 : 0,
+      );
     } catch (e: any) {
       Alert.alert(e.message);
     }
@@ -114,7 +121,12 @@ export default function MenuScreen() {
         sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <FoodItem title={item.title} price={item.price} description={item.description} imageName={item.image} />
+          <FoodItem
+            title={item.title}
+            price={item.price}
+            description={item.description}
+            imageName={item.image}
+          />
         )}
         renderSectionHeader={({ section: { category } }) => (
           <Text style={styles.menuItemHeader}>{category}</Text>
@@ -126,15 +138,15 @@ export default function MenuScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
-    width: '100%',
+    width: "100%",
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#495E57",
   },
   sectionList: {
-    display: 'flex',
-    paddingHorizontal: 16
+    display: "flex",
+    paddingHorizontal: 16,
   },
   searchBar: {
     marginBottom: 24,

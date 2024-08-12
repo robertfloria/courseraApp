@@ -13,12 +13,12 @@ export async function createTable(db) {
     name text
     );
     `);
-};
+}
 
 export async function getMenuItems(db) {
   const menuItems = await db.getAllAsync("select * from menuitems");
   return menuItems;
-};
+}
 
 export async function saveMenuItems(menuItems, db) {
   const rows = menuItems
@@ -31,22 +31,20 @@ export async function saveMenuItems(menuItems, db) {
   await db.execAsync(
     `INSERT INTO menuitems (id, name, price, category, description, image) VALUES ${rows};`,
   );
-};
+}
 
 export async function getCategories(db) {
   const categories = await db.getAllAsync("select name from categories");
   return categories.map((item) => item.name);
-};
+}
 
 export async function saveCategories(categories, db) {
   const rows = categories
     .map((category, index) => `(${index},"${category}")`)
     .join(", ");
 
-  await db.execAsync(
-    `INSERT INTO categories (id, name) VALUES ${rows};`,
-  );
-};
+  await db.execAsync(`INSERT INTO categories (id, name) VALUES ${rows};`);
+}
 
 export async function filterByCategoryAndText(categories, text, db) {
   const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
@@ -58,7 +56,7 @@ export async function filterByCategoryAndText(categories, text, db) {
     `);
 
   return filteredMenuItems;
-};
+}
 
 export async function filterByText(categories, db) {
   const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
@@ -69,4 +67,4 @@ export async function filterByText(categories, db) {
     `);
 
   return filteredMenuItems;
-};
+}

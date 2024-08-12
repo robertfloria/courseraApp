@@ -1,6 +1,9 @@
 import Button from "@/components/Button";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";
-import { removeAuthentication } from "@/store/asyncStorage/removeData";
+import {
+  removeAuthentication,
+  removeAuthProperty,
+} from "@/store/asyncStorage/removeData";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -14,6 +17,8 @@ import {
   ScrollView,
 } from "react-native";
 import { Avatar, Checkbox } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
+import { storeAuthentication } from "@/store/asyncStorage/storeData";
 
 const checkNotificationsData = [
   {
@@ -55,12 +60,35 @@ export default function ProfileScreen() {
 
   const router = useRouter();
 
-  const [name, setName] = useState('');
-  const [image, setImage] = useState<any>('');
+  const [name, setName] = useState("");
+  const [image, setImage] = useState<any>("");
 
   const handleLogOut = async () => {
     await removeAuthentication();
     router.push("/onboardingScreen");
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      let authentication = await retrieveAuthentication();
+      authentication = { ...authentication, image: result.assets[0].uri };
+      await storeAuthentication(authentication);
+
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const removeImage = () => {
+    removeAuthProperty("image");
+    setImage("");
   };
 
   useEffect(() => {
@@ -69,107 +97,97 @@ export default function ProfileScreen() {
       setName(authentication.firstName);
       setImage(authentication?.image);
     })();
-  }, [])
+  }, []);
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <Text>Personal information</Text>
-      <View style={styles.logoContainer}>
-        {image ?
-          <Avatar.Icon size={40} icon={image} />
-          :
-          <Avatar.Text size={40} label={name.substring(0, 2)} />
-        }
-        <Button
-          onPress={() => {
-            Alert.alert("Thanks for subscribing, stay tuned!");
-          }}
-        >
-          Change
-        </Button>
-        <Button
-          onPress={() => {
-            Alert.alert("Thanks for subscribing, stay tuned!");
-          }}
-        >
-          Remove
-        </Button>
-      </View>
-      <View style={styles.infoContainer}>
-        <TextInput
-          style={styles.input}
-          value={firstName}
-          onChangeText={setFirstName}
-          keyboardType="default"
-          textContentType="givenName"
-          placeholder={"Type first name"}
-        />
-        <TextInput
-          style={styles.input}
-          value={lastName}
-          onChangeText={setLastName}
-          keyboardType="default"
-          textContentType="familyName"
-          placeholder={"Type last name"}
-        />
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          placeholder={"Type your email"}
-        />
-        <TextInput
-          style={styles.input}
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType="phone-pad"
-          textContentType="telephoneNumber"
-          placeholder={"Type your phone number"}
-        />
-      </View>
-      <View style={styles.notificationContainer}>
-        <Text>Email notifications</Text>
-        <FlatList
-          data={checkNotificationsData}
-          renderItem={({ item }) => {
-            const key = item.id as keyof Notifications;
-            return (
-              <Checkbox.Item
-                status={checkNotifications[key] ? "checked" : "unchecked"}
-                onPress={() => {
-                  setCheckNotifications((prevState) => ({
-                    ...prevState,
-                    [key]: !prevState[key],
-                  }));
-                }}
-                label={item.label}
-                position="leading"
-                labelStyle={{ textAlign: "left" }}
-              />
-            );
-          }}
-          keyExtractor={(item) => item.id}
-          nestedScrollEnabled
-        />
-      </View>
-      <Button onPress={handleLogOut}>Log Out</Button>
-      <View style={styles.handleChangesContainer}>
-        <Button
-          onPress={() => {
-            Alert.alert("Thanks for subscribing, stay tuned!");
-          }}
-        >
-          Discard changes
-        </Button>
-        <Button
-          onPress={() => {
-            Alert.alert("Thanks for subscribing, stay tuned!");
-          }}
-        >
-          Save changes
-        </Button>
+      <View style={styles.container}>
+        <Text>Personal information</Text>
+        <View style={styles.logoContainer}>
+          {image ? (
+            <Avatar.Image size={40} source={{ uri: image }} />
+          ) : (
+            <Avatar.Text size={40} label={name.substring(0, 2)} />
+          )}
+          <Button onPress={pickImage}>Change</Button>
+          <Button onPress={removeImage}>Remove</Button>
+        </View>
+        <View style={styles.infoContainer}>
+          <TextInput
+            style={styles.input}
+            value={firstName}
+            onChangeText={setFirstName}
+            keyboardType="default"
+            textContentType="givenName"
+            placeholder={"Type first name"}
+          />
+          <TextInput
+            style={styles.input}
+            value={lastName}
+            onChangeText={setLastName}
+            keyboardType="default"
+            textContentType="familyName"
+            placeholder={"Type last name"}
+          />
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            placeholder={"Type your email"}
+          />
+          <TextInput
+            style={styles.input}
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="phone-pad"
+            textContentType="telephoneNumber"
+            placeholder={"Type your phone number"}
+          />
+        </View>
+        <View style={styles.notificationContainer}>
+          <Text>Email notifications</Text>
+          <FlatList
+            data={checkNotificationsData}
+            renderItem={({ item }) => {
+              const key = item.id as keyof Notifications;
+              return (
+                <Checkbox.Item
+                  status={checkNotifications[key] ? "checked" : "unchecked"}
+                  onPress={() => {
+                    setCheckNotifications((prevState) => ({
+                      ...prevState,
+                      [key]: !prevState[key],
+                    }));
+                  }}
+                  label={item.label}
+                  position="leading"
+                  labelStyle={{ textAlign: "left" }}
+                />
+              );
+            }}
+            keyExtractor={(item) => item.id}
+            nestedScrollEnabled
+          />
+        </View>
+        <Button onPress={handleLogOut}>Log Out</Button>
+        <View style={styles.handleChangesContainer}>
+          <Button
+            onPress={() => {
+              Alert.alert("Thanks for subscribing, stay tuned!");
+            }}
+          >
+            Discard changes
+          </Button>
+          <Button
+            onPress={() => {
+              Alert.alert("Thanks for subscribing, stay tuned!");
+            }}
+          >
+            Save changes
+          </Button>
+        </View>
       </View>
     </ScrollView>
   );
@@ -177,11 +195,14 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   scrollContainer: {
+    flex: 1,
+    backgroundColor: "#93baad",
+  },
+  container: {
     display: "flex",
     flex: 1,
     padding: 10,
     gap: 20,
-    backgroundColor: "#93baad",
   },
   infoContainer: {
     display: "flex",
