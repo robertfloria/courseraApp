@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import CustomHeader from "@/components/layout/CustomHeader";
 import NavigationHeader from "@/components/layout/NavigationHeader";
 import { Stack, useRouter } from "expo-router";
 
@@ -15,15 +16,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="index" options={{
         headerShown: true,
-        headerStyle: {
-          backgroundColor: '#ffffff',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerTitle: (props) => <NavigationHeader />,
-        headerLeft: () => <GoBackButton />
+        header: () => <CustomHeader LeftComponent={GoBackButton} />,
       }} />
     </Stack>
   );
