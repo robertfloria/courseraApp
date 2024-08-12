@@ -1,4 +1,4 @@
-import { Stack, usePathname, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { Fragment, useEffect, useState } from "react";
 import { SQLiteProvider } from "expo-sqlite";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";

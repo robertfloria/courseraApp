@@ -1,6 +1,8 @@
 import Button from "@/components/Button";
+import { retrieveAuthentication } from "@/store/asyncStorage/getData";
 import { removeAuthentication } from "@/store/asyncStorage/removeData";
-import { useState } from "react";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   StatusBar,
@@ -10,8 +12,9 @@ import {
   TextInput,
   Alert,
   FlatList,
+  SafeAreaView,
 } from "react-native";
-import { Checkbox } from "react-native-paper";
+import { Avatar, Checkbox } from "react-native-paper";
 
 const checkNotificationsData = [
   {
@@ -51,18 +54,33 @@ export default function ProfileScreen() {
     newsletter: true,
   });
 
+  const router = useRouter();
+
+  const [name, setName] = useState('');
+  const [image, setImage] = useState<any>('');
+
   const handleLogOut = async () => {
     await removeAuthentication();
+    router.push("/onboardingScreen");
   };
 
+  useEffect(() => {
+    (async () => {
+      const authentication = await retrieveAuthentication();
+      setName(authentication.firstName);
+      setImage(authentication?.image);
+    })();
+  }, [])
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text>Personal information</Text>
       <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/little-lemon-logo.png")}
-        />
+        {image ?
+          <Avatar.Icon size={40} icon={image} />
+          :
+          <Avatar.Text size={40} label={name.substring(0, 2)} />
+        }
         <Button
           onPress={() => {
             Alert.alert("Thanks for subscribing, stay tuned!");
@@ -153,7 +171,7 @@ export default function ProfileScreen() {
           Save changes
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
