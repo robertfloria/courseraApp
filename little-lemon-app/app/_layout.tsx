@@ -1,4 +1,4 @@
-import { Stack, useRouter } from "expo-router";
+import { Stack, usePathname, useRouter } from "expo-router";
 import { Fragment, useEffect, useState } from "react";
 import { SQLiteProvider } from "expo-sqlite";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";
@@ -21,7 +21,11 @@ export default function RootLayout() {
   return (
     <Fragment>
       <SQLiteProvider databaseName="littleLemon.db" useSuspense>
-        <Stack>
+        <Stack
+          screenOptions={{
+            headerShown: false
+          }}
+        >
           {authenticated ? (
             <Fragment>
               <Stack.Screen name="(menuScreen)" options={{ title: "Menu" }} />

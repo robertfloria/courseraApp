@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
-  ScrollView,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 
@@ -27,8 +26,6 @@ import {
 import { useSQLiteContext } from "expo-sqlite";
 import { getFoodMenuItems } from "../../api";
 import { FoodItem } from "./components/FoodItem";
-
-// const db = useSQLiteContext();
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
