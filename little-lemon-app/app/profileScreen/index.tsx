@@ -1,57 +1,43 @@
 import Button from "@/components/Button";
-import { retrieveAuthentication } from "@/store/asyncStorage/getData";
 import {
   removeAuthentication,
-  removeAuthProperty,
 } from "@/store/asyncStorage/removeData";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   StyleSheet,
-  StatusBar,
   View,
   Text,
-  TextInput,
   Alert,
-  FlatList,
   ScrollView,
 } from "react-native";
-import { Avatar, Checkbox } from "react-native-paper";
-import * as ImagePicker from "expo-image-picker";
+import { fetchUserInfo } from "./utils/functions";
+import { CheckNotifications, UserInfo } from "./utils/interfaces";
+import PickAvatarImage from "./components/PickAvatarImage";
+import UserInfoFields from "./components/UserInfoFields";
+import EmailNotifications from "./components/EmailNotifications";
+import { useSQLiteContext } from "expo-sqlite";
+import { createUserTables, editUserInfo } from '../../database/userDatabase';
+import { retrieveAuthentication } from "@/store/asyncStorage/getData";
+import { Authentication } from "@/utils/interfaces";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 
-const checkNotificationsData = [
-  {
-    id: "orderStatuses",
-    label: "Order statuses",
-  },
-  {
-    id: "passwordChanges",
-    label: "Password changes",
-  },
-  {
-    id: "specialOffers",
-    label: "Special offers",
-  },
-  {
-    id: "newsletter",
-    label: "Newsletter",
-  },
-];
-
-interface Notifications {
-  orderStatuses: boolean;
-  passwordChanges: boolean;
-  specialOffers: boolean;
-  newsletter: boolean;
-}
-
 export default function ProfileScreen() {
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [checkNotifications, setCheckNotifications] = useState<Notifications>({
+  const db = useSQLiteContext();
+  const [authentication, setAuthentication] = useState<Authentication>({
+    email: '',
+    firstName: ''
+  });
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    image: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: ''
+  });
+
+  const [checkNotifications, setCheckNotifications] = useState<CheckNotifications>({
     orderStatuses: true,
     passwordChanges: true,
     specialOffers: true,
@@ -60,42 +46,35 @@ export default function ProfileScreen() {
 
   const router = useRouter();
 
-  const [name, setName] = useState("");
-  const [image, setImage] = useState<any>("");
-
   const handleLogOut = async () => {
     await removeAuthentication();
     router.push("/onboardingScreen");
   };
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  const handleDiscardChanges = async () => {
+    const { userInfo, checkNotifications } = await fetchUserInfo(db, authentication.email);
 
-    if (!result.canceled) {
-      let authentication = await retrieveAuthentication();
-      authentication = { ...authentication, image: result.assets[0].uri };
-      await storeAuthentication(authentication);
+    setUserInfo(userInfo);
+    setCheckNotifications(checkNotifications);
 
-      setImage(result.assets[0].uri);
-    }
-  };
+    Alert.alert("The informations has been discarded!");
+  }
 
-  const removeImage = () => {
-    removeAuthProperty("image");
-    setImage("");
+  const handleSaveChanges = async () => {
+    await editUserInfo(db, userInfo, checkNotifications, authentication?.email)
+    await storeAuthentication({ ...authentication, firstName: userInfo.firstName })
+    Alert.alert("The informations has been saved!");
   };
 
   useEffect(() => {
     (async () => {
-      const authentication = await retrieveAuthentication();
-      setName(authentication.firstName);
-      setImage(authentication?.image);
+      const fetchAuthentication = await retrieveAuthentication();
+      await createUserTables(db);
+
+      const { userInfo, checkNotifications } = await fetchUserInfo(db, fetchAuthentication.email);
+      setUserInfo(userInfo);
+      setCheckNotifications(checkNotifications);
+      setAuthentication(fetchAuthentication);
     })();
   }, []);
 
@@ -103,88 +82,17 @@ export default function ProfileScreen() {
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
         <Text>Personal information</Text>
-        <View style={styles.logoContainer}>
-          {image ? (
-            <Avatar.Image size={40} source={{ uri: image }} />
-          ) : (
-            <Avatar.Text size={40} label={name.substring(0, 2)} />
-          )}
-          <Button onPress={pickImage}>Change</Button>
-          <Button onPress={removeImage}>Remove</Button>
-        </View>
-        <View style={styles.infoContainer}>
-          <TextInput
-            style={styles.input}
-            value={firstName}
-            onChangeText={setFirstName}
-            keyboardType="default"
-            textContentType="givenName"
-            placeholder={"Type first name"}
-          />
-          <TextInput
-            style={styles.input}
-            value={lastName}
-            onChangeText={setLastName}
-            keyboardType="default"
-            textContentType="familyName"
-            placeholder={"Type last name"}
-          />
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            placeholder={"Type your email"}
-          />
-          <TextInput
-            style={styles.input}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-            textContentType="telephoneNumber"
-            placeholder={"Type your phone number"}
-          />
-        </View>
-        <View style={styles.notificationContainer}>
-          <Text>Email notifications</Text>
-          <FlatList
-            data={checkNotificationsData}
-            renderItem={({ item }) => {
-              const key = item.id as keyof Notifications;
-              return (
-                <Checkbox.Item
-                  status={checkNotifications[key] ? "checked" : "unchecked"}
-                  onPress={() => {
-                    setCheckNotifications((prevState) => ({
-                      ...prevState,
-                      [key]: !prevState[key],
-                    }));
-                  }}
-                  label={item.label}
-                  position="leading"
-                  labelStyle={{ textAlign: "left" }}
-                />
-              );
-            }}
-            keyExtractor={(item) => item.id}
-            nestedScrollEnabled
-          />
-        </View>
+        <PickAvatarImage userInfo={userInfo} setUserInfo={setUserInfo} />
+        <UserInfoFields userInfo={userInfo} setUserInfo={setUserInfo} />
+        <EmailNotifications checkNotifications={checkNotifications} setCheckNotifications={setCheckNotifications} />
         <Button onPress={handleLogOut}>Log Out</Button>
         <View style={styles.handleChangesContainer}>
           <Button
-            onPress={() => {
-              Alert.alert("Thanks for subscribing, stay tuned!");
-            }}
+            onPress={handleDiscardChanges}
           >
             Discard changes
           </Button>
-          <Button
-            onPress={() => {
-              Alert.alert("Thanks for subscribing, stay tuned!");
-            }}
-          >
+          <Button onPress={handleSaveChanges}>
             Save changes
           </Button>
         </View>
@@ -204,42 +112,12 @@ const styles = StyleSheet.create({
     padding: 10,
     gap: 20,
   },
-  infoContainer: {
-    display: "flex",
-    width: "100%",
-    rowGap: 20,
-  },
-  input: {
-    height: 40,
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-    borderColor: "EDEFEE",
-  },
-  logoContainer: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    height: "auto",
-    gap: 10,
-  },
   handleChangesContainer: {
     display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent: "center",
     gap: 10,
-  },
-  notificationContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    height: "auto",
-    gap: 10,
-    width: "100%",
   },
   title: {
     color: "#333333",

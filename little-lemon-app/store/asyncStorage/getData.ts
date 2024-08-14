@@ -10,5 +10,6 @@ export const retrieveAuthentication = async () => {
     }
   } catch (error) {
     Alert.alert("Ne pare rau, a aparut o eroare!");
+    return {};
   }
 };
