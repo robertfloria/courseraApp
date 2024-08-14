@@ -1,4 +1,6 @@
-export async function createTable(db) {
+import { SQLiteDatabase } from "expo-sqlite";
+
+export async function createTable(db: SQLiteDatabase) {
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS menuitems (
     id integer primary key not null, 
@@ -15,12 +17,12 @@ export async function createTable(db) {
     `);
 }
 
-export async function getMenuItems(db) {
+export async function getMenuItems(db: SQLiteDatabase) {
   const menuItems = await db.getAllAsync("select * from menuitems");
   return menuItems;
 }
 
-export async function saveMenuItems(menuItems, db) {
+export async function saveMenuItems(menuItems, db: SQLiteDatabase) {
   const rows = menuItems
     .map(
       (item, index) =>
@@ -33,12 +35,12 @@ export async function saveMenuItems(menuItems, db) {
   );
 }
 
-export async function getCategories(db) {
+export async function getCategories(db: SQLiteDatabase) {
   const categories = await db.getAllAsync("select name from categories");
   return categories.map((item) => item.name);
 }
 
-export async function saveCategories(categories, db) {
+export async function saveCategories(categories, db: SQLiteDatabase) {
   const rows = categories
     .map((category, index) => `(${index},"${category}")`)
     .join(", ");
@@ -46,7 +48,7 @@ export async function saveCategories(categories, db) {
   await db.execAsync(`INSERT INTO categories (id, name) VALUES ${rows};`);
 }
 
-export async function filterByCategoryAndText(categories, text, db) {
+export async function filterByCategoryAndText(categories, text, db: SQLiteDatabase) {
   const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
 
   const filteredMenuItems = await db.getAllAsync(`
@@ -58,7 +60,7 @@ export async function filterByCategoryAndText(categories, text, db) {
   return filteredMenuItems;
 }
 
-export async function filterByText(categories, db) {
+export async function filterByText(categories, db: SQLiteDatabase) {
   const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
 
   const filteredMenuItems = await db.getAllAsync(`

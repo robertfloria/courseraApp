@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from "react-native";
 import { fetchUserInfo } from "./utils/functions";
-import { CheckNotifications, UserInfo } from "./utils/interfaces";
+import { CheckNotifications, UserInfo } from "../../utils/interfaces";
 import PickAvatarImage from "./components/PickAvatarImage";
 import UserInfoFields from "./components/UserInfoFields";
 import EmailNotifications from "./components/EmailNotifications";

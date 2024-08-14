@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { checkNotificationsData } from "../utils/data";
-import { CheckNotifications } from "../utils/interfaces";
+import { CheckNotifications } from "../../../utils/interfaces";
 import { Checkbox } from "react-native-paper";
 
 type Props = {

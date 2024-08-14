@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { StyleSheet, View } from "react-native";
 import { Avatar } from "react-native-paper";
-import { UserInfo } from "../utils/interfaces";
+import { UserInfo } from "../../../utils/interfaces";
 import * as ImagePicker from "expo-image-picker";
 
 type Props = {

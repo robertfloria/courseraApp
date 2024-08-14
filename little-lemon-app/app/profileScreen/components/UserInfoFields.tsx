@@ -1,5 +1,5 @@
 import { StyleSheet, TextInput, View } from "react-native";
-import { UserInfo } from "../utils/interfaces";
+import { UserInfo } from "../../../utils/interfaces";
 
 type Props = {
     userInfo: UserInfo,
