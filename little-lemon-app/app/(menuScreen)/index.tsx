@@ -36,9 +36,6 @@ export default function MenuScreen() {
   useEffect(() => {
     (async () => {
       try {
-        // await db.runAsync('DROP TABLE menuitems');
-        // await db.runAsync('DROP TABLE categories');
-
         await createTable(db);
         let menuItems = await getMenuItems(db);
         let categoryList = await getCategories(db);

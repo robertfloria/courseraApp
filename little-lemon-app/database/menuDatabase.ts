@@ -1,3 +1,4 @@
+import { MenuItems } from "@/utils/interfaces";
 import { SQLiteDatabase } from "expo-sqlite";
 
 export async function createTable(db: SQLiteDatabase) {
@@ -17,16 +18,23 @@ export async function createTable(db: SQLiteDatabase) {
     `);
 }
 
-export async function getMenuItems(db: SQLiteDatabase) {
-  const menuItems = await db.getAllAsync("select * from menuitems");
+export async function getMenuItems(
+  db: SQLiteDatabase,
+): Promise<Array<MenuItems>> {
+  const menuItems = (await db.getAllAsync(
+    "select * from menuitems",
+  )) as Array<MenuItems>;
   return menuItems;
 }
 
-export async function saveMenuItems(menuItems, db: SQLiteDatabase) {
+export async function saveMenuItems(
+  menuItems: Array<MenuItems>,
+  db: SQLiteDatabase,
+) {
   const rows = menuItems
     .map(
-      (item, index) =>
-        `(${index}, "${item.name}", "${item.price}", "${item.category}", "${item.description}", "${item.image}")`,
+      (item) =>
+        `("${item.name}", "${item.price}", "${item.category}", "${item.description}", "${item.image}")`,
     )
     .join(", ");
 
@@ -36,11 +44,20 @@ export async function saveMenuItems(menuItems, db: SQLiteDatabase) {
 }
 
 export async function getCategories(db: SQLiteDatabase) {
-  const categories = await db.getAllAsync("select name from categories");
+  type Props = {
+    name: string;
+  };
+
+  const categories = (await db.getAllAsync(
+    "select name from categories",
+  )) as Array<Props>;
   return categories.map((item) => item.name);
 }
 
-export async function saveCategories(categories, db: SQLiteDatabase) {
+export async function saveCategories(
+  categories: Array<string>,
+  db: SQLiteDatabase,
+) {
   const rows = categories
     .map((category, index) => `(${index},"${category}")`)
     .join(", ");
@@ -48,24 +65,17 @@ export async function saveCategories(categories, db: SQLiteDatabase) {
   await db.execAsync(`INSERT INTO categories (id, name) VALUES ${rows};`);
 }
 
-export async function filterByCategoryAndText(categories, text, db: SQLiteDatabase) {
+export async function filterByCategoryAndText(
+  categories: Array<string>,
+  text: string,
+  db: SQLiteDatabase,
+) {
   const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
 
   const filteredMenuItems = await db.getAllAsync(`
     SELECT * FROM menuitems 
     WHERE category IN (${splittedCategories})
     AND LOWER(name) LIKE LOWER('%${text}%');
-    `);
-
-  return filteredMenuItems;
-}
-
-export async function filterByText(categories, db: SQLiteDatabase) {
-  const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
-
-  const filteredMenuItems = await db.getAllAsync(`
-    SELECT * FROM menuitems 
-    WHERE category IN (${splittedCategories})
     `);
 
   return filteredMenuItems;
