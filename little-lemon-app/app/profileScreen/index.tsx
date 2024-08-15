@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { removeAuthentication } from "@/store/asyncStorage/removeData";
 import { useRouter } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, Alert, ScrollView } from "react-native";
 import { fetchUserInfo } from "./utils/functions";
 import { EmailNotifications, UserInfo } from "../../utils/interfaces";
@@ -10,16 +10,12 @@ import UserInfoFields from "./components/UserInfoFields";
 import CheckEmailNotifications from "./components/CheckEmailNotifications";
 import { useSQLiteContext } from "expo-sqlite";
 import { createUserTables, editUserInfo } from "../../database/userDatabase";
-import { retrieveAuthentication } from "@/store/asyncStorage/getData";
-import { Authentication } from "@/utils/interfaces";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
+import { AuthenticationContext } from "@/store/context/authenticationContext";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();
-  const [authentication, setAuthentication] = useState<Authentication>({
-    email: "",
-    firstName: "",
-  });
+  const authentication = useContext(AuthenticationContext);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     image: "",
@@ -59,7 +55,7 @@ export default function ProfileScreen() {
   const handleSaveChanges = async () => {
     await editUserInfo(db, userInfo, checkNotifications, authentication.email);
     await storeAuthentication({
-      ...authentication,
+      email: userInfo.firstName,
       firstName: userInfo.firstName,
     });
     Alert.alert("The informations has been saved!");
@@ -67,18 +63,16 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     (async () => {
-      const fetchAuthentication = await retrieveAuthentication();
       await createUserTables(db);
 
       const { userInfo, checkNotifications } = await fetchUserInfo(
         db,
-        fetchAuthentication.email,
+        authentication.email,
       );
       setUserInfo(userInfo);
       setCheckNotifications(checkNotifications);
-      setAuthentication(fetchAuthentication);
     })();
-  }, []);
+  }, [authentication]);
 
   return (
     <ScrollView style={styles.scrollContainer}>

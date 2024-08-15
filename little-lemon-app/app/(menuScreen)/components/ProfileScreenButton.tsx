@@ -1,28 +1,27 @@
 import { getUser } from "@/database/userDatabase";
-import { retrieveAuthentication } from "@/store/asyncStorage/getData";
+import { AuthenticationContext } from "@/store/context/authenticationContext";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { Avatar } from "react-native-paper";
 
 export default function ProfileScreenButton() {
   const db = useSQLiteContext();
 
-  const [firstName, setFirstName] = useState("");
+  const authentication = useContext(AuthenticationContext);
+
   const [image, setImage] = useState<any>("");
 
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const authentication = await retrieveAuthentication();
       const user = await getUser(db, authentication.email);
 
-      setFirstName(authentication.firstName);
       setImage(user.image);
     })();
-  }, []);
+  }, [authentication]);
 
   const handleClick = () => {
     router.push("/profileScreen");
@@ -33,7 +32,7 @@ export default function ProfileScreenButton() {
       {image ? (
         <Avatar.Image size={40} source={{ uri: image }} />
       ) : (
-        <Avatar.Text size={40} label={firstName?.substring(0, 2)} />
+        <Avatar.Text size={40} label={authentication.firstName?.substring(0, 2)} />
       )}
     </Pressable>
   );
