@@ -26,13 +26,17 @@ import {
 import { useSQLiteContext } from "expo-sqlite";
 import { getFoodMenuItems } from "../../api";
 import { FoodItem } from "./components/FoodItem";
+import CustomModal from "./components/CustomModal";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
   const [categories, setCategories] = useState<Array<string>>([]);
   const [searchBarText, setSearchBarText] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>([]);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
   const db = useSQLiteContext();
+
   useEffect(() => {
     (async () => {
       try {
@@ -123,12 +127,16 @@ export default function MenuScreen() {
             price={item.price}
             description={item.description}
             imageName={item.image}
+            setOpenModal={setOpenModal}
           />
         )}
         renderSectionHeader={({ section: { category } }) => (
           <Text style={styles.menuItemHeader}>{category}</Text>
         )}
       />
+      {openModal &&
+        <CustomModal openModal={openModal} setOpenModal={setOpenModal}></CustomModal>
+      }
     </SafeAreaView>
   );
 }

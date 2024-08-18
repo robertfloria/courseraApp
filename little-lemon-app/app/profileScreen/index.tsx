@@ -11,7 +11,7 @@ import CheckEmailNotifications from "./components/CheckEmailNotifications";
 import { useSQLiteContext } from "expo-sqlite";
 import { createUserTables, editUserInfo } from "../../database/userDatabase";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
-import { AuthenticationContext } from "@/store/context/authenticationContext";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();

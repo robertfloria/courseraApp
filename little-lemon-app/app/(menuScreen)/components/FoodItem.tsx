@@ -7,12 +7,14 @@ import {
   View,
 } from "react-native";
 import { getImage } from "../utils/functions";
+import Button from "@/components/Button";
 
 interface MenuItem {
   title: string;
   price: number;
   description: string;
   imageName: string;
+  setOpenModal: (arg: any) => any;
 }
 
 export const FoodItem = ({
@@ -20,8 +22,11 @@ export const FoodItem = ({
   price,
   description,
   imageName,
+  setOpenModal
 }: MenuItem) => {
   const [image, setImage] = useState<ImageSourcePropType>();
+
+  const handleOpenModal = () => setOpenModal(true);
 
   useEffect(() => {
     if (imageName) {
@@ -38,6 +43,7 @@ export const FoodItem = ({
         <Text style={styles.menuItemPrice}>${price}</Text>
       </View>
       <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
+      <Button onPress={handleOpenModal}>CLICK</Button>
     </View>
   );
 };

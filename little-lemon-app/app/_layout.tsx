@@ -2,7 +2,7 @@ import { Stack, useRouter } from "expo-router";
 import { Fragment, useEffect, useState } from "react";
 import { SQLiteProvider } from "expo-sqlite";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";
-import { AuthenticationContext } from "@/store/context/authenticationContext";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 
 export default function RootLayout() {
   const router = useRouter();

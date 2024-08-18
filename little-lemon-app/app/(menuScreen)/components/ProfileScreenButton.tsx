@@ -1,5 +1,5 @@
 import { getUser } from "@/database/userDatabase";
-import { AuthenticationContext } from "@/store/context/authenticationContext";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
