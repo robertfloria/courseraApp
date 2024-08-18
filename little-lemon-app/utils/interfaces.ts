@@ -39,3 +39,10 @@ export interface User {
   specialOffers?: boolean;
   newsletter?: boolean;
 }
+
+export interface UserShoppingItem {
+  id: number,
+  price: number,
+  name: string,
+  image: string
+}

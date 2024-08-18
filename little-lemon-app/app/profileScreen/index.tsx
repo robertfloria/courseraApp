@@ -64,7 +64,7 @@ export default function ProfileScreen() {
   useEffect(() => {
     (async () => {
       await createUserTables(db);
-
+      
       const { userInfo, checkNotifications } = await fetchUserInfo(
         db,
         authentication.email,

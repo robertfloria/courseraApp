@@ -1,6 +1,6 @@
 import { getUser } from "@/database/userDatabase";
 
-export const fetchUserInfo = async (db: any, email?: string) => {
+export const fetchUserInfo = async (db: any, email: string) => {
   const user = await getUser(db, email);
 
   return {

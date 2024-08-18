@@ -1,5 +1,9 @@
+import { createShoppingCartTable, getUserShoppingItems } from "@/database/shoppingCartDatabase";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
+import { useContext, useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type CounterProp = {
@@ -15,13 +19,27 @@ const Counter = ({ number }: CounterProp) => {
 };
 
 export function BadgeCart() {
-  const router = useRouter();
+  const [count, setCount] = useState<number>(0);
 
-  const navigateToCart = () => router.push("/cart");
+  const router = useRouter();
+  const db = useSQLiteContext();
+
+  const navigateToCart = () => router.push("/shoppingCartScreen");
+
+  const authentication = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    (async () => {
+      await createShoppingCartTable(db);
+      const shoppingCartItems = await getUserShoppingItems(db, authentication.email);
+
+      setCount(shoppingCartItems.length);
+    })();
+  }, [authentication]);
 
   return (
     <View style={styles.container}>
-      <Counter number={10} />
+      <Counter number={count} />
       <Pressable onPress={navigateToCart}>
         <MaterialIcons name="shopping-cart" color="#fff" size={35} />
       </Pressable>

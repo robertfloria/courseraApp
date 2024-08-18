@@ -13,19 +13,18 @@ import {
 
 type Props = {
   openModal: boolean;
-  setOpenModal: (arg: any) => any;
+  onModalClose: () => any;
   title?: string;
   children?: React.ReactNode;
 };
 
 export default function CustomModal({
   openModal,
-  setOpenModal,
+  onModalClose,
   title,
   children,
 }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
-  const onClose = () => setOpenModal(false);
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -39,7 +38,7 @@ export default function CustomModal({
     },
     onPanResponderRelease: (e, gestureState) => {
       if (gestureState.dy > 50) {
-        onClose();
+        onModalClose();
       } else {
         Animated.spring(pan.y, {
           toValue: 0,
@@ -58,7 +57,7 @@ export default function CustomModal({
       visible={openModal}
       onRequestClose={() => {
         Alert.alert("Modal has been closed.");
-        setOpenModal(!openModal);
+        onModalClose();
       }}
     >
       <Animated.View
@@ -67,7 +66,7 @@ export default function CustomModal({
       >
         <View style={styles(pan).titleContainer}>
           <Text style={styles(pan).title}>{title}</Text>
-          <Pressable onPress={onClose}>
+          <Pressable onPress={onModalClose}>
             <MaterialIcons name="close" color="#fff" size={22} />
           </Pressable>
         </View>

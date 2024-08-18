@@ -97,6 +97,8 @@ export default function MenuScreen() {
     setFilterSelections(arrayCopy);
   };
 
+  const handleCloseModal = () => setSelectedItem(undefined);
+
   return (
     <SafeAreaView style={styles.container}>
       <Searchbar
@@ -129,11 +131,11 @@ export default function MenuScreen() {
           <Text style={styles.menuItemHeader}>{category}</Text>
         )}
       />
-      {openModal && (
+      {selectedItem && (
         <CustomModal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          title={selectedItem?.name}
+          openModal={!!selectedItem}
+          onModalClose={handleCloseModal}
+          title={selectedItem.name}
         >
           <ModalFoodItem data={selectedItem} />
         </CustomModal>

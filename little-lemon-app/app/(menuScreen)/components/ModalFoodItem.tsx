@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -10,13 +10,23 @@ import {
 } from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
+import { useSQLiteContext } from "expo-sqlite";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { addItemInShoppingCart } from "@/database/shoppingCartDatabase";
 
 type Props = {
-  data?: MenuItems;
+  data: MenuItems;
 };
 
 export const ModalFoodItem = ({ data }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
+  const db = useSQLiteContext();
+
+  const authentication = useContext(AuthenticationContext);
+
+  const addItemToCart = async () => {
+    await addItemInShoppingCart(data.id, authentication.email, db);
+  }
 
   useEffect(() => {
     if (data?.image) {
@@ -31,7 +41,7 @@ export const ModalFoodItem = ({ data }: Props) => {
       <View style={styles.menuItemDetailsContainer}>
         <Text style={styles.menuItemDescription}>{data?.description}</Text>
         <Text style={styles.menuItemPrice}>${data?.price}</Text>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={addItemToCart}>
           <Text>Add to cart</Text>
         </Pressable>
       </View>
