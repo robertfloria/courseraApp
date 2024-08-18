@@ -2,49 +2,48 @@ import { useEffect, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
+  Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { getImage } from "../utils/functions";
-import Button from "@/components/Button";
+import { MenuItems } from "@/utils/interfaces";
 
-interface MenuItem {
-  title: string;
-  price: number;
-  description: string;
-  imageName: string;
+type Props = {
+  data: MenuItems;
   setOpenModal: (arg: any) => any;
-}
+  setSelectedItem: (arg: any) => any;
+};
 
-export const FoodItem = ({
-  title,
-  price,
-  description,
-  imageName,
-  setOpenModal
-}: MenuItem) => {
+export const SectionFoodItem = ({
+  data,
+  setOpenModal,
+  setSelectedItem,
+}: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
-  const handleOpenModal = () => setOpenModal(true);
+  const handleOpenModal = () => {
+    setSelectedItem(data);
+    setOpenModal(true);
+  };
 
   useEffect(() => {
-    if (imageName) {
-      const imagePath = getImage(imageName);
+    if (data.image) {
+      const imagePath = getImage(data.image);
       setImage(imagePath);
     }
-  }, [imageName]);
+  }, [data.image]);
 
   return (
-    <View style={styles.menuItemContainer}>
+    <Pressable onPress={handleOpenModal} style={styles.menuItemContainer}>
       <View style={styles.menuItemDetailsContainer}>
-        <Text style={styles.menuItemTitle}>{title}</Text>
-        <Text style={styles.menuItemDescription}>{description}</Text>
-        <Text style={styles.menuItemPrice}>${price}</Text>
+        <Text style={styles.menuItemTitle}>{data.name}</Text>
+        <Text style={styles.menuItemDescription}>{data.description}</Text>
+        <Text style={styles.menuItemPrice}>${data.price}</Text>
       </View>
       <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
-      <Button onPress={handleOpenModal}>CLICK</Button>
-    </View>
+    </Pressable>
   );
 };
 

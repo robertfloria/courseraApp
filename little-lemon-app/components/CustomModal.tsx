@@ -1,60 +1,103 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import React from "react";
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useRef } from "react";
+import {
+  Alert,
+  Animated,
+  Modal,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 type Props = {
-    openModal: boolean,
-    setOpenModal: (arg: any) => any,
-    children?: React.ReactNode
+  openModal: boolean;
+  setOpenModal: (arg: any) => any;
+  title?: string;
+  children?: React.ReactNode;
 };
 
-export default function CustomModal({ openModal, setOpenModal, children }: Props) {
-    const onClose = () => setOpenModal(false);
+export default function CustomModal({
+  openModal,
+  setOpenModal,
+  title,
+  children,
+}: Props) {
+  const pan = useRef(new Animated.ValueXY()).current;
+  const onClose = () => setOpenModal(false);
 
-    return (
-        <Modal
-            animationType='slide'
-            transparent={true}
-            visible={openModal}
-            onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setOpenModal(!openModal);
-            }}>
-            <View style={styles.modalContent}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Choose a sticker</Text>
-                    <Pressable onPress={onClose}>
-                        <MaterialIcons name="close" color="#fff" size={22} />
-                    </Pressable>
-                </View>
-                {children}
-            </View>
-        </Modal>
-    );
-};
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (e, gestureState) => {
+      if (gestureState.dy > 0) {
+        Animated.event([null, { dy: pan.y }], { useNativeDriver: false })(
+          e,
+          gestureState,
+        );
+      }
+    },
+    onPanResponderRelease: (e, gestureState) => {
+      if (gestureState.dy > 50) {
+        onClose();
+      } else {
+        Animated.spring(pan.y, {
+          toValue: 0,
+          tension: 1,
+          friction: 20,
+          useNativeDriver: true,
+        }).start();
+      }
+    },
+  });
 
-const styles = StyleSheet.create({
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={openModal}
+      onRequestClose={() => {
+        Alert.alert("Modal has been closed.");
+        setOpenModal(!openModal);
+      }}
+    >
+      <Animated.View
+        {...panResponder.panHandlers}
+        style={styles(pan).modalContent}
+      >
+        <View style={styles(pan).titleContainer}>
+          <Text style={styles(pan).title}>{title}</Text>
+          <Pressable onPress={onClose}>
+            <MaterialIcons name="close" color="#fff" size={22} />
+          </Pressable>
+        </View>
+        {children}
+      </Animated.View>
+    </Modal>
+  );
+}
+
+const styles = (pan: any) =>
+  StyleSheet.create({
     modalContent: {
-        height: '25%',
-        width: '100%',
-        backgroundColor: '#25292e',
-        borderTopRightRadius: 18,
-        borderTopLeftRadius: 18,
-        position: 'absolute',
-        bottom: 0,
+      height: "70%",
+      width: "100%",
+      backgroundColor: "#25292e",
+      borderTopRightRadius: 18,
+      borderTopLeftRadius: 18,
+      position: "absolute",
+      bottom: 0,
+      transform: [{ translateY: pan.y }, { perspective: 1000 }],
     },
     titleContainer: {
-        height: '16%',
-        backgroundColor: '#464C55',
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+      height: "auto",
+      padding: 10,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
     },
     title: {
-        color: '#fff',
-        fontSize: 16,
+      color: "#fff",
+      fontSize: 16,
     },
-});
+  });

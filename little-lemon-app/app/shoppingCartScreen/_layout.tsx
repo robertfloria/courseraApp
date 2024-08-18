@@ -1,6 +1,6 @@
-import { Stack } from "expo-router";
 import CustomHeader from "@/components/layout/CustomHeader";
-import RightHeader from "./components/RightHeader/RightHeader";
+import { NavigateBackBtn } from "@/components/navigation/NavigateBackBtn";
+import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
@@ -9,7 +9,7 @@ export default function RootLayout() {
         name="index"
         options={{
           headerShown: true,
-          header: () => <CustomHeader RightComponent={RightHeader} />,
+          header: () => <CustomHeader LeftComponent={NavigateBackBtn} />,
         }}
       />
     </Stack>

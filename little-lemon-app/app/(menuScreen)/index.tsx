@@ -12,9 +12,7 @@ import { Searchbar } from "react-native-paper";
 import {
   createTable,
   filterByCategoryAndText,
-  getCategories,
   getMenuItems,
-  saveCategories,
   saveMenuItems,
 } from "../../database/menuDatabase";
 import Filters from "./components/Filters";
@@ -25,8 +23,10 @@ import {
 } from "./utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
 import { getFoodMenuItems } from "../../api";
-import { FoodItem } from "./components/FoodItem";
-import CustomModal from "./components/CustomModal";
+import { SectionFoodItem } from "./components/SectionFoodItem";
+import CustomModal from "../../components/CustomModal";
+import { MenuItems } from "@/utils/interfaces";
+import { ModalFoodItem } from "./components/ModalFoodItem";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -34,6 +34,7 @@ export default function MenuScreen() {
   const [searchBarText, setSearchBarText] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<MenuItems>();
 
   const db = useSQLiteContext();
 
@@ -42,17 +43,13 @@ export default function MenuScreen() {
       try {
         await createTable(db);
         let menuItems = await getMenuItems(db);
-        let categoryList = await getCategories(db);
 
         if (!menuItems.length) {
           menuItems = (await getFoodMenuItems()).menu;
           await saveMenuItems(menuItems, db);
         }
 
-        if (!categoryList.length) {
-          categoryList = getCategoriesFromMenuItems(menuItems);
-          await saveCategories(categoryList, db);
-        }
+        let categoryList = getCategoriesFromMenuItems(menuItems);
 
         const sectionListData = getSectionListData(menuItems);
         setData(sectionListData);
@@ -122,21 +119,25 @@ export default function MenuScreen() {
         sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <FoodItem
-            title={item.title}
-            price={item.price}
-            description={item.description}
-            imageName={item.image}
+          <SectionFoodItem
+            data={item}
             setOpenModal={setOpenModal}
+            setSelectedItem={setSelectedItem}
           />
         )}
         renderSectionHeader={({ section: { category } }) => (
           <Text style={styles.menuItemHeader}>{category}</Text>
         )}
       />
-      {openModal &&
-        <CustomModal openModal={openModal} setOpenModal={setOpenModal}></CustomModal>
-      }
+      {openModal && (
+        <CustomModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          title={selectedItem?.name}
+        >
+          <ModalFoodItem data={selectedItem} />
+        </CustomModal>
+      )}
     </SafeAreaView>
   );
 }

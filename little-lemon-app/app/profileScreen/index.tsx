@@ -75,7 +75,7 @@ export default function ProfileScreen() {
   }, [authentication]);
 
   return (
-    <ScrollView style={styles.scrollContainer}>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text>Personal information</Text>
         <PickAvatarImage userInfo={userInfo} setUserInfo={setUserInfo} />

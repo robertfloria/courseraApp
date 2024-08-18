@@ -17,7 +17,7 @@ export function getSectionListData(data: any) {
       categoryGroup.data.push({
         id: currentValue.id,
         description: currentValue.description,
-        title: currentValue.name,
+        name: currentValue.name,
         price: currentValue.price,
         image: currentValue.image,
       });

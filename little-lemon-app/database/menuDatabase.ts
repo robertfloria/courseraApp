@@ -43,28 +43,6 @@ export async function saveMenuItems(
   );
 }
 
-export async function getCategories(db: SQLiteDatabase) {
-  type Props = {
-    name: string;
-  };
-
-  const categories = (await db.getAllAsync(
-    "select name from categories",
-  )) as Array<Props>;
-  return categories.map((item) => item.name);
-}
-
-export async function saveCategories(
-  categories: Array<string>,
-  db: SQLiteDatabase,
-) {
-  const rows = categories
-    .map((category, index) => `(${index},"${category}")`)
-    .join(", ");
-
-  await db.execAsync(`INSERT INTO categories (id, name) VALUES ${rows};`);
-}
-
 export async function filterByCategoryAndText(
   categories: Array<string>,
   text: string,

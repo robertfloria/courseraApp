@@ -20,11 +20,11 @@ export interface Authentication {
 
 export interface MenuItems {
   id: number;
-  name?: string;
-  price?: number;
-  category?: string;
-  description?: string;
-  image?: string;
+  name: string;
+  price: number;
+  category: string;
+  description: string;
+  image: string;
 }
 
 export interface User {

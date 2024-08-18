@@ -34,6 +34,10 @@ export default function RootLayout() {
                 name="profileScreen"
                 options={{ title: "Profile" }}
               />
+              <Stack.Screen
+                name="shoppingCartScreen"
+                options={{ title: "Shopping Cart" }}
+              />
             </AuthenticationContext.Provider>
           ) : (
             <Stack.Screen

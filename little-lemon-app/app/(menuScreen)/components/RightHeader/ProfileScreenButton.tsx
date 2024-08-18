@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { Avatar } from "react-native-paper";
 
-export default function ProfileScreenButton() {
+export function ProfileScreenButton() {
   const db = useSQLiteContext();
 
   const authentication = useContext(AuthenticationContext);
@@ -32,7 +32,10 @@ export default function ProfileScreenButton() {
       {image ? (
         <Avatar.Image size={40} source={{ uri: image }} />
       ) : (
-        <Avatar.Text size={40} label={authentication.firstName?.substring(0, 2)} />
+        <Avatar.Text
+          size={40}
+          label={authentication.firstName?.substring(0, 2)}
+        />
       )}
     </Pressable>
   );
