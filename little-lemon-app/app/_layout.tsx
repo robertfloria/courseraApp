@@ -3,10 +3,14 @@ import { Fragment, useEffect, useState } from "react";
 import { SQLiteProvider } from "expo-sqlite";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { Authentication } from "@/utils/interfaces";
 
 export default function RootLayout() {
   const router = useRouter();
-  const [authentication, setAuthentication] = useState(null);
+  const [authentication, setAuthentication] = useState<Authentication>({
+    firstName: '',
+    email: ''
+  });
 
   useEffect(() => {
     (async () => {
@@ -20,15 +24,15 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <Fragment>
-      <SQLiteProvider databaseName="littleLemon.db" useSuspense>
+    <SQLiteProvider databaseName="littleLemon.db" useSuspense>
+      <AuthenticationContext.Provider value={authentication}>
         <Stack
           screenOptions={{
             headerShown: false,
           }}
         >
-          {authentication ? (
-            <AuthenticationContext.Provider value={authentication}>
+          {authentication.email ? (
+            <Fragment>
               <Stack.Screen name="(menuScreen)" options={{ title: "Menu" }} />
               <Stack.Screen
                 name="profileScreen"
@@ -38,7 +42,7 @@ export default function RootLayout() {
                 name="shoppingCartScreen"
                 options={{ title: "Shopping Cart" }}
               />
-            </AuthenticationContext.Provider>
+            </Fragment>
           ) : (
             <Stack.Screen
               name="onboardingScreen"
@@ -46,7 +50,7 @@ export default function RootLayout() {
             />
           )}
         </Stack>
-      </SQLiteProvider>
-    </Fragment>
+      </AuthenticationContext.Provider>
+    </SQLiteProvider>
   );
 }

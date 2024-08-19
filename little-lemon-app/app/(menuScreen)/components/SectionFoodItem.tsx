@@ -12,20 +12,17 @@ import { MenuItems } from "@/utils/interfaces";
 
 type Props = {
   data: MenuItems;
-  setOpenModal: (arg: any) => any;
   setSelectedItem: (arg: any) => any;
 };
 
 export const SectionFoodItem = ({
   data,
-  setOpenModal,
   setSelectedItem,
 }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
   const handleOpenModal = () => {
     setSelectedItem(data);
-    setOpenModal(true);
   };
 
   useEffect(() => {

@@ -34,7 +34,6 @@ export default function ShoppingCartScreen() {
         }}
         keyExtractor={item => item.id.toString()}
       />
-
     </View>
   );
 }

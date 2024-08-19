@@ -12,6 +12,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { createUserTables, editUserInfo } from "../../database/userDatabase";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { validateEmail } from "@/utils";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();
@@ -53,18 +54,23 @@ export default function ProfileScreen() {
   };
 
   const handleSaveChanges = async () => {
-    await editUserInfo(db, userInfo, checkNotifications, authentication.email);
-    await storeAuthentication({
-      email: userInfo.firstName,
-      firstName: userInfo.firstName,
-    });
-    Alert.alert("The informations has been saved!");
+    if (userInfo.email && validateEmail(userInfo.email) && userInfo.firstName) {
+      await editUserInfo(db, userInfo, checkNotifications, authentication.email);
+      await storeAuthentication({
+        email: userInfo.email,
+        firstName: userInfo.firstName,
+      });
+      Alert.alert("The informations has been saved!");
+    }
+    else {
+      Alert.alert('Email or firstname is empty!');
+    }
   };
 
   useEffect(() => {
     (async () => {
       await createUserTables(db);
-      
+
       const { userInfo, checkNotifications } = await fetchUserInfo(
         db,
         authentication.email,

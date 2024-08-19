@@ -33,7 +33,6 @@ export default function MenuScreen() {
   const [categories, setCategories] = useState<Array<string>>([]);
   const [searchBarText, setSearchBarText] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>([]);
-  const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<MenuItems>();
 
   const db = useSQLiteContext();
@@ -41,6 +40,10 @@ export default function MenuScreen() {
   useEffect(() => {
     (async () => {
       try {
+        // await db.execAsync('DROP TABLE user');
+        // await db.execAsync('DROP TABLE menuitems');
+        // await db.execAsync('DROP TABLE shoppingCart');
+
         await createTable(db);
         let menuItems = await getMenuItems(db);
 
@@ -123,7 +126,6 @@ export default function MenuScreen() {
         renderItem={({ item }) => (
           <SectionFoodItem
             data={item}
-            setOpenModal={setOpenModal}
             setSelectedItem={setSelectedItem}
           />
         )}

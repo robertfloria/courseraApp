@@ -18,7 +18,6 @@ export function ProfileScreenButton() {
   useEffect(() => {
     (async () => {
       const user = await getUser(db, authentication.email);
-
       setImage(user.image);
     })();
   }, [authentication]);
