@@ -6,7 +6,6 @@ import { useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   View,
   Image,
