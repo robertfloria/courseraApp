@@ -1,3 +1,6 @@
+import { MaterialIcons } from "@expo/vector-icons";
+import { DrawerActions } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 import { ComponentType } from "react";
 import {
   Image,
@@ -5,21 +8,33 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 interface CustomHeaderProps {
   LeftComponent?: ComponentType<any>;
   RightComponent?: ComponentType<any>;
+  hasDrawer?: boolean;
 }
 
 export default function CustomHeader({
-  LeftComponent,
   RightComponent,
+  LeftComponent,
+  hasDrawer = true,
 }: CustomHeaderProps) {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.leftItemContainer}>
+          {hasDrawer && (
+            <TouchableOpacity
+              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+            >
+              <MaterialIcons name="menu" size={24} color="black" />
+            </TouchableOpacity>
+          )}
           {LeftComponent && <LeftComponent />}
         </View>
         <View style={styles.titleContainer}>
@@ -59,6 +74,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
+    alignItems: "center",
+    gap: 5,
   },
   rightItemContainer: {
     flex: 1,

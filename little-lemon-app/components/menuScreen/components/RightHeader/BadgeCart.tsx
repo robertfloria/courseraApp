@@ -1,5 +1,6 @@
 import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { HeaderContext } from "@/store/context/HeaderContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
@@ -20,11 +21,12 @@ const Counter = ({ number }: CounterProp) => {
 
 export function BadgeCart() {
   const [count, setCount] = useState<number>(0);
+  const { resetCartCounter } = useContext(HeaderContext);
 
   const router = useRouter();
   const db = useSQLiteContext();
 
-  const navigateToCart = () => router.push("/shoppingCartScreen");
+  const navigateToCart = () => router.push("/shoppingCart");
 
   const authentication = useContext(AuthenticationContext);
 
@@ -37,7 +39,7 @@ export function BadgeCart() {
 
       setCount(shoppingCartItems.length);
     })();
-  }, [authentication]);
+  }, [authentication, resetCartCounter]);
 
   return (
     <View style={styles.container}>

@@ -13,10 +13,12 @@ import { editUserInfo } from "../database/userDatabase";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
+import { HeaderContext } from "@/store/context/HeaderContext";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
+  const { setResetPicture } = useContext(HeaderContext);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     image: "",
@@ -39,7 +41,7 @@ export default function ProfileScreen() {
   const handleLogOut = async () => {
     await removeAuthentication();
     authentication.setAuthentication({ email: "", firstName: "" });
-    router.push("/onboardingScreen");
+    router.push("/onboarding");
   };
 
   const handleDiscardChanges = async () => {
@@ -66,6 +68,9 @@ export default function ProfileScreen() {
         email: userInfo.email,
         firstName: userInfo.firstName,
       });
+
+      setResetPicture((prevState: any) => !prevState);
+
       Alert.alert("The informations has been saved!");
     } else {
       Alert.alert("Email or firstname is empty!");

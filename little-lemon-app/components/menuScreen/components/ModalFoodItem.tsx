@@ -13,6 +13,7 @@ import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { addItemInShoppingCart } from "@/database/shoppingCartDatabase";
+import { HeaderContext } from "@/store/context/HeaderContext";
 
 type Props = {
   data: MenuItems;
@@ -20,12 +21,14 @@ type Props = {
 
 export const ModalFoodItem = ({ data }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
-  const db = useSQLiteContext();
 
+  const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
+  const { setResetResetCartCounter } = useContext(HeaderContext);
 
   const addItemToCart = async () => {
     await addItemInShoppingCart(data.id, authentication.email, db);
+    setResetResetCartCounter((prevState: any) => !prevState);
   };
 
   useEffect(() => {
