@@ -28,6 +28,10 @@ export default function RootLayout() {
     })();
   }, []);
 
+  if (!authentication.email) {
+    router.push("/onboardingScreen");
+  }
+
   return (
     <SQLiteProvider databaseName="littleLemon.db" useSuspense>
       <AuthenticationContext.Provider
@@ -39,51 +43,46 @@ export default function RootLayout() {
               headerShown: false,
             }}
           >
-            {authentication.email ? (
-              <Fragment>
-                <Drawer.Screen
-                  name="index"
-                  options={{
-                    headerShown: true,
-                    title: "Menu",
-                    drawerLabel: 'Menu',
-                    header: () => <CustomHeader RightComponent={RightHeader} />,
-                  }}
-                />
-                <Drawer.Screen
-                  name="profile"
-                  options={{
-                    title: "Profile",
-                    drawerLabel: 'Profile',
-                    headerShown: true,
-                    header: () => (
-                      <CustomHeader LeftComponent={NavigateBackBtn} />
-                    ),
-                  }}
-                />
-                <Drawer.Screen
-                  name="shoppingCart"
-                  options={{
-                    title: "Shopping Cart",
-                    drawerLabel: 'Shopping Cart',
-                    headerShown: true,
-                    header: () => (
-                      <CustomHeader LeftComponent={NavigateBackBtn} />
-                    ),
-                  }}
-                />
-              </Fragment>
-            ) : (
-              <Drawer.Screen
-                name="onboarding"
-                options={{
-                  title: "Onboarding",
-                  drawerLabel: 'Onboarding',
-                  headerShown: true,
-                  header: () => <CustomHeader />,
-                }}
-              />
-            )}
+            <Drawer.Screen
+              name="index"
+              options={{
+                headerShown: true,
+                title: "Menu",
+                drawerLabel: 'Menu',
+                header: () => <CustomHeader RightComponent={RightHeader} />,
+              }}
+            />
+            <Drawer.Screen
+              name="profile"
+              options={{
+                title: "Profile",
+                drawerLabel: 'Profile',
+                headerShown: true,
+                header: () => (
+                  <CustomHeader LeftComponent={NavigateBackBtn} />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="shoppingCart"
+              options={{
+                title: "Shopping Cart",
+                drawerLabel: 'Shopping Cart',
+                headerShown: true,
+                header: () => (
+                  <CustomHeader LeftComponent={NavigateBackBtn} />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="onboarding"
+              options={{
+                title: "Onboarding",
+                drawerLabel: 'Onboarding',
+                headerShown: true,
+                header: () => <CustomHeader />,
+              }}
+            />
           </Drawer>
         </GestureHandlerRootView>
       </AuthenticationContext.Provider>

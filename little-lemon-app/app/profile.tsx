@@ -78,7 +78,7 @@ export default function ProfileScreen() {
         db,
         authentication.email,
       );
-      console.log(authentication.email);
+
       setUserInfo(userInfo);
       setCheckNotifications(checkNotifications);
     })();
