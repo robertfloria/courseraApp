@@ -14,9 +14,9 @@ export default function RootLayout() {
 
   useEffect(() => {
     (async () => {
-      const authentication = await retrieveAuthentication();
-      if (authentication) {
-        setAuthentication(authentication);
+      const fetchAuthentication = await retrieveAuthentication();
+      if (fetchAuthentication) {
+        setAuthentication(fetchAuthentication);
       } else {
         router.push("/onboardingScreen");
       }
@@ -25,7 +25,9 @@ export default function RootLayout() {
 
   return (
     <SQLiteProvider databaseName="littleLemon.db" useSuspense>
-      <AuthenticationContext.Provider value={authentication}>
+      <AuthenticationContext.Provider
+        value={{ ...authentication, setAuthentication: setAuthentication }}
+      >
         <Stack
           screenOptions={{
             headerShown: false,

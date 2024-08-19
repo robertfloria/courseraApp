@@ -1,8 +1,9 @@
 import Button from "@/components/Button";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -19,6 +20,8 @@ export default function MenuScreen() {
   const [email, setEmail] = useState<string>("");
   const [validForm, setValidForm] = useState<boolean>(false);
 
+  const authentication = useContext(AuthenticationContext);
+
   const router = useRouter();
 
   const handleSubscribe = async () => {
@@ -31,6 +34,7 @@ export default function MenuScreen() {
           email: email,
         };
         await storeAuthentication(authenticationData);
+        authentication.setAuthentication(authenticationData);
         router.push("/");
       } else {
         Alert.alert("Email-ul introdus nu este corect!");

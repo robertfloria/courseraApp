@@ -39,27 +39,21 @@ export default function MenuScreen() {
 
   useEffect(() => {
     (async () => {
-      try {
-        await db.execAsync("DROP TABLE categories");
+      await setupDatabase(db);
 
-        await setupDatabase(db);
+      let menuItems = await getMenuItems(db);
 
-        let menuItems = await getMenuItems(db);
-
-        if (!menuItems.length) {
-          menuItems = (await getFoodMenuItems()).menu;
-          await saveMenuItems(menuItems, db);
-        }
-
-        let categoryList = getCategoriesFromMenuItems(menuItems);
-
-        const sectionListData = getSectionListData(menuItems);
-        setData(sectionListData);
-        setCategories(categoryList);
-        setFilterSelections(categoryList.map(() => false));
-      } catch (e: any) {
-        Alert.alert(e.message);
+      if (!menuItems.length) {
+        menuItems = (await getFoodMenuItems()).menu;
+        await saveMenuItems(menuItems, db);
       }
+
+      let categoryList = getCategoriesFromMenuItems(menuItems);
+
+      const sectionListData = getSectionListData(menuItems);
+      setData(sectionListData);
+      setCategories(categoryList);
+      setFilterSelections(categoryList.map(() => false));
     })();
   }, []);
 

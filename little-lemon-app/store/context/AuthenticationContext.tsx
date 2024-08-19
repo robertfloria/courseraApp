@@ -1,7 +1,14 @@
 import { Authentication } from "@/utils/interfaces";
 import { createContext } from "react";
 
-export const AuthenticationContext = createContext<Authentication>({
+type AuthenticationContextProps = {
+  firstName: string;
+  email: string;
+  setAuthentication: (arg: any) => any;
+};
+
+export const AuthenticationContext = createContext<AuthenticationContextProps>({
   firstName: "",
   email: "",
+  setAuthentication: () => {},
 });

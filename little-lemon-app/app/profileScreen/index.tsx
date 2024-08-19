@@ -38,6 +38,7 @@ export default function ProfileScreen() {
 
   const handleLogOut = async () => {
     await removeAuthentication();
+    authentication.setAuthentication({ email: "", firstName: "" });
     router.push("/onboardingScreen");
   };
 
@@ -77,6 +78,7 @@ export default function ProfileScreen() {
         db,
         authentication.email,
       );
+      console.log(authentication.email);
       setUserInfo(userInfo);
       setCheckNotifications(checkNotifications);
     })();
