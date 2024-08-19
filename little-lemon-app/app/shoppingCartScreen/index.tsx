@@ -1,9 +1,9 @@
-import { createShoppingCartTable, getUserShoppingItems } from "@/database/shoppingCartDatabase";
+import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { UserShoppingItem } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 import { FoodItem } from "./components/FoodItem";
 
 export default function ShoppingCartScreen() {
@@ -13,8 +13,10 @@ export default function ShoppingCartScreen() {
 
   useEffect(() => {
     (async () => {
-      await createShoppingCartTable(db);
-      const shoppingCartItems = await getUserShoppingItems(db, authentication.email);
+      const shoppingCartItems = await getUserShoppingItems(
+        db,
+        authentication.email,
+      );
 
       setData(shoppingCartItems);
     })();
@@ -25,7 +27,7 @@ export default function ShoppingCartScreen() {
       <FlatList
         data={data}
         renderItem={({ item }) => <FoodItem data={item} />}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
       />
     </View>
   );

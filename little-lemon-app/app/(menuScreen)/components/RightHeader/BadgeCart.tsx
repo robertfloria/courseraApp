@@ -1,4 +1,4 @@
-import { createShoppingCartTable, getUserShoppingItems } from "@/database/shoppingCartDatabase";
+import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -30,8 +30,10 @@ export function BadgeCart() {
 
   useEffect(() => {
     (async () => {
-      await createShoppingCartTable(db);
-      const shoppingCartItems = await getUserShoppingItems(db, authentication.email);
+      const shoppingCartItems = await getUserShoppingItems(
+        db,
+        authentication.email,
+      );
 
       setCount(shoppingCartItems.length);
     })();

@@ -1,3 +1,8 @@
+import { createMenuItemsTable } from "@/database/menuDatabase";
+import { createShoppingCartTable } from "@/database/shoppingCartDatabase";
+import { createUserTable } from "@/database/userDatabase";
+import { SQLiteDatabase } from "expo-sqlite";
+
 export function getSectionListData(data: any) {
   let sectionList: Array<any> = data.reduce(
     (accumulator: any, currentValue: any) => {
@@ -58,4 +63,10 @@ export const getImage = (imageName: string) => {
     default:
       return require("../../../../assets/images/icon.png");
   }
+};
+
+export const setupDatabase = async (db: SQLiteDatabase) => {
+  await createUserTable(db);
+  await createMenuItemsTable(db);
+  await createShoppingCartTable(db);
 };

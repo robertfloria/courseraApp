@@ -15,10 +15,7 @@ type Props = {
   setSelectedItem: (arg: any) => any;
 };
 
-export const SectionFoodItem = ({
-  data,
-  setSelectedItem,
-}: Props) => {
+export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
   const handleOpenModal = () => {

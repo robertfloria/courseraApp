@@ -13,9 +13,7 @@ type Props = {
   data: UserShoppingItem;
 };
 
-export const FoodItem = ({
-  data
-}: Props) => {
+export const FoodItem = ({ data }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
   useEffect(() => {
@@ -42,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    gap:5
+    gap: 5,
   },
   menuItemTitle: {
     fontSize: 20,
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     flex: 1,
-    textAlign: 'right'
+    textAlign: "right",
   },
   menuItemImage: {
     width: 50,

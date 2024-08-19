@@ -29,20 +29,20 @@ export interface MenuItems {
 
 export interface User {
   id: number;
-  image?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phoneNumber?: string;
-  orderStatuses?: boolean;
-  passwordChanges?: boolean;
-  specialOffers?: boolean;
-  newsletter?: boolean;
+  image: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  orderStatuses: boolean;
+  passwordChanges: boolean;
+  specialOffers: boolean;
+  newsletter: boolean;
 }
 
 export interface UserShoppingItem {
-  id: number,
-  price: number,
-  name: string,
-  image: string
+  id: number;
+  price: number;
+  name: string;
+  image: string;
 }

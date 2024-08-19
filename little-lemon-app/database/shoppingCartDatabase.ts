@@ -23,18 +23,21 @@ export async function getUserShoppingItems(
   const user = await getUser(db, email);
   const userShoppingCartItemsId = (
     await db.getAllAsync(
-      `SELECT itemId FROM shoppingCart WHERE userId = ?`, user.id
+      `SELECT itemId FROM shoppingCart WHERE userId = ?`,
+      user.id,
     )
   ).map((item: any) => item.itemId);
 
-  const placeholders = userShoppingCartItemsId.map(() => '?').join(', ');
+  const placeholders = userShoppingCartItemsId.map(() => "?").join(", ");
 
-  const shoppingCartItems = (await db.getAllAsync(`
+  const shoppingCartItems = (await db.getAllAsync(
+    `
     SELECT sc.id, mi.price, mi.name, mi.image
     FROM shoppingCart sc
     INNER JOIN menuitems mi ON mi.id = sc.itemId
     WHERE sc.itemId IN (${placeholders})
-    `, userShoppingCartItemsId
+    `,
+    userShoppingCartItemsId,
   )) as Array<UserShoppingItem>;
 
   return shoppingCartItems;
@@ -49,20 +52,19 @@ export async function addItemInShoppingCart(
 
   try {
     await db.runAsync(
-      `INSERT INTO shoppingCart (userId, itemId) VALUES(?, ?)`, user.id, itemId
+      `INSERT INTO shoppingCart (userId, itemId) VALUES(?, ?)`,
+      user.id,
+      itemId,
     );
-  }
-  catch (err) {
-    Alert.alert('Sorry, there was an error!');
+  } catch (err) {
+    Alert.alert("Sorry, there was an error!");
     throw err;
   }
-};
+}
 
 export async function deleteItemInShoppingCart(
   itemId: number,
   db: SQLiteDatabase,
 ) {
-  await db.runAsync(
-    `DELETE FROM shoppingCart WHERE itemId = ?`, itemId,
-  );
-};
+  await db.runAsync(`DELETE FROM shoppingCart WHERE itemId = ?`, itemId);
+}

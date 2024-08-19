@@ -8,8 +8,8 @@ import { Authentication } from "@/utils/interfaces";
 export default function RootLayout() {
   const router = useRouter();
   const [authentication, setAuthentication] = useState<Authentication>({
-    firstName: '',
-    email: ''
+    firstName: "",
+    email: "",
   });
 
   useEffect(() => {

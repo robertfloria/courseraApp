@@ -10,7 +10,6 @@ import {
 import { Searchbar } from "react-native-paper";
 
 import {
-  createTable,
   filterByCategoryAndText,
   getMenuItems,
   saveMenuItems,
@@ -20,6 +19,7 @@ import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import {
   getCategoriesFromMenuItems,
   getSectionListData,
+  setupDatabase,
 } from "./utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
 import { getFoodMenuItems } from "../../api";
@@ -40,11 +40,10 @@ export default function MenuScreen() {
   useEffect(() => {
     (async () => {
       try {
-        // await db.execAsync('DROP TABLE user');
-        // await db.execAsync('DROP TABLE menuitems');
-        // await db.execAsync('DROP TABLE shoppingCart');
+        await db.execAsync("DROP TABLE categories");
 
-        await createTable(db);
+        await setupDatabase(db);
+
         let menuItems = await getMenuItems(db);
 
         if (!menuItems.length) {
@@ -124,10 +123,7 @@ export default function MenuScreen() {
         sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <SectionFoodItem
-            data={item}
-            setSelectedItem={setSelectedItem}
-          />
+          <SectionFoodItem data={item} setSelectedItem={setSelectedItem} />
         )}
         renderSectionHeader={({ section: { category } }) => (
           <Text style={styles.menuItemHeader}>{category}</Text>

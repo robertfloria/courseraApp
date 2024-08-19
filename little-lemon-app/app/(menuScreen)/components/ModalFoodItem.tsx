@@ -26,7 +26,7 @@ export const ModalFoodItem = ({ data }: Props) => {
 
   const addItemToCart = async () => {
     await addItemInShoppingCart(data.id, authentication.email, db);
-  }
+  };
 
   useEffect(() => {
     if (data?.image) {

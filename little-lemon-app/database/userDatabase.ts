@@ -1,7 +1,7 @@
 import { EmailNotifications, User, UserInfo } from "@/utils/interfaces";
 import { SQLiteDatabase } from "expo-sqlite";
 
-export async function createUserTables(db: SQLiteDatabase) {
+export async function createUserTable(db: SQLiteDatabase) {
   await db.execAsync(`
       CREATE TABLE IF NOT EXISTS user (
       id integer primary key not null, 
@@ -20,7 +20,8 @@ export async function createUserTables(db: SQLiteDatabase) {
 
 export async function getUser(db: SQLiteDatabase, email: string) {
   let user = (await db.getFirstAsync(
-    `SELECT * FROM user WHERE email = ?`, email
+    `SELECT * FROM user WHERE email = ?`,
+    email,
   )) as User;
 
   if (!user) {
@@ -44,7 +45,8 @@ export async function editUserInfo(
   const user = await getUser(db, email);
 
   if (user) {
-    await db.runAsync(`
+    await db.runAsync(
+      `
             UPDATE user
             SET image = ?,
             firstName = ?,
@@ -66,15 +68,18 @@ export async function editUserInfo(
       boolToTinyInt(emailNotifications.passwordChanges),
       boolToTinyInt(emailNotifications.specialOffers),
       boolToTinyInt(emailNotifications.newsletter),
-      email
+      email,
     );
   }
 }
 
 async function saveUser(db: SQLiteDatabase, email: string) {
-  await db.runAsync(`
+  await db.runAsync(
+    `
         INSERT INTO user(email) VALUES(?)
-        `, email);
+        `,
+    email,
+  );
 
   const user = await getUser(db, email);
   return user;
