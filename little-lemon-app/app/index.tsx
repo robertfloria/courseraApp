@@ -13,20 +13,20 @@ import {
   filterByCategoryAndText,
   getMenuItems,
   saveMenuItems,
-} from "../../database/menuDatabase";
-import Filters from "./components/Filters";
+} from "../database/menuDatabase";
+import Filters from "../components/menuScreen/components/Filters";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import {
   getCategoriesFromMenuItems,
   getSectionListData,
   setupDatabase,
-} from "./utils/functions";
+} from "../components/menuScreen/utils/functions";
 import { useSQLiteContext } from "expo-sqlite";
-import { getFoodMenuItems } from "../../api";
-import { SectionFoodItem } from "./components/SectionFoodItem";
-import CustomModal from "../../components/CustomModal";
+import { getFoodMenuItems } from "../api";
+import { SectionFoodItem } from "../components/menuScreen/components/SectionFoodItem";
+import CustomModal from "../components/CustomModal";
 import { MenuItems } from "@/utils/interfaces";
-import { ModalFoodItem } from "./components/ModalFoodItem";
+import { ModalFoodItem } from "../components/menuScreen/components/ModalFoodItem";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);

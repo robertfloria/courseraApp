@@ -4,6 +4,11 @@ import { SQLiteProvider } from "expo-sqlite";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { Authentication } from "@/utils/interfaces";
+import CustomHeader from "@/components/layout/CustomHeader";
+import RightHeader from "../components/menuScreen/components/RightHeader/RightHeader";
+import { NavigateBackBtn } from "@/components/navigation/NavigateBackBtn";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Drawer } from 'expo-router/drawer';
 
 export default function RootLayout() {
   const router = useRouter();
@@ -28,30 +33,59 @@ export default function RootLayout() {
       <AuthenticationContext.Provider
         value={{ ...authentication, setAuthentication: setAuthentication }}
       >
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {authentication.email ? (
-            <Fragment>
-              <Stack.Screen name="(menuScreen)" options={{ title: "Menu" }} />
-              <Stack.Screen
-                name="profileScreen"
-                options={{ title: "Profile" }}
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Drawer
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            {authentication.email ? (
+              <Fragment>
+                <Drawer.Screen
+                  name="index"
+                  options={{
+                    headerShown: true,
+                    title: "Menu",
+                    drawerLabel: 'Menu',
+                    header: () => <CustomHeader RightComponent={RightHeader} />,
+                  }}
+                />
+                <Drawer.Screen
+                  name="profile"
+                  options={{
+                    title: "Profile",
+                    drawerLabel: 'Profile',
+                    headerShown: true,
+                    header: () => (
+                      <CustomHeader LeftComponent={NavigateBackBtn} />
+                    ),
+                  }}
+                />
+                <Drawer.Screen
+                  name="shoppingCart"
+                  options={{
+                    title: "Shopping Cart",
+                    drawerLabel: 'Shopping Cart',
+                    headerShown: true,
+                    header: () => (
+                      <CustomHeader LeftComponent={NavigateBackBtn} />
+                    ),
+                  }}
+                />
+              </Fragment>
+            ) : (
+              <Drawer.Screen
+                name="onboarding"
+                options={{
+                  title: "Onboarding",
+                  drawerLabel: 'Onboarding',
+                  headerShown: true,
+                  header: () => <CustomHeader />,
+                }}
               />
-              <Stack.Screen
-                name="shoppingCartScreen"
-                options={{ title: "Shopping Cart" }}
-              />
-            </Fragment>
-          ) : (
-            <Stack.Screen
-              name="onboardingScreen"
-              options={{ title: "Onboarding" }}
-            />
-          )}
-        </Stack>
+            )}
+          </Drawer>
+        </GestureHandlerRootView>
       </AuthenticationContext.Provider>
     </SQLiteProvider>
   );

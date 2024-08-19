@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { UserShoppingItem } from "@/utils/interfaces";
-import { getImage } from "@/app/(menuScreen)/utils/functions";
+import { getImage } from "@/components/menuScreen/utils/functions";
 
 type Props = {
   data: UserShoppingItem;

@@ -55,7 +55,7 @@ export default function MenuScreen() {
       <View style={styles.titleContainer}>
         <Image
           style={styles.logo}
-          source={require("../../assets/images/little-lemon-logo.png")}
+          source={require("../assets/images/little-lemon-logo.png")}
         />
         <Text style={styles.title}>Let us get to know you</Text>
       </View>

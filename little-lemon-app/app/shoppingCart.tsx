@@ -4,7 +4,7 @@ import { UserShoppingItem } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { FoodItem } from "./components/FoodItem";
+import { FoodItem } from "../components/shoppingCartScreen/components/FoodItem";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
