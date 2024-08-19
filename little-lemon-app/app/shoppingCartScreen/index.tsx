@@ -4,6 +4,7 @@ import { UserShoppingItem } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FoodItem } from "./components/FoodItem";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
@@ -23,15 +24,7 @@ export default function ShoppingCartScreen() {
     <View style={styles.container}>
       <FlatList
         data={data}
-        renderItem={({ item }) => {
-          return (
-            <Fragment>
-              <Text>{item.name}</Text>
-              <Text>{item.image}</Text>
-              <Text>{item.price}</Text>
-            </Fragment>
-          )
-        }}
+        renderItem={({ item }) => <FoodItem data={item} />}
         keyExtractor={item => item.id.toString()}
       />
     </View>
