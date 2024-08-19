@@ -20,7 +20,7 @@ export async function createUserTables(db: SQLiteDatabase) {
 
 export async function getUser(db: SQLiteDatabase, email: string) {
   let user = (await db.getFirstAsync(
-    `SELECT * FROM user WHERE email = '${email}';`,
+    `SELECT * FROM user WHERE email = ?`, email
   )) as User;
 
   if (!user) {
@@ -44,26 +44,37 @@ export async function editUserInfo(
   const user = await getUser(db, email);
 
   if (user) {
-    await db.execAsync(`
+    await db.runAsync(`
             UPDATE user
-            SET image = '${userInfo.image}',
-            firstName = '${userInfo.firstName}',
-            lastName = '${userInfo.lastName}',
-            email = '${userInfo.email}',
-            phoneNumber = '${userInfo.phoneNumber}',
-            orderStatuses = '${boolToTinyInt(emailNotifications.orderStatuses)}',
-            passwordChanges = '${boolToTinyInt(emailNotifications.passwordChanges)}',
-            specialOffers = '${boolToTinyInt(emailNotifications.specialOffers)}',
-            newsletter = '${boolToTinyInt(emailNotifications.newsletter)}'
-            WHERE email = '${email}'
-            `);
+            SET image = ?,
+            firstName = ?,
+            lastName = ?,
+            email = ?,
+            phoneNumber = ?,
+            orderStatuses = ?,
+            passwordChanges = ?,
+            specialOffers = ?,
+            newsletter = ?
+            WHERE email = ?
+            `,
+      userInfo.image,
+      userInfo.firstName,
+      userInfo.lastName,
+      userInfo.email,
+      userInfo.phoneNumber,
+      boolToTinyInt(emailNotifications.orderStatuses),
+      boolToTinyInt(emailNotifications.passwordChanges),
+      boolToTinyInt(emailNotifications.specialOffers),
+      boolToTinyInt(emailNotifications.newsletter),
+      email
+    );
   }
 }
 
 async function saveUser(db: SQLiteDatabase, email: string) {
-  await db.execAsync(`
-        INSERT INTO user(email) VALUES('${email}');
-        `);
+  await db.runAsync(`
+        INSERT INTO user(email) VALUES(?)
+        `, email);
 
   const user = await getUser(db, email);
   return user;

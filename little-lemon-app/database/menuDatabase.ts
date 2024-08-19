@@ -31,16 +31,11 @@ export async function saveMenuItems(
   menuItems: Array<MenuItems>,
   db: SQLiteDatabase,
 ) {
-  const rows = menuItems
-    .map(
-      (item) =>
-        `("${item.name}", "${item.price}", "${item.category}", "${item.description}", "${item.image}")`,
-    )
-    .join(", ");
-
-  await db.execAsync(
-    `INSERT INTO menuitems (id, name, price, category, description, image) VALUES ${rows};`,
-  );
+  menuItems.forEach(async (item) => {
+    await db.runAsync(
+      `INSERT INTO menuitems (name, price, category, description, image) VALUES (?, ?, ?, ?, ?)`, item.name, item.price.toString(), item.category, item.description, item.image
+    );
+  })
 }
 
 export async function filterByCategoryAndText(
@@ -48,13 +43,14 @@ export async function filterByCategoryAndText(
   text: string,
   db: SQLiteDatabase,
 ) {
-  const splittedCategories = categories.map((item) => `"${item}"`).join(", ");
+  const placeholders = categories.map(() => '?').join(', ');
+  const searchText = `%${text}%`;
 
   const filteredMenuItems = await db.getAllAsync(`
     SELECT * FROM menuitems 
-    WHERE category IN (${splittedCategories})
-    AND LOWER(name) LIKE LOWER('%${text}%');
-    `);
+    WHERE category IN (${placeholders})
+    AND LOWER(name) LIKE LOWER(?);
+    `, [...categories, searchText]);
 
   return filteredMenuItems;
 }

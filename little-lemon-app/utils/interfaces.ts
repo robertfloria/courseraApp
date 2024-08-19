@@ -1,9 +1,9 @@
 export interface UserInfo {
-  image?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phoneNumber?: string;
+  image: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
 }
 
 export interface EmailNotifications {

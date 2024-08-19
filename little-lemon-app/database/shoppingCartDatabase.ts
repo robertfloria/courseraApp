@@ -21,19 +21,20 @@ export async function getUserShoppingItems(
   email: string,
 ): Promise<Array<UserShoppingItem>> {
   const user = await getUser(db, email);
-
   const userShoppingCartItemsId = (
     await db.getAllAsync(
-      `SELECT itemId FROM shoppingCart WHERE userId = '${user.id}';`,
+      `SELECT itemId FROM shoppingCart WHERE userId = ?`, user.id
     )
-  ).map((item: any) => `"${item.itemId}"`).join(", ");
+  ).map((item: any) => item.itemId);
+
+  const placeholders = userShoppingCartItemsId.map(() => '?').join(', ');
 
   const shoppingCartItems = (await db.getAllAsync(`
     SELECT sc.id, mi.price, mi.name, mi.image
     FROM shoppingCart sc
     INNER JOIN menuitems mi ON mi.id = sc.itemId
-    WHERE sc.itemId IN (${userShoppingCartItemsId});
-    `,
+    WHERE sc.itemId IN (${placeholders})
+    `, userShoppingCartItemsId
   )) as Array<UserShoppingItem>;
 
   return shoppingCartItems;
@@ -47,8 +48,8 @@ export async function addItemInShoppingCart(
   const user = await getUser(db, email);
 
   try {
-    await db.execAsync(
-      `INSERT INTO shoppingCart (userId, itemId) VALUES('${user.id}', '${itemId}');`
+    await db.runAsync(
+      `INSERT INTO shoppingCart (userId, itemId) VALUES(?, ?)`, user.id, itemId
     );
   }
   catch (err) {
@@ -61,7 +62,7 @@ export async function deleteItemInShoppingCart(
   itemId: number,
   db: SQLiteDatabase,
 ) {
-  await db.execAsync(
-    `DELETE FROM shoppingCart WHERE itemId = '${itemId}';`,
+  await db.runAsync(
+    `DELETE FROM shoppingCart WHERE itemId = ?`, itemId,
   );
 };
