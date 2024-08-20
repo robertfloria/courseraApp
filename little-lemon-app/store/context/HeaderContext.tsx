@@ -1,4 +1,3 @@
-import { Authentication } from "@/utils/interfaces";
 import { createContext } from "react";
 
 type HeaderContextProps = {

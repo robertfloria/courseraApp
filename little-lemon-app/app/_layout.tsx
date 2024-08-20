@@ -9,7 +9,7 @@ import RightHeader from "../components/menuScreen/components/RightHeader/RightHe
 import { NavigateBackBtn } from "@/components/navigation/NavigateBackBtn";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -17,8 +17,6 @@ export default function RootLayout() {
     firstName: "",
     email: "",
   });
-  const [resetPicture, setResetPicture] = useState<boolean>(false);
-  const [resetCartCounter, setResetResetCartCounter] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -31,23 +29,12 @@ export default function RootLayout() {
     })();
   }, []);
 
-  // if (!authentication.email) {
-  //   return;
-  // }
-
   return (
     <SQLiteProvider databaseName="littleLemon.db" useSuspense>
       <AuthenticationContext.Provider
         value={{ ...authentication, setAuthentication: setAuthentication }}
       >
-        <HeaderContext.Provider
-          value={{
-            resetPicture: resetPicture,
-            setResetPicture: setResetPicture,
-            resetCartCounter: resetCartCounter,
-            setResetResetCartCounter: setResetResetCartCounter,
-          }}
-        >
+        <HeaderContextProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <Drawer>
               <Drawer.Screen
@@ -92,7 +79,7 @@ export default function RootLayout() {
               />
             </Drawer>
           </GestureHandlerRootView>
-        </HeaderContext.Provider>
+        </HeaderContextProvider>
       </AuthenticationContext.Provider>
     </SQLiteProvider>
   );
