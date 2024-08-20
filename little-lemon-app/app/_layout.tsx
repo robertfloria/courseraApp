@@ -10,6 +10,7 @@ import { NavigateBackBtn } from "@/components/navigation/NavigateBackBtn";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
+import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function RootLayout() {
       >
         <HeaderContextProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
+            <ChangeThemeButton />
             <Drawer>
               <Drawer.Screen
                 name="index"
