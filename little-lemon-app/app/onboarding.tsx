@@ -1,10 +1,14 @@
+import { ScaleFingerPrint } from "@/components/onboardingScreen/ScaleFingerPrint";
+import { WaveSvg } from "@/components/svg/WaveSvg";
 import ThemedButton from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ThemedView } from "@/components/ThemedView";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
@@ -20,6 +24,11 @@ export default function MenuScreen() {
   const [firstName, setFirstName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [validForm, setValidForm] = useState<boolean>(false);
+
+  const color = useThemeColor(
+    {},
+    "background",
+  );
 
   const authentication = useContext(AuthenticationContext);
 
@@ -53,22 +62,25 @@ export default function MenuScreen() {
   }, [email, firstName]);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
       <ThemedView style={styles.container}>
-        <ThemedView style={styles.titleContainer}>
+        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.titleContainer}>
+          <WaveSvg color={color} />
           <Image
             style={styles.logo}
             source={require("../assets/images/little-lemon-logo.png")}
           />
           <ThemedText type="title">Let us get to know you</ThemedText>
-        </ThemedView>
+        </LinearGradient>
         <ThemedView style={styles.infoContainer}>
+          <ScaleFingerPrint />
           <ThemedTextInput
             value={firstName}
             onChangeText={setFirstName}
             keyboardType="default"
             textContentType="givenName"
             placeholder={"Type first name"}
+            style={styles.input}
           />
           <ThemedTextInput
             value={email}
@@ -76,8 +88,13 @@ export default function MenuScreen() {
             keyboardType="email-address"
             textContentType="emailAddress"
             placeholder={"Type your email"}
+            style={styles.input}
           />
-          <ThemedButton onPress={handleSubscribe} disabled={!validForm}>
+          <ThemedButton
+            style={styles.button}
+            onPress={handleSubscribe}
+            disabled={!validForm}
+          >
             Subscribe
           </ThemedButton>
         </ThemedView>
@@ -90,22 +107,34 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    padding: 20,
+    width: '100%',
     alignItems: "center",
+    justifyContent: "center",
+    position: 'relative',
     paddingTop: StatusBar.currentHeight,
+  },
+  input: {
+    width: "100%",
+  },
+  button: {
+    width: "100%",
   },
   infoContainer: {
     display: "flex",
     width: "80%",
-    gap: 10,
+    gap: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: 'transparent',
+    flex: 2,
   },
   titleContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    height: "auto",
+    width: '100%',
+    position: 'relative',
+    flex: 2.5
   },
   logo: {
     height: 100,

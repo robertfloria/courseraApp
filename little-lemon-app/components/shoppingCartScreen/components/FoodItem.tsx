@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet
-} from "react-native";
+import { Image, ImageSourcePropType, StyleSheet } from "react-native";
 import { UserShoppingItem } from "@/utils/interfaces";
 import { getImage } from "@/components/menuScreen/utils/functions";
 import { ThemedText } from "@/components/ThemedText";
@@ -27,7 +23,7 @@ export const FoodItem = ({ data }: Props) => {
     <ThemedView style={styles.menuItemContainer}>
       <Image style={styles.menuItemImage} source={image} resizeMode="stretch" />
       <ThemedText>{data.name}</ThemedText>
-      <ThemedText >${data.price}</ThemedText>
+      <ThemedText>${data.price}</ThemedText>
     </ThemedView>
   );
 };

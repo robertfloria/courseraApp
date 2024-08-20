@@ -77,8 +77,7 @@ export default function RootLayout() {
                   options={{
                     title: "Onboarding",
                     drawerLabel: "Onboarding",
-                    headerShown: true,
-                    header: () => <CustomHeader hasDrawer={false} />,
+                    headerShown: false,
                   }}
                 />
               </Drawer>
