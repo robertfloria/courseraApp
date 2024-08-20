@@ -13,6 +13,9 @@ export const Colors = {
     inputPlaceholder: "#4b5a63",
     inputBorder: "#4b5a63",
     button: "#402945",
+    firstColor: "#8f00ff",
+    secondColor: "#FEE440",
+    thirdColor: "#EFE9F4",
   },
   dark: {
     text: "#ECEDEE",
@@ -25,5 +28,8 @@ export const Colors = {
     inputPlaceholder: "#cccccc",
     inputBorder: "#cccccc",
     button: "#715975",
+    firstColor: "#01386A",
+    secondColor: "#FED766",
+    thirdColor: "#1B1B1E",
   },
 };

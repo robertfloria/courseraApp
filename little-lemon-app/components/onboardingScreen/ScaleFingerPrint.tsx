@@ -6,7 +6,6 @@ import Animated, {
   withRepeat,
   withSequence,
 } from "react-native-reanimated";
-
 import { ThemedText } from "@/components/ThemedText";
 import { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -21,10 +20,10 @@ export function ScaleFingerPrint() {
       scaleAnimation.value = withRepeat(
         withSequence(
           withTiming(1.2, { duration: 200 }), // Scale up
-          withTiming(1, { duration: 200 })    // Scale back down
+          withTiming(1, { duration: 200 }), // Scale back down
         ),
         2, // Repeat the pulsing animation 4 times
-        true // Reverse the animation for a smoother pulse
+        true, // Reverse the animation for a smoother pulse
       );
     }, 3000);
 
@@ -38,19 +37,19 @@ export function ScaleFingerPrint() {
   return (
     <ThemedView style={styles.container}>
       <Animated.View style={animatedStyle}>
-        <MaterialIcons name='fingerprint' size={50} color='orange' />
+        <MaterialIcons name="fingerprint" size={50} color="orange" />
       </Animated.View>
       <ThemedText style={{ fontSize: 40, lineHeight: 40 }}>Login</ThemedText>
     </ThemedView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 10
-  }
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 10,
+  },
 });

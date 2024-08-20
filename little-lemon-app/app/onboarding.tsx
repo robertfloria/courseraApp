@@ -1,3 +1,4 @@
+import LemonIcon from "@/assets/icons/LemonIcon";
 import { ScaleFingerPrint } from "@/components/onboardingScreen/ScaleFingerPrint";
 import { WaveSvg } from "@/components/svg/WaveSvg";
 import ThemedButton from "@/components/ThemedButton";
@@ -25,10 +26,11 @@ export default function MenuScreen() {
   const [email, setEmail] = useState<string>("");
   const [validForm, setValidForm] = useState<boolean>(false);
 
-  const color = useThemeColor(
-    {},
-    "background",
-  );
+  const thirdColor = useThemeColor({}, "thirdColor");
+
+  const secondColor = useThemeColor({}, "secondColor");
+
+  const firstColor = useThemeColor({}, "firstColor");
 
   const authentication = useContext(AuthenticationContext);
 
@@ -64,13 +66,15 @@ export default function MenuScreen() {
   return (
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
       <ThemedView style={styles.container}>
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.titleContainer}>
-          <WaveSvg color={color} />
-          <Image
-            style={styles.logo}
-            source={require("../assets/images/little-lemon-logo.png")}
-          />
-          <ThemedText type="title">Let us get to know you</ThemedText>
+        <LinearGradient
+          colors={[firstColor, secondColor]}
+          start={{ x: 1, y: 0.1 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.titleContainer}
+        >
+          <WaveSvg color={thirdColor} />
+          <LemonIcon width={100} height={100} />
+          <ThemedText type="title">Little lemon app</ThemedText>
         </LinearGradient>
         <ThemedView style={styles.infoContainer}>
           <ScaleFingerPrint />
@@ -107,10 +111,10 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    width: '100%',
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    position: 'relative',
+    position: "relative",
     paddingTop: StatusBar.currentHeight,
   },
   input: {
@@ -125,16 +129,16 @@ const styles = StyleSheet.create({
     gap: 20,
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 2,
   },
   titleContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: '100%',
-    position: 'relative',
-    flex: 2.5
+    width: "100%",
+    position: "relative",
+    flex: 2.5,
   },
   logo: {
     height: 100,
