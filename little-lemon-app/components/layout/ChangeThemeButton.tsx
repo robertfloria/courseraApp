@@ -1,9 +1,23 @@
+import { ThemeType } from "@/constants/ThemeType";
+import { ThemeContext } from "@/store/context/ThemeContext";
+import { useContext } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text } from "react-native";
 
 export default function ChangeThemeButton() {
+    const { theme, setTheme } = useContext(ThemeContext);
+
+    const toggleTheme = () => {
+        if (theme == ThemeType.light) {
+            setTheme(ThemeType.dark)
+        }
+        else {
+            setTheme(ThemeType.light)
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <Pressable onPress={null} style={styles.button}><Text>CHANGE</Text></Pressable>
+            <Pressable onPress={toggleTheme} style={styles.button}><Text>CHANGE</Text></Pressable>
         </SafeAreaView>
     )
 };

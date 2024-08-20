@@ -46,3 +46,8 @@ export interface UserShoppingItem {
   name: string;
   image: string;
 }
+
+export interface Theme {
+  light?: string,
+  dark?: string
+};

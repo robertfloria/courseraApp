@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { ThemedText } from "@/components/ThemedText";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
@@ -57,7 +58,7 @@ export default function MenuScreen() {
           style={styles.logo}
           source={require("../assets/images/little-lemon-logo.png")}
         />
-        <Text style={styles.title}>Let us get to know you</Text>
+        <ThemedText style={styles.title}>Let us get to know you</ThemedText>
       </View>
       <View style={styles.infoContainer}>
         <TextInput
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     height: "auto",
   },
   title: {
-    color: "#333333",
+    // color: "#333333",
     textAlign: "center",
     fontSize: 20,
   },

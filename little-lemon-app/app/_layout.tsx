@@ -11,6 +11,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
 import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
+import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -36,51 +37,53 @@ export default function RootLayout() {
         value={{ ...authentication, setAuthentication: setAuthentication }}
       >
         <HeaderContextProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <ChangeThemeButton />
-            <Drawer>
-              <Drawer.Screen
-                name="index"
-                options={{
-                  headerShown: true,
-                  title: "Menu",
-                  drawerLabel: "Menu",
-                  header: () => <CustomHeader RightComponent={RightHeader} />,
-                }}
-              />
-              <Drawer.Screen
-                name="profile"
-                options={{
-                  title: "Profile",
-                  drawerLabel: "Profile",
-                  headerShown: true,
-                  header: () => (
-                    <CustomHeader LeftComponent={NavigateBackBtn} />
-                  ),
-                }}
-              />
-              <Drawer.Screen
-                name="shoppingCart"
-                options={{
-                  title: "Shopping Cart",
-                  drawerLabel: "Shopping Cart",
-                  headerShown: true,
-                  header: () => (
-                    <CustomHeader LeftComponent={NavigateBackBtn} />
-                  ),
-                }}
-              />
-              <Drawer.Screen
-                name="onboarding"
-                options={{
-                  title: "Onboarding",
-                  drawerLabel: "Onboarding",
-                  headerShown: true,
-                  header: () => <CustomHeader hasDrawer={false} />,
-                }}
-              />
-            </Drawer>
-          </GestureHandlerRootView>
+          <ThemeContextProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <ChangeThemeButton />
+              <Drawer>
+                <Drawer.Screen
+                  name="index"
+                  options={{
+                    headerShown: true,
+                    title: "Menu",
+                    drawerLabel: "Menu",
+                    header: () => <CustomHeader RightComponent={RightHeader} />,
+                  }}
+                />
+                <Drawer.Screen
+                  name="profile"
+                  options={{
+                    title: "Profile",
+                    drawerLabel: "Profile",
+                    headerShown: true,
+                    header: () => (
+                      <CustomHeader LeftComponent={NavigateBackBtn} />
+                    ),
+                  }}
+                />
+                <Drawer.Screen
+                  name="shoppingCart"
+                  options={{
+                    title: "Shopping Cart",
+                    drawerLabel: "Shopping Cart",
+                    headerShown: true,
+                    header: () => (
+                      <CustomHeader LeftComponent={NavigateBackBtn} />
+                    ),
+                  }}
+                />
+                <Drawer.Screen
+                  name="onboarding"
+                  options={{
+                    title: "Onboarding",
+                    drawerLabel: "Onboarding",
+                    headerShown: true,
+                    header: () => <CustomHeader hasDrawer={false} />,
+                  }}
+                />
+              </Drawer>
+            </GestureHandlerRootView>
+          </ThemeContextProvider>
         </HeaderContextProvider>
       </AuthenticationContext.Provider>
     </SQLiteProvider>
