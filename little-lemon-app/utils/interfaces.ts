@@ -48,6 +48,6 @@ export interface UserShoppingItem {
 }
 
 export interface Theme {
-  light?: string,
-  dark?: string
-};
+  light?: string;
+  dark?: string;
+}

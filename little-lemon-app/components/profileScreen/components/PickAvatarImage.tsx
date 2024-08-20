@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import ThemedButton from "@/components/ThemedButton";
 import { StyleSheet, View } from "react-native";
 import { Avatar } from "react-native-paper";
 import { UserInfo } from "../../../utils/interfaces";
@@ -38,8 +38,8 @@ export default function PickAvatarImage({ userInfo, setUserInfo }: Props) {
       ) : (
         <Avatar.Text size={40} label={avatarText} />
       )}
-      <Button onPress={pickImage}>Change</Button>
-      <Button onPress={removeImage}>Remove</Button>
+      <ThemedButton onPress={pickImage}>Change</ThemedButton>
+      <ThemedButton onPress={removeImage}>Remove</ThemedButton>
     </View>
   );
 }

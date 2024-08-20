@@ -15,4 +15,4 @@ export function useThemeColor(
   } else {
     return Colors[theme as keyof Theme][colorName];
   }
-};
+}

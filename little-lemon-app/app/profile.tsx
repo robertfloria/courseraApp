@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import ThemedButton from "@/components/ThemedButton";
 import { removeAuthentication } from "@/store/asyncStorage/removeData";
 import { useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
@@ -99,10 +99,12 @@ export default function ProfileScreen() {
           checkNotifications={checkNotifications}
           setCheckNotifications={setCheckNotifications}
         />
-        <Button onPress={handleLogOut}>Log Out</Button>
+        <ThemedButton onPress={handleLogOut}>Log Out</ThemedButton>
         <View style={styles.handleChangesContainer}>
-          <Button onPress={handleDiscardChanges}>Discard changes</Button>
-          <Button onPress={handleSaveChanges}>Save changes</Button>
+          <ThemedButton onPress={handleDiscardChanges}>
+            Discard changes
+          </ThemedButton>
+          <ThemedButton onPress={handleSaveChanges}>Save changes</ThemedButton>
         </View>
       </View>
     </ScrollView>

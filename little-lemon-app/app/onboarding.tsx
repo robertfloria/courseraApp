@@ -1,5 +1,7 @@
-import Button from "@/components/Button";
+import ThemedButton from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
+import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { ThemedView } from "@/components/ThemedView";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
@@ -8,11 +10,10 @@ import { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   StatusBar,
-  View,
   Image,
-  Text,
-  TextInput,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 export default function MenuScreen() {
@@ -52,36 +53,36 @@ export default function MenuScreen() {
   }, [email, firstName]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/images/little-lemon-logo.png")}
-        />
-        <ThemedText style={styles.title}>Let us get to know you</ThemedText>
-      </View>
-      <View style={styles.infoContainer}>
-        <TextInput
-          style={styles.input}
-          value={firstName}
-          onChangeText={setFirstName}
-          keyboardType="default"
-          textContentType="givenName"
-          placeholder={"Type first name"}
-        />
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          placeholder={"Type your email"}
-        />
-        <Button onPress={handleSubscribe} disabled={!validForm}>
-          Subscribe
-        </Button>
-      </View>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ThemedView style={styles.container}>
+        <ThemedView style={styles.titleContainer}>
+          <Image
+            style={styles.logo}
+            source={require("../assets/images/little-lemon-logo.png")}
+          />
+          <ThemedText type="title">Let us get to know you</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.infoContainer}>
+          <ThemedTextInput
+            value={firstName}
+            onChangeText={setFirstName}
+            keyboardType="default"
+            textContentType="givenName"
+            placeholder={"Type first name"}
+          />
+          <ThemedTextInput
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            placeholder={"Type your email"}
+          />
+          <ThemedButton onPress={handleSubscribe} disabled={!validForm}>
+            Subscribe
+          </ThemedButton>
+        </ThemedView>
+      </ThemedView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -92,20 +93,11 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     paddingTop: StatusBar.currentHeight,
-    backgroundColor: "#93baad",
   },
   infoContainer: {
     display: "flex",
     width: "80%",
-  },
-  input: {
-    height: 40,
-    marginVertical: 24,
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-    borderColor: "EDEFEE",
+    gap: 10,
   },
   titleContainer: {
     display: "flex",
@@ -114,11 +106,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "nowrap",
     height: "auto",
-  },
-  title: {
-    // color: "#333333",
-    textAlign: "center",
-    fontSize: 20,
   },
   logo: {
     height: 100,

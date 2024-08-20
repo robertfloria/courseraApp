@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import Button from "../Button";
+import ThemedButton from "../ThemedButton";
 
 export const NavigateBackBtn = () => {
   const router = useRouter();
@@ -7,5 +7,5 @@ export const NavigateBackBtn = () => {
   const handleBack = () => {
     router.back();
   };
-  return <Button onPress={handleBack}>back</Button>;
+  return <ThemedButton onPress={handleBack}>back</ThemedButton>;
 };

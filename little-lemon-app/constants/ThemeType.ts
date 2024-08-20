@@ -1,4 +1,4 @@
-export const ThemeType = {
-    light: 'light',
-    dark: 'dark'
-};
+export enum ThemeType {
+  light = "light",
+  dark = "dark",
+}
