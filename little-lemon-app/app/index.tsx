@@ -7,8 +7,6 @@ import {
   StatusBar,
   Alert,
 } from "react-native";
-import { Searchbar } from "react-native-paper";
-
 import {
   filterByCategoryAndText,
   getMenuItems,
@@ -27,6 +25,7 @@ import { SectionFoodItem } from "../components/menuScreen/components/SectionFood
 import CustomModal from "../components/CustomModal";
 import { MenuItems } from "@/utils/interfaces";
 import { ModalFoodItem } from "../components/menuScreen/components/ModalFoodItem";
+import { ThemedSearchBar } from "@/components/ThemedSearchBar";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -97,15 +96,10 @@ export default function MenuScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Searchbar
+      <ThemedSearchBar
         placeholder="Search"
-        placeholderTextColor="white"
         onChangeText={handleSearchChange}
         value={searchBarText}
-        style={styles.searchBar}
-        iconColor="white"
-        inputStyle={{ color: "white" }}
-        elevation={0}
       />
       <Filters
         selections={filterSelections}
@@ -147,12 +141,6 @@ const styles = StyleSheet.create({
   sectionList: {
     display: "flex",
     paddingHorizontal: 16,
-  },
-  searchBar: {
-    marginBottom: 24,
-    backgroundColor: "#495E57",
-    shadowRadius: 0,
-    shadowOpacity: 0,
   },
   menuItemHeader: {
     fontSize: 24,
