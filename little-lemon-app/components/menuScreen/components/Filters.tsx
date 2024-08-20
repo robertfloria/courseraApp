@@ -1,3 +1,6 @@
+import ThemedButton from "@/components/ThemedButton";
+import { ThemedView } from "@/components/ThemedView";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 type FiltersProps = {
@@ -7,37 +10,31 @@ type FiltersProps = {
 };
 const Filters = ({ onChange, selections, sections }: FiltersProps) => {
   return (
-    <View style={styles.filtersContainer}>
+    <ThemedView style={styles.filtersContainer}>
       {sections.map((section, index) => (
-        <TouchableOpacity
+        <ThemedButton
+          lightColor={selections[index] ?'#595b75':'#4a4e8a'}
+          darkColor={selections[index] ?'#8a4a71':'#d154a1'}
           onPress={() => {
             onChange(index);
           }}
           style={{
-            flex: 1 / sections.length,
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 16,
-            backgroundColor: selections[index] ? "#EE9972" : "#495E57",
-            borderWidth: 1,
+            flex: 1,
+            borderWidth:1,
             borderColor: "white",
+            borderRadius:0,
           }}
           key={index}
         >
-          <View>
-            <Text style={{ color: selections[index] ? "black" : "white" }}>
-              {section}
-            </Text>
-          </View>
-        </TouchableOpacity>
+          {section}
+        </ThemedButton>
       ))}
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   filtersContainer: {
-    backgroundColor: "green",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,

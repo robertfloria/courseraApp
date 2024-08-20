@@ -5,10 +5,13 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 type Props = {
   data: MenuItems;
@@ -30,14 +33,14 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
   }, [data.image]);
 
   return (
-    <Pressable onPress={handleOpenModal} style={styles.menuItemContainer}>
-      <View style={styles.menuItemDetailsContainer}>
-        <Text style={styles.menuItemTitle}>{data.name}</Text>
-        <Text style={styles.menuItemDescription}>{data.description}</Text>
-        <Text style={styles.menuItemPrice}>${data.price}</Text>
-      </View>
+    <TouchableOpacity onPress={handleOpenModal} style={styles.menuItemContainer}>
+      <ThemedView style={styles.menuItemDetailsContainer}>
+        <ThemedText type='subtitle'>{data.name}</ThemedText>
+        <ThemedText type='defaultSemiBold'>{data.description}</ThemedText>
+        <ThemedText>${data.price}</ThemedText>
+      </ThemedView>
       <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
@@ -55,18 +58,6 @@ const styles = StyleSheet.create({
     display: "flex",
     height: "100%",
     justifyContent: "space-between",
-  },
-  menuItemTitle: {
-    fontSize: 20,
-    color: "white",
-  },
-  menuItemPrice: {
-    fontSize: 20,
-    color: "white",
-  },
-  menuItemDescription: {
-    fontSize: 20,
-    color: "grey",
   },
   menuItemImage: {
     width: 200,

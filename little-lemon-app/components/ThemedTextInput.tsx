@@ -17,13 +17,13 @@ export function ThemedTextInput({
     { light: lightColor, dark: darkColor },
     "background",
   );
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const color = useThemeColor({ light: '', dark: '' }, "text");
   const placeholderColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
+    { light: '', dark: '' },
     "inputPlaceholder",
   );
   const borderColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
+    { light: '', dark: '' },
     "inputBorder",
   );
 

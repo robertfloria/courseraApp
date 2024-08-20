@@ -10,6 +10,10 @@ import {
   Text,
   View,
 } from "react-native";
+import { ThemedView } from "./ThemedView";
+import { ThemedText } from "./ThemedText";
+import ThemedButton from "./ThemedButton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
   openModal: boolean;
@@ -25,6 +29,11 @@ export default function CustomModal({
   children,
 }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
+
+  const backgroundColor = useThemeColor(
+    {},
+    "modalBackground",
+  );
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -62,29 +71,36 @@ export default function CustomModal({
     >
       <Animated.View
         {...panResponder.panHandlers}
-        style={styles(pan).modalContent}
+        style={styles(pan, backgroundColor).modalContent}
       >
-        <View style={styles(pan).titleContainer}>
-          <Text style={styles(pan).title}>{title}</Text>
-          <Pressable onPress={onModalClose}>
+        <ThemedView style={styles(pan).titleContainer}>
+          <ThemedText type='subtitle'>{title}</ThemedText>
+          <ThemedButton onPress={onModalClose}>
             <MaterialIcons name="close" color="#fff" size={22} />
-          </Pressable>
-        </View>
+          </ThemedButton>
+        </ThemedView>
         {children}
       </Animated.View>
     </Modal>
   );
 }
 
-const styles = (pan: any) =>
+const styles = (pan: any, backgroundColor?: string) =>
   StyleSheet.create({
     modalContent: {
       height: "70%",
       width: "100%",
-      backgroundColor: "#25292e",
       borderTopRightRadius: 18,
       borderTopLeftRadius: 18,
       position: "absolute",
+      backgroundColor: backgroundColor,
+      // iOS Shadow Properties
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 4,
+      // Android Elevation Property
+      elevation: 5,
       bottom: 0,
       transform: [{ translateY: pan.y }, { perspective: 1000 }],
     },
@@ -93,10 +109,7 @@ const styles = (pan: any) =>
       padding: 10,
       flexDirection: "row",
       alignItems: "center",
+      backgroundColor:'transparent',
       justifyContent: "space-between",
-    },
-    title: {
-      color: "#fff",
-      fontSize: 16,
     },
   });

@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   SectionList,
-  SafeAreaView,
   StatusBar,
   Alert,
 } from "react-native";
@@ -26,6 +25,9 @@ import CustomModal from "../components/CustomModal";
 import { MenuItems } from "@/utils/interfaces";
 import { ModalFoodItem } from "../components/menuScreen/components/ModalFoodItem";
 import { ThemedSearchBar } from "@/components/ThemedSearchBar";
+import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -35,6 +37,11 @@ export default function MenuScreen() {
   const [selectedItem, setSelectedItem] = useState<MenuItems>();
 
   const db = useSQLiteContext();
+
+  const menuItemHeaderBackground = useThemeColor(
+    {},
+    "tint",
+  );
 
   useEffect(() => {
     (async () => {
@@ -95,7 +102,7 @@ export default function MenuScreen() {
   const handleCloseModal = () => setSelectedItem(undefined);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ThemedSafeAreaView style={styles(menuItemHeaderBackground).container}>
       <ThemedSearchBar
         placeholder="Search"
         onChangeText={handleSearchChange}
@@ -107,14 +114,14 @@ export default function MenuScreen() {
         sections={categories}
       />
       <SectionList
-        style={styles.sectionList}
+        style={styles(menuItemHeaderBackground).sectionList}
         sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <SectionFoodItem data={item} setSelectedItem={setSelectedItem} />
         )}
         renderSectionHeader={({ section: { category } }) => (
-          <Text style={styles.menuItemHeader}>{category}</Text>
+          <ThemedText style={styles(menuItemHeaderBackground).menuItemHeader}>{category}</ThemedText>
         )}
       />
       {selectedItem && (
@@ -126,17 +133,16 @@ export default function MenuScreen() {
           <ModalFoodItem data={selectedItem} />
         </CustomModal>
       )}
-    </SafeAreaView>
+    </ThemedSafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = (menuItemHeaderBackground: string) => StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
     width: "100%",
     paddingTop: StatusBar.currentHeight,
-    backgroundColor: "#495E57",
   },
   sectionList: {
     display: "flex",
@@ -145,7 +151,6 @@ const styles = StyleSheet.create({
   menuItemHeader: {
     fontSize: 24,
     paddingVertical: 8,
-    color: "#FBDABB",
-    backgroundColor: "#495E57",
+    backgroundColor: menuItemHeaderBackground,
   },
 });
