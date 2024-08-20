@@ -1,6 +1,13 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import * as React from "react";
-import { Pressable, Text, StyleSheet, PressableProps, StyleProp, ViewStyle } from "react-native";
+import {
+  Pressable,
+  Text,
+  StyleSheet,
+  PressableProps,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 
 type Props = PressableProps &
   React.PropsWithChildren & {
@@ -21,11 +28,15 @@ const ThemedButton = ({
     "button",
   );
 
-  const color = useThemeColor({ light: '', dark: '' }, "text");
+  const color = useThemeColor({ light: "", dark: "" }, "text");
 
   return (
     <Pressable
-      style={[{ backgroundColor: backgroundColor }, styles.buttonWrapper, style]}
+      style={[
+        { backgroundColor: backgroundColor },
+        styles.buttonWrapper,
+        style,
+      ]}
       {...otherProps}
     >
       <Text style={[{ color: color }, styles.text]}>{children}</Text>

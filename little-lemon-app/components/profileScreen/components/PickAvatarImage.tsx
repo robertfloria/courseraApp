@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Avatar } from "react-native-paper";
 import { UserInfo } from "../../../utils/interfaces";
 import * as ImagePicker from "expo-image-picker";
+import { ThemedView } from "@/components/ThemedView";
 
 type Props = {
   userInfo: UserInfo;
@@ -32,7 +33,7 @@ export default function PickAvatarImage({ userInfo, setUserInfo }: Props) {
     : "";
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       {userInfo.image ? (
         <Avatar.Image size={40} source={{ uri: userInfo.image }} />
       ) : (
@@ -40,7 +41,7 @@ export default function PickAvatarImage({ userInfo, setUserInfo }: Props) {
       )}
       <ThemedButton onPress={pickImage}>Change</ThemedButton>
       <ThemedButton onPress={removeImage}>Remove</ThemedButton>
-    </View>
+    </ThemedView>
   );
 }
 

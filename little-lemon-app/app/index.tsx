@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Text,
-  StyleSheet,
-  SectionList,
-  StatusBar,
-  Alert,
-} from "react-native";
+import { Text, StyleSheet, SectionList, StatusBar, Alert } from "react-native";
 import {
   filterByCategoryAndText,
   getMenuItems,
@@ -38,10 +32,7 @@ export default function MenuScreen() {
 
   const db = useSQLiteContext();
 
-  const menuItemHeaderBackground = useThemeColor(
-    {},
-    "tint",
-  );
+  const menuItemHeaderBackground = useThemeColor({}, "tint");
 
   useEffect(() => {
     (async () => {
@@ -121,7 +112,9 @@ export default function MenuScreen() {
           <SectionFoodItem data={item} setSelectedItem={setSelectedItem} />
         )}
         renderSectionHeader={({ section: { category } }) => (
-          <ThemedText style={styles(menuItemHeaderBackground).menuItemHeader}>{category}</ThemedText>
+          <ThemedText style={styles(menuItemHeaderBackground).menuItemHeader}>
+            {category}
+          </ThemedText>
         )}
       />
       {selectedItem && (
@@ -137,20 +130,21 @@ export default function MenuScreen() {
   );
 }
 
-const styles = (menuItemHeaderBackground: string) => StyleSheet.create({
-  container: {
-    display: "flex",
-    flex: 1,
-    width: "100%",
-    paddingTop: StatusBar.currentHeight,
-  },
-  sectionList: {
-    display: "flex",
-    paddingHorizontal: 16,
-  },
-  menuItemHeader: {
-    fontSize: 24,
-    paddingVertical: 8,
-    backgroundColor: menuItemHeaderBackground,
-  },
-});
+const styles = (menuItemHeaderBackground: string) =>
+  StyleSheet.create({
+    container: {
+      display: "flex",
+      flex: 1,
+      width: "100%",
+      paddingTop: StatusBar.currentHeight,
+    },
+    sectionList: {
+      display: "flex",
+      paddingHorizontal: 16,
+    },
+    menuItemHeader: {
+      fontSize: 24,
+      paddingVertical: 8,
+      backgroundColor: menuItemHeaderBackground,
+    },
+  });

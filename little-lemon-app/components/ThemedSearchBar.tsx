@@ -18,10 +18,7 @@ export function ThemedSearchBar({
     "background",
   );
 
-  const color = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "text",
-  );
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
     <Searchbar
@@ -33,4 +30,4 @@ export function ThemedSearchBar({
       {...otherProps}
     />
   );
-};
+}

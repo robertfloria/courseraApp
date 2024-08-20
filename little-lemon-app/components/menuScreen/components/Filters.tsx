@@ -13,16 +13,16 @@ const Filters = ({ onChange, selections, sections }: FiltersProps) => {
     <ThemedView style={styles.filtersContainer}>
       {sections.map((section, index) => (
         <ThemedButton
-          lightColor={selections[index] ?'#595b75':'#4a4e8a'}
-          darkColor={selections[index] ?'#8a4a71':'#d154a1'}
+          lightColor={selections[index] ? "#595b75" : "#4a4e8a"}
+          darkColor={selections[index] ? "#8a4a71" : "#d154a1"}
           onPress={() => {
             onChange(index);
           }}
           style={{
             flex: 1,
-            borderWidth:1,
+            borderWidth: 1,
             borderColor: "white",
-            borderRadius:0,
+            borderRadius: 0,
           }}
           key={index}
         >

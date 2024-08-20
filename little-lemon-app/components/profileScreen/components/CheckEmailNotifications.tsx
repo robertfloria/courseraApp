@@ -1,7 +1,9 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { checkNotificationsData } from "../utils/data";
 import { EmailNotifications } from "../../../utils/interfaces";
-import { Checkbox } from "react-native-paper";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedCheckbox } from "@/components/ThemedCheckbox";
 
 type Props = {
   checkNotifications: EmailNotifications;
@@ -20,14 +22,14 @@ export default function CheckEmailNotifications({
   };
 
   return (
-    <View style={styles.notificationContainer}>
-      <Text>Email notifications</Text>
+    <ThemedView style={styles.notificationContainer}>
+      <ThemedText>Email notifications</ThemedText>
       <FlatList
         data={checkNotificationsData}
         renderItem={({ item }) => {
           const key = item.id as keyof EmailNotifications;
           return (
-            <Checkbox.Item
+            <ThemedCheckbox
               status={checkNotifications[key] ? "checked" : "unchecked"}
               onPress={() => handleChangeCheckNotifications(key)}
               label={item.label}
@@ -39,7 +41,7 @@ export default function CheckEmailNotifications({
         keyExtractor={(item) => item.id}
         nestedScrollEnabled
       />
-    </View>
+    </ThemedView>
   );
 }
 

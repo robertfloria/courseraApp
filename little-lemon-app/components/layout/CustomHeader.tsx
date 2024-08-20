@@ -11,6 +11,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ThemedSafeAreaView } from "../ThemedSafeAreaView";
+import { ThemedView } from "../ThemedView";
+import { ThemedText } from "../ThemedText";
 interface CustomHeaderProps {
   LeftComponent?: ComponentType<any>;
   RightComponent?: ComponentType<any>;
@@ -25,9 +28,9 @@ export default function CustomHeader({
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.leftItemContainer}>
+    <ThemedSafeAreaView>
+      <ThemedView style={styles.container}>
+        <ThemedView style={styles.leftItemContainer}>
           {hasDrawer && (
             <TouchableOpacity
               onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
@@ -36,20 +39,20 @@ export default function CustomHeader({
             </TouchableOpacity>
           )}
           {LeftComponent && <LeftComponent />}
-        </View>
-        <View style={styles.titleContainer}>
+        </ThemedView>
+        <ThemedView style={styles.titleContainer}>
           <Image
             style={styles.image}
             source={require("../../assets/images/little-lemon-logo.png")}
             resizeMode="contain"
           />
-          <Text>LIttle Lemon</Text>
-        </View>
-        <View style={styles.rightItemContainer}>
+          <ThemedText>LIttle Lemon</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.rightItemContainer}>
           {RightComponent && <RightComponent />}
-        </View>
-      </View>
-    </SafeAreaView>
+        </ThemedView>
+      </ThemedView>
+    </ThemedSafeAreaView>
   );
 }
 

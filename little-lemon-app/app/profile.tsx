@@ -14,6 +14,9 @@ import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
 import { HeaderContext } from "@/store/context/HeaderContext";
+import { ThemedScrollView } from "@/components/ThemedScrollView";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();
@@ -90,9 +93,9 @@ export default function ProfileScreen() {
   }, [authentication]);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.container}>
-        <Text>Personal information</Text>
+    <ThemedScrollView contentContainerStyle={styles.scrollContainer}>
+      <ThemedView style={styles.container}>
+        <ThemedText>Personal information</ThemedText>
         <PickAvatarImage userInfo={userInfo} setUserInfo={setUserInfo} />
         <UserInfoFields userInfo={userInfo} setUserInfo={setUserInfo} />
         <CheckEmailNotifications
@@ -100,21 +103,20 @@ export default function ProfileScreen() {
           setCheckNotifications={setCheckNotifications}
         />
         <ThemedButton onPress={handleLogOut}>Log Out</ThemedButton>
-        <View style={styles.handleChangesContainer}>
+        <ThemedView style={styles.handleChangesContainer}>
           <ThemedButton onPress={handleDiscardChanges}>
             Discard changes
           </ThemedButton>
           <ThemedButton onPress={handleSaveChanges}>Save changes</ThemedButton>
-        </View>
-      </View>
-    </ScrollView>
+        </ThemedView>
+      </ThemedView>
+    </ThemedScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: "#93baad",
   },
   container: {
     display: "flex",
@@ -128,11 +130,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     gap: 10,
-  },
-  title: {
-    color: "#333333",
-    textAlign: "center",
-    fontSize: 20,
   },
   logo: {
     height: 100,

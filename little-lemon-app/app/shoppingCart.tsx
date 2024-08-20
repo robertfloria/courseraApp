@@ -5,6 +5,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { FoodItem } from "../components/shoppingCartScreen/components/FoodItem";
+import { ThemedScrollView } from "@/components/ThemedScrollView";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
@@ -23,13 +24,13 @@ export default function ShoppingCartScreen() {
   }, [authentication]);
 
   return (
-    <View style={styles.container}>
+    <ThemedScrollView contentContainerStyle={styles.container}>
       <FlatList
         data={data}
         renderItem={({ item }) => <FoodItem data={item} />}
         keyExtractor={(item) => item.id.toString()}
       />
-    </View>
+    </ThemedScrollView>
   );
 }
 

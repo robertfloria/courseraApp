@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
-  StyleSheet,
-  Text,
-  View,
+  StyleSheet
 } from "react-native";
 import { UserShoppingItem } from "@/utils/interfaces";
 import { getImage } from "@/components/menuScreen/utils/functions";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 type Props = {
   data: UserShoppingItem;
@@ -24,11 +24,11 @@ export const FoodItem = ({ data }: Props) => {
   }, [data.image]);
 
   return (
-    <View style={styles.menuItemContainer}>
+    <ThemedView style={styles.menuItemContainer}>
       <Image style={styles.menuItemImage} source={image} resizeMode="stretch" />
-      <Text style={styles.menuItemTitle}>{data.name}</Text>
-      <Text style={styles.menuItemPrice}>${data.price}</Text>
-    </View>
+      <ThemedText>{data.name}</ThemedText>
+      <ThemedText >${data.price}</ThemedText>
+    </ThemedView>
   );
 };
 
@@ -41,16 +41,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     gap: 5,
-  },
-  menuItemTitle: {
-    fontSize: 20,
-    color: "white",
-  },
-  menuItemPrice: {
-    fontSize: 20,
-    color: "white",
-    flex: 1,
-    textAlign: "right",
   },
   menuItemImage: {
     width: 50,

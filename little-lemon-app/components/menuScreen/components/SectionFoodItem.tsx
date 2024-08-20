@@ -33,10 +33,13 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
   }, [data.image]);
 
   return (
-    <TouchableOpacity onPress={handleOpenModal} style={styles.menuItemContainer}>
+    <TouchableOpacity
+      onPress={handleOpenModal}
+      style={styles.menuItemContainer}
+    >
       <ThemedView style={styles.menuItemDetailsContainer}>
-        <ThemedText type='subtitle'>{data.name}</ThemedText>
-        <ThemedText type='defaultSemiBold'>{data.description}</ThemedText>
+        <ThemedText type="subtitle">{data.name}</ThemedText>
+        <ThemedText type="defaultSemiBold">{data.description}</ThemedText>
         <ThemedText>${data.price}</ThemedText>
       </ThemedView>
       <Image style={styles.menuItemImage} source={image} resizeMode="cover" />

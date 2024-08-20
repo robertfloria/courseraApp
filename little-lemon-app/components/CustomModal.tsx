@@ -30,10 +30,7 @@ export default function CustomModal({
 }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
 
-  const backgroundColor = useThemeColor(
-    {},
-    "modalBackground",
-  );
+  const backgroundColor = useThemeColor({}, "modalBackground");
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -74,7 +71,7 @@ export default function CustomModal({
         style={styles(pan, backgroundColor).modalContent}
       >
         <ThemedView style={styles(pan).titleContainer}>
-          <ThemedText type='subtitle'>{title}</ThemedText>
+          <ThemedText type="subtitle">{title}</ThemedText>
           <ThemedButton onPress={onModalClose}>
             <MaterialIcons name="close" color="#fff" size={22} />
           </ThemedButton>
@@ -95,7 +92,7 @@ const styles = (pan: any, backgroundColor?: string) =>
       position: "absolute",
       backgroundColor: backgroundColor,
       // iOS Shadow Properties
-      shadowColor: '#000',
+      shadowColor: "#000",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.8,
       shadowRadius: 4,
@@ -109,7 +106,7 @@ const styles = (pan: any, backgroundColor?: string) =>
       padding: 10,
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor:'transparent',
+      backgroundColor: "transparent",
       justifyContent: "space-between",
     },
   });
