@@ -4,6 +4,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 type FiltersProps = {
   onChange: (arg: any) => any;
@@ -11,8 +12,9 @@ type FiltersProps = {
   sections: Array<any>;
 };
 const Filters = ({ onChange, selections, sections }: FiltersProps) => {
-  const background = useThemeColor({}, "secondColor");
-  const backgroundSelected = useThemeColor({}, "firstColor");
+  const secondColor = useThemeColor({}, "secondColor");
+  const firstColor = useThemeColor({}, "firstColor");
+  const thirdColor = useThemeColor({}, "thirdColor");
   const textColor = Colors.dark.text;
 
   return (
@@ -23,18 +25,24 @@ const Filters = ({ onChange, selections, sections }: FiltersProps) => {
         showsHorizontalScrollIndicator={false}
       >
         {sections.map((section, index) => (
-          <ThemedButton
-            lightColor={selections[index] ? background : 'transparent'}
-            darkColor={selections[index] ? background : 'transparent'}
-            onPress={() => {
-              onChange(index);
-            }}
-            style={[{ borderWidth: 2, borderColor: backgroundSelected }, styles.button]}
+          <LinearGradient
+            colors={[secondColor, firstColor]}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 1 }}
+            style={styles.gradientButton}
             key={index}
-            textColor={backgroundSelected}
           >
-            {section}
-          </ThemedButton>
+            <ThemedButton
+              lightColor={selections[index] ? 'transparent' : thirdColor}
+              darkColor={selections[index] ? 'transparent' : thirdColor}
+              onPress={() => {
+                onChange(index);
+              }}
+              textColor={firstColor}
+            >
+              {section.toLowerCase()}
+            </ThemedButton>
+          </LinearGradient>
         ))}
       </ThemedScrollView>
     </ThemedView>
@@ -46,13 +54,14 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: 'center',
-    gap: 5,
+    gap: 25,
     padding: 5,
-    width: '100%',
-    maxWidth: 'auto',
   },
-  button: {
-    width: 'auto',
+  gradientButton: {
+    width: "auto",
+    height: "auto",
+    borderRadius: 8,
+    padding:2,
   },
 });
 

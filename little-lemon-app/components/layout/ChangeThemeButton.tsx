@@ -1,8 +1,7 @@
 import { ThemeType } from "@/constants/ThemeType";
 import { ThemeContext } from "@/store/context/ThemeContext";
 import { useContext } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
-import ThemedButton from "../ThemedButton";
+import { Pressable, SafeAreaView, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
@@ -25,12 +24,12 @@ export default function ChangeThemeButton() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ThemedButton
+      <Pressable
         onPress={toggleTheme}
         style={[{ backgroundColor: firstColor }, styles.button]}
       >
         <MaterialIcons name={toggleIcon()} size={35} color={Colors.dark.text} />
-      </ThemedButton>
+      </Pressable>
     </SafeAreaView>
   );
 }

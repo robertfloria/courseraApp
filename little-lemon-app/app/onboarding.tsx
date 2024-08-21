@@ -16,7 +16,6 @@ import { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   StatusBar,
-  Image,
   Alert,
   TouchableWithoutFeedback,
   Keyboard,

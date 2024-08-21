@@ -1,31 +1,58 @@
 export const menuItemsMock = [
   {
-    category: "Appetizers",
-    data: [
-      { id: 1, title: "Spinach Artichoke Dip", price: "10" },
-      { id: 2, title: "Hummus", price: "10" },
-      { id: 3, title: "Fried Calamari Rings", price: "5" },
-      { id: 4, title: "Fried Mushroom", price: "12" },
-    ],
+    id: 100,
+    category: "Drinks",
+    name: 'Watter',
+    description: 'Test',
+    image: 'test',
+    price: 8
   },
   {
-    title: "Salads",
-    data: [
-      { id: 5, title: "Greek", price: "7" },
-      { id: 6, title: "Caesar", price: "7" },
-      { id: 7, title: "Tuna Salad", price: "10" },
-      { id: 8, title: "Grilled Chicken Salad", price: "12" },
-    ],
+    id: 100,
+    category: "Drinks",
+    name: 'Watter',
+    description: 'Test',
+    image: 'test',
+    price: 10.2
   },
   {
-    title: "Beverages",
-    data: [
-      { id: 9, title: "Water", price: "3" },
-      { id: 10, title: "Coke", price: "3" },
-      { id: 11, title: "Beer", price: "7" },
-      { id: 12, title: "Iced Tea", price: "3" },
-    ],
+    id: 101,
+    category: "Drinks",
+    name: 'Lemonade',
+    description: 'Test',
+    image: 'test',
+    price: 18
+  },
+  {
+    id: 102,
+    category: "Drinks",
+    name: 'Orange Juice',
+    description: 'Test',
+    image: 'test',
+    price: 17.5
+  },
+  {
+    id: 103,
+    category: "Pizza",
+    name: 'Quattro Formaggi',
+    description: 'Test',
+    image: 'test',
+    price: 30
+  },
+  {
+    id: 104,
+    category: "Pizza",
+    name: 'Special Lemon Pizza',
+    description: 'Test',
+    image: 'test',
+    price: 35
+  },
+  {
+    id: 105,
+    category: "Pizza",
+    name: 'Margherita',
+    description: 'Test',
+    image: 'test',
+    price: 30
   },
 ];
-
-export const sectionsMock = ["Starters", "Mains", "Desserts", "Drinks"];

@@ -2,12 +2,12 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import * as React from "react";
 import {
   Pressable,
-  Text,
   StyleSheet,
   PressableProps,
   StyleProp,
   ViewStyle,
 } from "react-native";
+import { ThemedText } from "./ThemedText";
 
 type Props = PressableProps &
   React.PropsWithChildren & {
@@ -16,6 +16,7 @@ type Props = PressableProps &
     style?: StyleProp<ViewStyle>;
     disabled?: boolean;
     textColor?: string;
+    fontSize?: number;
   };
 
 const ThemedButton = ({
@@ -25,6 +26,7 @@ const ThemedButton = ({
   darkColor,
   disabled,
   textColor,
+  fontSize,
   ...otherProps
 }: Props) => {
   const backgroundColor = useThemeColor(
@@ -32,8 +34,12 @@ const ThemedButton = ({
     "firstColor",
   );
 
-  const color = useThemeColor({ light: "", dark: "" }, "text");
-
+  const color = useThemeColor(
+    {},
+    "text",
+  );
+  
+  console.log(textColor)
   return (
     <Pressable
       style={[
@@ -43,9 +49,9 @@ const ThemedButton = ({
       ]}
       {...otherProps}
     >
-      <Text style={[{ color: textColor ?? color }, styles().text]}>
+      <ThemedText style={{ color: textColor ?? color, fontSize: fontSize ?? 16, fontWeight: 'bold' }}>
         {children}
-      </Text>
+      </ThemedText>
     </Pressable>
   );
 };
@@ -60,10 +66,6 @@ const styles = (disabled?: boolean) =>
       alignItems: "center",
       padding: 10,
       opacity: disabled ? 0.5 : 1,
-    },
-    text: {
-      fontSize: 18,
-      fontWeight: "bold",
     },
   });
 
