@@ -26,7 +26,7 @@ export function ThemedSearchBar({
       inputStyle={[{ color: color }, inputStyle]}
       iconColor={color}
       placeholderTextColor={color}
-      elevation={0}
+      elevation={1}
       {...otherProps}
     />
   );

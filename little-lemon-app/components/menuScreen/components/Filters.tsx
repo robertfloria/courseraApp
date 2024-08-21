@@ -1,7 +1,9 @@
 import ThemedButton from "@/components/ThemedButton";
+import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 type FiltersProps = {
   onChange: (arg: any) => any;
@@ -9,39 +11,48 @@ type FiltersProps = {
   sections: Array<any>;
 };
 const Filters = ({ onChange, selections, sections }: FiltersProps) => {
-
   const background = useThemeColor({}, "secondColor");
   const backgroundSelected = useThemeColor({}, "firstColor");
+  const textColor = Colors.dark.text;
 
   return (
-    <ThemedView style={styles.filtersContainer}>
-      {sections.map((section, index) => (
-        <ThemedButton
-          lightColor={selections[index] ? background : backgroundSelected}
-          darkColor={selections[index] ? background : backgroundSelected}
-          onPress={() => {
-            onChange(index);
-          }}
-          style={{
-            flex: 1,
-            borderWidth: 1,
-            borderColor: "white",
-            borderRadius: 0,
-          }}
-          key={index}
-        >
-          {section}
-        </ThemedButton>
-      ))}
+    <ThemedView style={{ width: '100%' }}>
+      <ThemedScrollView
+        contentContainerStyle={styles.container}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
+        {sections.map((section, index) => (
+          <ThemedButton
+            lightColor={selections[index] ? background : 'transparent'}
+            darkColor={selections[index] ? background : 'transparent'}
+            onPress={() => {
+              onChange(index);
+            }}
+            style={[{ borderWidth: 2, borderColor: backgroundSelected }, styles.button]}
+            key={index}
+            textColor={backgroundSelected}
+          >
+            {section}
+          </ThemedButton>
+        ))}
+      </ThemedScrollView>
     </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
-  filtersContainer: {
-    flexDirection: "row",
+  container: {
+    display: "flex",
     alignItems: "center",
-    marginBottom: 16,
+    justifyContent: 'center',
+    gap: 5,
+    padding: 5,
+    width: '100%',
+    maxWidth: 'auto',
+  },
+  button: {
+    width: 'auto',
   },
 });
 

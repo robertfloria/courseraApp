@@ -23,6 +23,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "@/components/ThemedText";
 import Presentation from "@/components/menuScreen/components/Presentation";
 import { ThemedView } from "@/components/ThemedView";
+import { ThemedScrollView } from "@/components/ThemedScrollView";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -82,7 +83,6 @@ export default function MenuScreen() {
     }
   }, [filterSelections, searchBarText]);
 
-
   const handleFiltersChange = async (index: any) => {
     const arrayCopy = [...filterSelections];
     arrayCopy[index] = !filterSelections[index];
@@ -92,8 +92,16 @@ export default function MenuScreen() {
   const handleCloseModal = () => setSelectedItem(undefined);
 
   return (
-    <ThemedView style={styles(menuItemHeaderBackground).container}>
-      <Presentation setSearchBarText={setSearchBarText} searchBarText={searchBarText} />
+    <ThemedView
+      style={styles(menuItemHeaderBackground).container}
+    >
+      <Presentation
+        setSearchBarText={setSearchBarText}
+        searchBarText={searchBarText}
+      />
+      <ThemedView style={{ paddingHorizontal: 10 }}>
+        <ThemedText type='defaultSemiBold'>ORDER FOR DELIVARY!</ThemedText>
+      </ThemedView>
       <Filters
         selections={filterSelections}
         onChange={handleFiltersChange}
@@ -129,10 +137,10 @@ const styles = (menuItemHeaderBackground: string) =>
   StyleSheet.create({
     container: {
       display: "flex",
-      flex: 1,
       width: "100%",
       paddingTop: 15,
-      gap:10
+      gap: 10,
+      flex: 1
     },
     sectionList: {
       display: "flex",

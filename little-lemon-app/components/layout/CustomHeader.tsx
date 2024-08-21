@@ -2,11 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import { ComponentType } from "react";
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedSafeAreaView } from "../ThemedSafeAreaView";
 import { ThemedView } from "../ThemedView";
 import { ThemedText } from "../ThemedText";
@@ -24,13 +20,16 @@ export default function CustomHeader({
   RightComponent,
   LeftComponent,
   hasDrawer = true,
-  backgroundColor
+  backgroundColor,
 }: CustomHeaderProps) {
   const navigation = useNavigation();
   const color = useThemeColor({}, "text");
 
   return (
-    <ThemedSafeAreaView lightColor={backgroundColor} darkColor={backgroundColor}>
+    <ThemedSafeAreaView
+      lightColor={backgroundColor}
+      darkColor={backgroundColor}
+    >
       <ThemedView style={styles.container}>
         <ThemedView style={styles.leftItemContainer}>
           {hasDrawer && (
@@ -44,7 +43,7 @@ export default function CustomHeader({
         </ThemedView>
         <ThemedView style={styles.titleContainer}>
           <LemonIcon width={30} height={30} />
-          <ThemedText >Little Lemon</ThemedText>
+          <ThemedText>Little Lemon</ThemedText>
         </ThemedView>
         <ThemedView style={styles.rightItemContainer}>
           {RightComponent && <RightComponent />}
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   titleContainer: {
     flex: 2,
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 5
+    gap: 5,
   },
   leftItemContainer: {
     flex: 1,

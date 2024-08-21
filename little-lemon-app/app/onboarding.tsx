@@ -73,7 +73,9 @@ export default function MenuScreen() {
         >
           <WaveSvg color={thirdColor} />
           <LemonIcon width={150} height={150} />
-          <ThemedText type="title" style={{color:thirdColor}}>Little lemon app</ThemedText>
+          <ThemedText type="title" style={{ color: thirdColor }}>
+            Little lemon app
+          </ThemedText>
         </LinearGradient>
         <ThemedSafeAreaView style={styles.infoContainer}>
           <ScaleFingerPrint />
@@ -111,7 +113,10 @@ export default function MenuScreen() {
             colors={[secondColor, firstColor]}
             start={{ x: 1, y: 1 }}
             end={{ x: 0, y: 1 }}
-            style={[{ borderWidth: 1, borderColor: firstColor }, styles.gradientButton]}
+            style={[
+              { borderWidth: 1, borderColor: firstColor },
+              styles.gradientButton,
+            ]}
           >
             <ThemedButton
               style={styles.button}
@@ -139,15 +144,15 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    borderColor: 'transparent'
+    borderColor: "transparent",
   },
   button: {
     width: "100%",
-    backgroundColor: 'transparent'
+    backgroundColor: "transparent",
   },
   gradientButton: {
-    width: '100%',
-    height: 'auto',
+    width: "100%",
+    height: "auto",
     borderRadius: 8,
   },
   infoContainer: {

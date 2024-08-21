@@ -14,7 +14,8 @@ type Props = PressableProps &
     lightColor?: string;
     darkColor?: string;
     style?: StyleProp<ViewStyle>;
-    disabled?: boolean
+    disabled?: boolean;
+    textColor?: string;
   };
 
 const ThemedButton = ({
@@ -23,6 +24,7 @@ const ThemedButton = ({
   lightColor,
   darkColor,
   disabled,
+  textColor,
   ...otherProps
 }: Props) => {
   const backgroundColor = useThemeColor(
@@ -41,25 +43,28 @@ const ThemedButton = ({
       ]}
       {...otherProps}
     >
-      <Text style={[{ color: color }, styles().text]}>{children}</Text>
+      <Text style={[{ color: textColor ?? color }, styles().text]}>
+        {children}
+      </Text>
     </Pressable>
   );
 };
 
-const styles = (disabled?: boolean) => StyleSheet.create({
-  buttonWrapper: {
-    borderRadius: 8,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    opacity: disabled ? 0.5 : 1,
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-});
+const styles = (disabled?: boolean) =>
+  StyleSheet.create({
+    buttonWrapper: {
+      borderRadius: 8,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      opacity: disabled ? 0.5 : 1,
+    },
+    text: {
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+  });
 
 export default ThemedButton;

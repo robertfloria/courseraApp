@@ -42,7 +42,7 @@ export function ScaleFingerPrint() {
       <Animated.View style={animatedStyle}>
         <MaterialIcons name="fingerprint" size={60} color={color} />
       </Animated.View>
-      <ThemedText type='title'>Login</ThemedText>
+      <ThemedText type="title">Login</ThemedText>
     </ThemedView>
   );
 }
