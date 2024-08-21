@@ -2,6 +2,7 @@ import LemonIcon from "@/assets/icons/LemonIcon";
 import { ScaleFingerPrint } from "@/components/onboardingScreen/ScaleFingerPrint";
 import { WaveSvg } from "@/components/svg/WaveSvg";
 import ThemedButton from "@/components/ThemedButton";
+import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ThemedView } from "@/components/ThemedView";
@@ -27,9 +28,7 @@ export default function MenuScreen() {
   const [validForm, setValidForm] = useState<boolean>(false);
 
   const thirdColor = useThemeColor({}, "thirdColor");
-
   const secondColor = useThemeColor({}, "secondColor");
-
   const firstColor = useThemeColor({}, "firstColor");
 
   const authentication = useContext(AuthenticationContext);
@@ -73,35 +72,56 @@ export default function MenuScreen() {
           style={styles.titleContainer}
         >
           <WaveSvg color={thirdColor} />
-          <LemonIcon width={100} height={100} />
-          <ThemedText type="title">Little lemon app</ThemedText>
+          <LemonIcon width={150} height={150} />
+          <ThemedText type="title" style={{color:thirdColor}}>Little lemon app</ThemedText>
         </LinearGradient>
-        <ThemedView style={styles.infoContainer}>
+        <ThemedSafeAreaView style={styles.infoContainer}>
           <ScaleFingerPrint />
-          <ThemedTextInput
-            value={firstName}
-            onChangeText={setFirstName}
-            keyboardType="default"
-            textContentType="givenName"
-            placeholder={"Type first name"}
-            style={styles.input}
-          />
-          <ThemedTextInput
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            placeholder={"Type your email"}
-            style={styles.input}
-          />
-          <ThemedButton
-            style={styles.button}
-            onPress={handleSubscribe}
-            disabled={!validForm}
+          <LinearGradient
+            colors={[secondColor, firstColor]}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 1 }}
+            style={[{ padding: 2 }, styles.gradientButton]}
           >
-            Subscribe
-          </ThemedButton>
-        </ThemedView>
+            <ThemedTextInput
+              value={firstName}
+              onChangeText={setFirstName}
+              keyboardType="default"
+              textContentType="givenName"
+              placeholder={"Type first name"}
+              style={styles.input}
+            />
+          </LinearGradient>
+          <LinearGradient
+            colors={[secondColor, firstColor]}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 1 }}
+            style={[{ padding: 2 }, styles.gradientButton]}
+          >
+            <ThemedTextInput
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              placeholder={"Type your email"}
+              style={styles.input}
+            />
+          </LinearGradient>
+          <LinearGradient
+            colors={[secondColor, firstColor]}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 1 }}
+            style={[{ borderWidth: 1, borderColor: firstColor }, styles.gradientButton]}
+          >
+            <ThemedButton
+              style={styles.button}
+              onPress={handleSubscribe}
+              disabled={!validForm}
+            >
+              Subscribe
+            </ThemedButton>
+          </LinearGradient>
+        </ThemedSafeAreaView>
       </ThemedView>
     </TouchableWithoutFeedback>
   );
@@ -119,9 +139,16 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
+    borderColor: 'transparent'
   },
   button: {
     width: "100%",
+    backgroundColor: 'transparent'
+  },
+  gradientButton: {
+    width: '100%',
+    height: 'auto',
+    borderRadius: 8,
   },
   infoContainer: {
     display: "flex",

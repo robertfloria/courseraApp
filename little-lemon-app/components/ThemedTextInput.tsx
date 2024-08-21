@@ -15,14 +15,14 @@ export function ThemedTextInput({
 }: ThemedTextInputProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background",
+    "thirdColor",
   );
   const color = useThemeColor({ light: "", dark: "" }, "text");
   const placeholderColor = useThemeColor(
     { light: "", dark: "" },
     "inputPlaceholder",
   );
-  const borderColor = useThemeColor({ light: "", dark: "" }, "inputBorder");
+  const borderColor = useThemeColor({ light: "", dark: "" }, "text");
 
   return (
     <TextInput

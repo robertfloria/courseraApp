@@ -14,6 +14,7 @@ type Props = PressableProps &
     lightColor?: string;
     darkColor?: string;
     style?: StyleProp<ViewStyle>;
+    disabled?: boolean
   };
 
 const ThemedButton = ({
@@ -21,11 +22,12 @@ const ThemedButton = ({
   children,
   lightColor,
   darkColor,
+  disabled,
   ...otherProps
 }: Props) => {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "button",
+    "firstColor",
   );
 
   const color = useThemeColor({ light: "", dark: "" }, "text");
@@ -34,31 +36,29 @@ const ThemedButton = ({
     <Pressable
       style={[
         { backgroundColor: backgroundColor },
-        styles.buttonWrapper,
+        styles(disabled).buttonWrapper,
         style,
       ]}
       {...otherProps}
     >
-      <Text style={[{ color: color }, styles.text]}>{children}</Text>
+      <Text style={[{ color: color }, styles().text]}>{children}</Text>
     </Pressable>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (disabled?: boolean) => StyleSheet.create({
   buttonWrapper: {
     borderRadius: 8,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 8,
-  },
-  disabled: {
-    backgroundColor: "grey",
-    opacity: 0.5,
+    padding: 10,
+    opacity: disabled ? 0.5 : 1,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold'
   },
 });
 

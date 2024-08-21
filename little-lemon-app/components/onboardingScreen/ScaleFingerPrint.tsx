@@ -10,6 +10,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ThemedView } from "../ThemedView";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export function ScaleFingerPrint() {
   const scaleAnimation = useSharedValue(1);
@@ -34,12 +35,14 @@ export function ScaleFingerPrint() {
     transform: [{ scale: scaleAnimation.value }], // Apply the scale transformation
   }));
 
+  const color = useThemeColor({ light: "", dark: "" }, "firstColor");
+
   return (
     <ThemedView style={styles.container}>
       <Animated.View style={animatedStyle}>
-        <MaterialIcons name="fingerprint" size={50} color="orange" />
+        <MaterialIcons name="fingerprint" size={60} color={color} />
       </Animated.View>
-      <ThemedText style={{ fontSize: 40, lineHeight: 40 }}>Login</ThemedText>
+      <ThemedText type='title'>Login</ThemedText>
     </ThemedView>
   );
 }

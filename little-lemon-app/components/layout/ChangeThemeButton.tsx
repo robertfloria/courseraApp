@@ -5,6 +5,7 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import ThemedButton from "../ThemedButton";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { Colors } from "@/constants/Colors";
 
 export default function ChangeThemeButton() {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -28,7 +29,7 @@ export default function ChangeThemeButton() {
         onPress={toggleTheme}
         style={[{ backgroundColor: firstColor }, styles.button]}
       >
-        <MaterialIcons name={toggleIcon()} size={25} color="white" />
+        <MaterialIcons name={toggleIcon()} size={35} color={Colors.dark.text} />
       </ThemedButton>
     </SafeAreaView>
   );
@@ -46,8 +47,8 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   button: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderRadius: 100,
     display: "flex",
     alignItems: "center",
