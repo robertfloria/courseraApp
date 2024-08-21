@@ -1,5 +1,13 @@
-import { useEffect, useState } from "react";
-import { Text, StyleSheet, SectionList, StatusBar, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Fragment, useEffect, useState } from "react";
+import {
+  Text,
+  StyleSheet,
+  SectionList,
+  StatusBar,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import {
   filterByCategoryAndText,
   getMenuItems,
@@ -25,6 +33,7 @@ import Presentation from "@/components/menuScreen/components/Presentation";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { menuItemsMock } from "@/components/menuScreen/utils/mockData/menuItemsMock";
+import { Divider } from "react-native-paper";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -36,6 +45,7 @@ export default function MenuScreen() {
   const db = useSQLiteContext();
 
   const menuItemHeaderBackground = useThemeColor({}, "tint");
+  const thirdColor = useThemeColor({}, "thirdColor");
 
   useEffect(() => {
     (async () => {
@@ -94,15 +104,13 @@ export default function MenuScreen() {
 
   return (
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
-      <ThemedView
-        style={styles(menuItemHeaderBackground).container}
-      >
+      <ThemedView style={styles.container}>
         <Presentation
           setSearchBarText={setSearchBarText}
           searchBarText={searchBarText}
         />
         <ThemedView style={{ paddingHorizontal: 10 }}>
-          <ThemedText type='defaultSemiBold'>ORDER FOR DELIVARY!</ThemedText>
+          <ThemedText type="defaultSemiBold">ORDER FOR DELIVARY!</ThemedText>
         </ThemedView>
         <Filters
           selections={filterSelections}
@@ -110,17 +118,26 @@ export default function MenuScreen() {
           sections={categories}
         />
         <SectionList
-          style={styles(menuItemHeaderBackground).sectionList}
+          style={styles.sectionList}
           sections={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <SectionFoodItem data={item} setSelectedItem={setSelectedItem} />
           )}
           renderSectionHeader={({ section: { category } }) => (
-            <ThemedText style={styles(menuItemHeaderBackground).menuItemHeader}>
-              {category}
-            </ThemedText>
+            <Fragment>
+              <Divider bold />
+              <ThemedText
+                type="title"
+                style={{ backgroundColor: thirdColor, paddingVertical: 10 }}
+              >
+                {category}
+              </ThemedText>
+            </Fragment>
           )}
+          ItemSeparatorComponent={() => {
+            return <Divider />;
+          }}
         />
         {selectedItem && (
           <CustomModal
@@ -136,22 +153,16 @@ export default function MenuScreen() {
   );
 }
 
-const styles = (menuItemHeaderBackground: string) =>
-  StyleSheet.create({
-    container: {
-      display: "flex",
-      width: "100%",
-      paddingTop: 15,
-      gap: 20,
-      flex: 1
-    },
-    sectionList: {
-      display: "flex",
-      paddingHorizontal: 16,
-    },
-    menuItemHeader: {
-      fontSize: 24,
-      paddingVertical: 8,
-      backgroundColor: menuItemHeaderBackground,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    width: "100%",
+    paddingTop: 15,
+    gap: 20,
+    flex: 1,
+  },
+  sectionList: {
+    display: "flex",
+    paddingHorizontal: 16,
+  },
+});

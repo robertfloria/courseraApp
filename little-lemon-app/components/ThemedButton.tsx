@@ -34,12 +34,8 @@ const ThemedButton = ({
     "firstColor",
   );
 
-  const color = useThemeColor(
-    {},
-    "text",
-  );
-  
-  console.log(textColor)
+  const color = useThemeColor({}, "text");
+
   return (
     <Pressable
       style={[
@@ -49,7 +45,13 @@ const ThemedButton = ({
       ]}
       {...otherProps}
     >
-      <ThemedText style={{ color: textColor ?? color, fontSize: fontSize ?? 16, fontWeight: 'bold' }}>
+      <ThemedText
+        style={{
+          color: textColor ?? color,
+          fontSize: fontSize ?? 16,
+          fontWeight: "bold",
+        }}
+      >
         {children}
       </ThemedText>
     </Pressable>

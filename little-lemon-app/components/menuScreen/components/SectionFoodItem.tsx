@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
-  Pressable,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
@@ -38,7 +35,9 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
       style={styles.menuItemContainer}
     >
       <ThemedView style={styles.menuItemDetailsContainer}>
-        <ThemedText type="subtitle">{data.name}</ThemedText>
+        <ThemedText type="subtitle" style={{ flex: 1 }}>
+          {data.name}
+        </ThemedText>
         <ThemedText type="defaultSemiBold">{data.description}</ThemedText>
         <ThemedText>${data.price}</ThemedText>
       </ThemedView>
@@ -54,16 +53,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
+    paddingVertical: 10,
+    gap: 10,
   },
   menuItemDetailsContainer: {
     flex: 1,
     display: "flex",
     height: "100%",
     justifyContent: "space-between",
+    gap: 10,
   },
   menuItemImage: {
-    width: 200,
-    height: 200,
+    width: 120,
+    height: 120,
   },
 });

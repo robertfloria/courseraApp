@@ -18,7 +18,7 @@ const Filters = ({ onChange, selections, sections }: FiltersProps) => {
   const textColor = Colors.dark.text;
 
   return (
-    <ThemedView style={{ width: '100%' }}>
+    <ThemedView style={{ width: "100%" }}>
       <ThemedScrollView
         contentContainerStyle={styles.container}
         horizontal
@@ -33,8 +33,8 @@ const Filters = ({ onChange, selections, sections }: FiltersProps) => {
             key={index}
           >
             <ThemedButton
-              lightColor={selections[index] ? 'transparent' : thirdColor}
-              darkColor={selections[index] ? 'transparent' : thirdColor}
+              lightColor={selections[index] ? "transparent" : thirdColor}
+              darkColor={selections[index] ? "transparent" : thirdColor}
               onPress={() => {
                 onChange(index);
               }}
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     gap: 25,
     padding: 5,
   },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     width: "auto",
     height: "auto",
     borderRadius: 8,
-    padding:2,
+    padding: 2,
   },
 });
 
