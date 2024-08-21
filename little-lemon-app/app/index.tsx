@@ -18,10 +18,11 @@ import { SectionFoodItem } from "../components/menuScreen/components/SectionFood
 import CustomModal from "../components/CustomModal";
 import { MenuItems } from "@/utils/interfaces";
 import { ModalFoodItem } from "../components/menuScreen/components/ModalFoodItem";
-import { ThemedSearchBar } from "@/components/ThemedSearchBar";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "@/components/ThemedText";
+import Presentation from "@/components/menuScreen/components/Presentation";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -33,6 +34,7 @@ export default function MenuScreen() {
   const db = useSQLiteContext();
 
   const menuItemHeaderBackground = useThemeColor({}, "tint");
+  const backgroundColor = useThemeColor({}, "secondColor");
 
   useEffect(() => {
     (async () => {
@@ -80,9 +82,6 @@ export default function MenuScreen() {
     }
   }, [filterSelections, searchBarText]);
 
-  const handleSearchChange = (text: string) => {
-    setSearchBarText(text);
-  };
 
   const handleFiltersChange = async (index: any) => {
     const arrayCopy = [...filterSelections];
@@ -93,12 +92,8 @@ export default function MenuScreen() {
   const handleCloseModal = () => setSelectedItem(undefined);
 
   return (
-    <ThemedSafeAreaView style={styles(menuItemHeaderBackground).container}>
-      <ThemedSearchBar
-        placeholder="Search"
-        onChangeText={handleSearchChange}
-        value={searchBarText}
-      />
+    <ThemedView style={styles(menuItemHeaderBackground).container}>
+      <Presentation setSearchBarText={setSearchBarText} searchBarText={searchBarText} />
       <Filters
         selections={filterSelections}
         onChange={handleFiltersChange}
@@ -126,7 +121,7 @@ export default function MenuScreen() {
           <ModalFoodItem data={selectedItem} />
         </CustomModal>
       )}
-    </ThemedSafeAreaView>
+    </ThemedView>
   );
 }
 
@@ -136,7 +131,8 @@ const styles = (menuItemHeaderBackground: string) =>
       display: "flex",
       flex: 1,
       width: "100%",
-      paddingTop: StatusBar.currentHeight,
+      paddingTop: 15,
+      gap:10
     },
     sectionList: {
       display: "flex",

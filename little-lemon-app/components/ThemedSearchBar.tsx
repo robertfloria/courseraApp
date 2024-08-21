@@ -15,7 +15,7 @@ export function ThemedSearchBar({
 }: ThemedSearchBarProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background",
+    "thirdColor",
   );
 
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");

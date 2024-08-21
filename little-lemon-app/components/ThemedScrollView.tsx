@@ -20,7 +20,7 @@ export function ThemedScrollView({
 }: ThemedScrollViewProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background",
+    "thirdColor",
   );
 
   return (

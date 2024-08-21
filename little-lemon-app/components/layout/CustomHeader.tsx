@@ -17,18 +17,20 @@ interface CustomHeaderProps {
   LeftComponent?: ComponentType<any>;
   RightComponent?: ComponentType<any>;
   hasDrawer?: boolean;
+  backgroundColor?: string;
 }
 
 export default function CustomHeader({
   RightComponent,
   LeftComponent,
   hasDrawer = true,
+  backgroundColor
 }: CustomHeaderProps) {
   const navigation = useNavigation();
   const color = useThemeColor({}, "text");
 
   return (
-    <ThemedSafeAreaView>
+    <ThemedSafeAreaView lightColor={backgroundColor} darkColor={backgroundColor}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.leftItemContainer}>
           {hasDrawer && (
@@ -41,7 +43,7 @@ export default function CustomHeader({
           {LeftComponent && <LeftComponent />}
         </ThemedView>
         <ThemedView style={styles.titleContainer}>
-          <LemonIcon width={30} height={30}/>
+          <LemonIcon width={30} height={30} />
           <ThemedText >Little Lemon</ThemedText>
         </ThemedView>
         <ThemedView style={styles.rightItemContainer}>
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 15,
+    paddingHorizontal: 15
   },
   titleContainer: {
     flex: 2,
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap:5
+    gap: 5
   },
   leftItemContainer: {
     flex: 1,

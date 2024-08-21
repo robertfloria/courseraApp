@@ -12,6 +12,7 @@ import { Drawer } from "expo-router/drawer";
 import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
 import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -19,6 +20,8 @@ export default function RootLayout() {
     firstName: "",
     email: "",
   });
+
+  const menuScreenHeaderColor = useThemeColor({}, "secondColor");
 
   useEffect(() => {
     (async () => {

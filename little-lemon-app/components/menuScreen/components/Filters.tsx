@@ -9,12 +9,16 @@ type FiltersProps = {
   sections: Array<any>;
 };
 const Filters = ({ onChange, selections, sections }: FiltersProps) => {
+
+  const background = useThemeColor({}, "secondColor");
+  const backgroundSelected = useThemeColor({}, "firstColor");
+
   return (
     <ThemedView style={styles.filtersContainer}>
       {sections.map((section, index) => (
         <ThemedButton
-          lightColor={selections[index] ? "#595b75" : "#4a4e8a"}
-          darkColor={selections[index] ? "#8a4a71" : "#d154a1"}
+          lightColor={selections[index] ? background : backgroundSelected}
+          darkColor={selections[index] ? background : backgroundSelected}
           onPress={() => {
             onChange(index);
           }}
