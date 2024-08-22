@@ -4,7 +4,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
+import { presentationDescription } from "../utils/constants";
+import { appName } from "@/utils/constants";
 
 type Props = {
   setSearchBarText: (arg: any) => any;
@@ -29,9 +31,12 @@ export default function Presentation({
       style={styles.container}
     >
       <ThemedView style={styles.presentationContainer}>
-        <ThemedText lightColor={Colors.light.text} darkColor={Colors.light.text} style={{ flex: 1 }}>
-          asldsmsaldsajk sandlsakndlaskdklasdnka asnkdaslkdaslknd akndaslkdnas
-        </ThemedText>
+        <View style={styles.descriptionContainer}>
+          <ThemedText type='subtitle' lightColor={Colors.light.text} darkColor={Colors.light.text} >{appName}</ThemedText>
+          <ThemedText type='default' lightColor={Colors.light.text} darkColor={Colors.light.text} >
+            {presentationDescription}
+          </ThemedText>
+        </View>
         <Image
           style={styles.image}
           source={require("../../../assets/images/presentationImage.jpg")}
@@ -53,12 +58,15 @@ const styles = StyleSheet.create({
     display: "flex",
     width: "100%",
     gap: 10,
-    padding: 10,
+    paddingHorizontal: 10,
   },
   image: {
     width: 150,
     height: 150,
     borderRadius: 8,
+  },
+  descriptionContainer: {
+    flex: 1, display: 'flex', justifyContent: 'center', gap: 5
   },
   presentationContainer: {
     display: "flex",
