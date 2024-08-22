@@ -26,15 +26,12 @@ import { SectionFoodItem } from "../components/menuScreen/components/SectionFood
 import CustomModal from "../components/CustomModal";
 import { MenuItems } from "@/utils/interfaces";
 import { ModalFoodItem } from "../components/menuScreen/components/ModalFoodItem";
-import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "@/components/ThemedText";
 import Presentation from "@/components/menuScreen/components/Presentation";
 import { ThemedView } from "@/components/ThemedView";
-import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { menuItemsMock } from "@/components/menuScreen/utils/mockData/menuItemsMock";
 import { Divider } from "react-native-paper";
-import { WaveSvg } from "@/components/svg/WaveSvg";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -46,10 +43,10 @@ export default function MenuScreen() {
   const db = useSQLiteContext();
 
   const thirdColor = useThemeColor({}, "thirdColor");
-  const secondColor = useThemeColor({}, "secondColor");
 
   useEffect(() => {
     (async () => {
+
       await setupDatabase(db);
 
       let menuItems = await getMenuItems(db);

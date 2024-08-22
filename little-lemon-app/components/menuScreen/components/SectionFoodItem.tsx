@@ -9,6 +9,7 @@ import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
   data: MenuItems;
@@ -21,6 +22,8 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
   const handleOpenModal = () => {
     setSelectedItem(data);
   };
+
+  const descriptionColor = useThemeColor({}, 'grey');
 
   useEffect(() => {
     if (data.image) {
@@ -38,8 +41,8 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
         <ThemedText type="subtitle" style={{ flex: 1 }}>
           {data.name}
         </ThemedText>
-        <ThemedText type="defaultSemiBold">{data.description}</ThemedText>
-        <ThemedText>${data.price}</ThemedText>
+        <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>{data.description}</ThemedText>
+        <ThemedText type='defaultSemiBold'>${data.price}</ThemedText>
       </ThemedView>
       <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
     </TouchableOpacity>
@@ -66,5 +69,6 @@ const styles = StyleSheet.create({
   menuItemImage: {
     width: 120,
     height: 120,
+    borderRadius: 5
   },
 });
