@@ -1,67 +1,55 @@
 import ThemedButton from "@/components/ThemedButton";
-import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { ThemedView } from "@/components/ThemedView";
-import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { FlatList } from "react-native-gesture-handler";
 
 type FiltersProps = {
   onChange: (arg: any) => any;
   selections: any;
   sections: Array<any>;
 };
+
 const Filters = ({ onChange, selections, sections }: FiltersProps) => {
-  const secondColor = useThemeColor({}, "secondColor");
+  const opacityGrey = useThemeColor({}, "opacityGrey");
   const firstColor = useThemeColor({}, "firstColor");
   const thirdColor = useThemeColor({}, "thirdColor");
-  const textColor = Colors.dark.text;
 
   return (
     <ThemedView style={{ width: "100%" }}>
-      <ThemedScrollView
-        contentContainerStyle={styles.container}
+      <FlatList
+        data={sections}
         horizontal
+        scrollEnabled
         showsHorizontalScrollIndicator={false}
-      >
-        {sections.map((section, index) => (
-          <LinearGradient
-            colors={[secondColor, firstColor]}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 1 }}
-            style={styles.gradientButton}
-            key={index}
+        contentContainerStyle={styles.container}
+        renderItem={({ item, index }) => (
+          <ThemedButton
+            lightColor={selections[index] ? firstColor : opacityGrey}
+            darkColor={selections[index] ? firstColor : opacityGrey}
+            onPress={() => {
+              onChange(index);
+            }}
+            textColor={selections[index] ? thirdColor : firstColor}
+            style={styles.button}
           >
-            <ThemedButton
-              lightColor={selections[index] ? "transparent" : thirdColor}
-              darkColor={selections[index] ? "transparent" : thirdColor}
-              onPress={() => {
-                onChange(index);
-              }}
-              textColor={firstColor}
-            >
-              {section.toLowerCase()}
-            </ThemedButton>
-          </LinearGradient>
-        ))}
-      </ThemedScrollView>
+            {item.toLowerCase()}
+          </ThemedButton>
+        )}
+      />
     </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 25,
-    padding: 5,
+    paddingHorizontal: 10,
+    gap: 15
   },
-  gradientButton: {
-    width: "auto",
-    height: "auto",
-    borderRadius: 8,
-    padding: 2,
+  button: {
+    borderRadius: 30,
+    display: 'flex',
+    padding: 10,
   },
 });
 

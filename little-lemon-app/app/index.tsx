@@ -34,6 +34,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { menuItemsMock } from "@/components/menuScreen/utils/mockData/menuItemsMock";
 import { Divider } from "react-native-paper";
+import { WaveSvg } from "@/components/svg/WaveSvg";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -44,8 +45,8 @@ export default function MenuScreen() {
 
   const db = useSQLiteContext();
 
-  const menuItemHeaderBackground = useThemeColor({}, "tint");
   const thirdColor = useThemeColor({}, "thirdColor");
+  const secondColor = useThemeColor({}, "secondColor");
 
   useEffect(() => {
     (async () => {
@@ -109,7 +110,7 @@ export default function MenuScreen() {
           setSearchBarText={setSearchBarText}
           searchBarText={searchBarText}
         />
-        <ThemedView style={{ paddingHorizontal: 10 }}>
+        <ThemedView style={{ paddingHorizontal: 10, position: 'relative' }}>
           <ThemedText type="defaultSemiBold">ORDER FOR DELIVARY!</ThemedText>
         </ThemedView>
         <Filters
@@ -157,7 +158,6 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     width: "100%",
-    paddingTop: 15,
     gap: 20,
     flex: 1,
   },

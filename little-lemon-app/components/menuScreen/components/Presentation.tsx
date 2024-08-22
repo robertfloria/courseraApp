@@ -1,6 +1,8 @@
+import { WaveSvg } from "@/components/svg/WaveSvg";
 import { ThemedSearchBar } from "@/components/ThemedSearchBar";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Image, StyleSheet } from "react-native";
 
@@ -18,6 +20,7 @@ export default function Presentation({
   };
 
   const background = useThemeColor({}, "secondColor");
+  const thirdColor = useThemeColor({}, "thirdColor");
 
   return (
     <ThemedView
@@ -26,7 +29,7 @@ export default function Presentation({
       style={styles.container}
     >
       <ThemedView style={styles.presentationContainer}>
-        <ThemedText style={{ flex: 1 }}>
+        <ThemedText lightColor={Colors.light.text} darkColor={Colors.light.text} style={{ flex: 1 }}>
           asldsmsaldsajk sandlsakndlaskdklasdnka asnkdaslkdaslknd akndaslkdnas
         </ThemedText>
         <Image
@@ -40,6 +43,7 @@ export default function Presentation({
         onChangeText={handleSearchChange}
         value={searchBarText}
       />
+      <WaveSvg color={thirdColor} />
     </ThemedView>
   );
 }

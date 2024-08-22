@@ -67,7 +67,7 @@ const styles = (disabled?: boolean) =>
       justifyContent: "center",
       alignItems: "center",
       padding: 10,
-      opacity: disabled ? 0.5 : 1,
+      opacity: disabled ? 0.5 : 1
     },
   });
 

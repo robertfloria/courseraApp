@@ -2,8 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import { ComponentType } from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
-import { ThemedSafeAreaView } from "../ThemedSafeAreaView";
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { ThemedView } from "../ThemedView";
 import { ThemedText } from "../ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -14,6 +13,7 @@ interface CustomHeaderProps {
   RightComponent?: ComponentType<any>;
   hasDrawer?: boolean;
   backgroundColor?: string;
+  textColor?: string;
 }
 
 export default function CustomHeader({
@@ -21,35 +21,41 @@ export default function CustomHeader({
   LeftComponent,
   hasDrawer = true,
   backgroundColor,
+  textColor,
 }: CustomHeaderProps) {
   const navigation = useNavigation();
   const color = useThemeColor({}, "text");
 
   return (
-    <ThemedSafeAreaView
+    <ThemedView
       lightColor={backgroundColor}
       darkColor={backgroundColor}
     >
-      <ThemedView style={styles.container}>
-        <ThemedView style={styles.leftItemContainer}>
-          {hasDrawer && (
-            <TouchableOpacity
-              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-            >
-              <MaterialIcons name="menu" size={24} color={color} />
-            </TouchableOpacity>
-          )}
-          {LeftComponent && <LeftComponent />}
-        </ThemedView>
-        <ThemedView style={styles.titleContainer}>
-          <LemonIcon width={30} height={30} />
-          <ThemedText>Little Lemon</ThemedText>
-        </ThemedView>
-        <ThemedView style={styles.rightItemContainer}>
-          {RightComponent && <RightComponent />}
-        </ThemedView>
-      </ThemedView>
-    </ThemedSafeAreaView>
+      <SafeAreaView >
+        <View style={styles.container}>
+          <View style={styles.leftItemContainer}>
+            {hasDrawer && (
+              <TouchableOpacity
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+              >
+                <MaterialIcons name="menu" size={24} color={textColor ?? color} />
+              </TouchableOpacity>
+            )}
+            {LeftComponent && <LeftComponent />}
+          </View>
+          <View style={styles.titleContainer}>
+            <LemonIcon width={30} height={30} />
+            <ThemedText
+              lightColor={textColor}
+              darkColor={textColor}
+            >Little Lemon</ThemedText>
+          </View>
+          <View style={styles.rightItemContainer}>
+            {RightComponent && <RightComponent />}
+          </View>
+        </View>
+      </SafeAreaView>
+    </ThemedView>
   );
 }
 
@@ -60,6 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 15,
+    paddingBottom: 15
   },
   titleContainer: {
     flex: 2,

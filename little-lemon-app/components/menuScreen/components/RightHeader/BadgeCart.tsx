@@ -1,4 +1,6 @@
+import { Colors } from "@/constants/Colors";
 import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { HeaderContext } from "@/store/context/HeaderContext";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -12,9 +14,12 @@ type CounterProp = {
 };
 
 const Counter = ({ number }: CounterProp) => {
+  const backgroundColor = useThemeColor({}, 'firstColor');
+  const color = Colors.dark.text;
+
   return (
-    <View style={styles.counter}>
-      <Text style={styles.counterNumber}>{number}</Text>
+    <View style={[{ backgroundColor: backgroundColor }, styles.counter]}>
+      <Text style={[{ color: color }, styles.counterNumber]}>{number}</Text>
     </View>
   );
 };
@@ -45,7 +50,7 @@ export function BadgeCart() {
     <View style={styles.container}>
       <Counter number={count} />
       <Pressable onPress={navigateToCart}>
-        <MaterialIcons name="shopping-cart" color="#fff" size={35} />
+        <MaterialIcons name="shopping-cart" color={Colors.light.text} size={30} />
       </Pressable>
     </View>
   );
@@ -57,15 +62,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
+    padding: 3
   },
   counter: {
     width: 15,
     height: 15,
+    maxWidth: 'auto',
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    backgroundColor: "#347aeb",
     position: "absolute",
     top: 0,
     right: 0,
@@ -73,5 +79,6 @@ const styles = StyleSheet.create({
   },
   counterNumber: {
     fontSize: 10,
+    fontWeight: 'bold'
   },
 });

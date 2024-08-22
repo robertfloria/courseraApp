@@ -13,6 +13,7 @@ import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
 import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { Colors } from "@/constants/Colors";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -50,7 +51,7 @@ export default function RootLayout() {
                     headerShown: true,
                     title: "Menu",
                     drawerLabel: "Menu",
-                    header: () => <CustomHeader RightComponent={RightHeader} />,
+                    header: () => <CustomHeader backgroundColor={menuScreenHeaderColor} textColor={Colors.light.text} RightComponent={RightHeader} />,
                   }}
                 />
                 <Drawer.Screen

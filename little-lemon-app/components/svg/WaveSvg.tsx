@@ -39,7 +39,8 @@ const styles = (direction: string) =>
   StyleSheet.create({
     svg: {
       transform: [{ rotate: direction === "top" ? "180deg" : "0deg" }],
-      position: "absolute",
+      zIndex: -1,
+      position:'absolute',
       [direction]: -1,
     },
   });

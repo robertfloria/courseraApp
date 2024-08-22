@@ -15,7 +15,7 @@ export function ThemedSearchBar({
 }: ThemedSearchBarProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "thirdColor",
+    "opacityGrey",
   );
 
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
@@ -26,7 +26,7 @@ export function ThemedSearchBar({
       inputStyle={[{ color: color }, inputStyle]}
       iconColor={color}
       placeholderTextColor={color}
-      elevation={1}
+      elevation={0}
       {...otherProps}
     />
   );
