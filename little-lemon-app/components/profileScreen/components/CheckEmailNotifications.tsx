@@ -40,7 +40,7 @@ export default function CheckEmailNotifications({
           );
         }}
         keyExtractor={(item) => item.id}
-        nestedScrollEnabled
+        scrollEnabled={false}
       />
     </ThemedView>
   );
