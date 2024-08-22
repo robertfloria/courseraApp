@@ -1,13 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  Image,
-  ImageSourcePropType,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Image, ImageSourcePropType, StyleSheet } from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
@@ -21,13 +13,13 @@ import ThemedButton from "@/components/ThemedButton";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
-import { Divider } from "react-native-paper";
 
 type Props = {
   data: MenuItems;
+  handleCloseModal: (arg?: any) => any;
 };
 
-export const ModalFoodItem = ({ data }: Props) => {
+export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
   const db = useSQLiteContext();
@@ -39,6 +31,8 @@ export const ModalFoodItem = ({ data }: Props) => {
   const addItemToCart = async () => {
     await addItemInShoppingCart(data.id, authentication.email, db);
     setResetResetCartCounter((prevState: any) => !prevState);
+    handleCloseModal();
+    Alert.alert("Item added to cart!");
   };
 
   useEffect(() => {

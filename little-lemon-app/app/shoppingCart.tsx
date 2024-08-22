@@ -56,7 +56,7 @@ export default function ShoppingCartScreen() {
             style={{ width: "100%", textAlign: "center", marginTop: 15 }}
           >
             Total:
-            <ThemedText type="title"> {totalPrice}$</ThemedText>
+            <ThemedText type="title"> {totalPrice.toFixed(2)}$</ThemedText>
           </ThemedText>
         )}
       />

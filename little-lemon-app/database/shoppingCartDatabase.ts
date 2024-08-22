@@ -66,5 +66,5 @@ export async function deleteItemInShoppingCart(
   itemId: number,
   db: SQLiteDatabase,
 ) {
-  await db.runAsync(`DELETE FROM shoppingCart WHERE itemId = ?`, itemId);
+  await db.runAsync(`DELETE FROM shoppingCart WHERE id = ?`, itemId);
 }

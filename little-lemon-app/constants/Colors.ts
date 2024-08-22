@@ -17,6 +17,7 @@ export const Colors = {
     thirdColor: "#EEE9F2",
     opacityGrey: "rgba(201, 201, 201, 0.2)",
     grey: "#757575",
+    red: "#ff3d51",
   },
   dark: {
     text: "#ECEDEE",
@@ -33,5 +34,6 @@ export const Colors = {
     thirdColor: "#1B1B1E",
     opacityGrey: "rgba(214, 214, 214, 0.15)",
     grey: "#b8b6b6",
+    red: "#ff3d51",
   },
 };

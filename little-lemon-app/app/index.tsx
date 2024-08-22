@@ -142,7 +142,10 @@ export default function MenuScreen() {
             onModalClose={handleCloseModal}
             title={selectedItem.name}
           >
-            <ModalFoodItem data={selectedItem} />
+            <ModalFoodItem
+              data={selectedItem}
+              handleCloseModal={handleCloseModal}
+            />
           </CustomModal>
         )}
       </ThemedView>
