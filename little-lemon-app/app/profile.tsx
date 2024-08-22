@@ -16,7 +16,6 @@ import { validateEmail } from "@/utils";
 import { HeaderContext } from "@/store/context/HeaderContext";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
@@ -100,8 +99,10 @@ export default function ProfileScreen() {
 
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
-      <ThemedScrollView contentContainerStyle={styles.container}>
-        <ThemedText type="subtitle">Personal information</ThemedText>
+      <ThemedScrollView
+        contentContainerStyle={styles.container}
+        stickyHeaderIndices={[0]}
+      >
         <PickAvatarImage userInfo={userInfo} setUserInfo={setUserInfo} />
         <UserInfoFields userInfo={userInfo} setUserInfo={setUserInfo} />
         <Divider />
@@ -145,7 +146,7 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    padding: 15,
+    paddingHorizontal: 15,
     gap: 20,
   },
   handleChangesContainer: {

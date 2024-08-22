@@ -1,6 +1,8 @@
 import { StyleSheet, View } from "react-native";
 import { UserInfo } from "../../../utils/interfaces";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedText } from "@/components/ThemedText";
 
 type Props = {
   userInfo: UserInfo;
@@ -12,8 +14,11 @@ export default function UserInfoFields({ userInfo, setUserInfo }: Props) {
     setUserInfo({ ...userInfo, [key]: e });
   };
 
+  const firstColor = useThemeColor({}, "firstColor");
+
   return (
     <View style={styles.container}>
+      <ThemedText type="subtitle">Personal information</ThemedText>
       <ThemedTextInput
         value={userInfo.firstName}
         onChangeText={(e) => handleChangeUserInfo(e, "firstName")}

@@ -42,7 +42,13 @@ export default function ScreensSetup() {
           title: "Profile",
           drawerLabel: "Profile",
           headerShown: true,
-          header: () => <CustomHeader LeftComponent={NavigateBackBtn} />,
+          header: () => (
+            <CustomHeader
+              LeftComponent={NavigateBackBtn}
+              backgroundColor={activeTextColor}
+              textColor={Colors.dark.text}
+            />
+          ),
         }}
       />
       <Drawer.Screen
