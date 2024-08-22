@@ -14,6 +14,7 @@ import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
+import ScreensSetup from "@/components/navigation/ScreensSetup";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -22,7 +23,8 @@ export default function RootLayout() {
     email: "",
   });
 
-  const menuScreenHeaderColor = useThemeColor({}, "secondColor");
+  // const menuScreenHeaderColor = useThemeColor({}, "secondColor");
+  // const drawerBackground = useThemeColor({}, "thirdColor");
 
   useEffect(() => {
     (async () => {
@@ -44,53 +46,7 @@ export default function RootLayout() {
           <ThemeContextProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <ChangeThemeButton />
-              <Drawer>
-                <Drawer.Screen
-                  name="index"
-                  options={{
-                    headerShown: true,
-                    title: "Menu",
-                    drawerLabel: "Menu",
-                    header: () => (
-                      <CustomHeader
-                        backgroundColor={menuScreenHeaderColor}
-                        textColor={Colors.light.text}
-                        RightComponent={RightHeader}
-                      />
-                    ),
-                  }}
-                />
-                <Drawer.Screen
-                  name="profile"
-                  options={{
-                    title: "Profile",
-                    drawerLabel: "Profile",
-                    headerShown: true,
-                    header: () => (
-                      <CustomHeader LeftComponent={NavigateBackBtn} />
-                    ),
-                  }}
-                />
-                <Drawer.Screen
-                  name="shoppingCart"
-                  options={{
-                    title: "Shopping Cart",
-                    drawerLabel: "Shopping Cart",
-                    headerShown: true,
-                    header: () => (
-                      <CustomHeader LeftComponent={NavigateBackBtn} />
-                    ),
-                  }}
-                />
-                <Drawer.Screen
-                  name="onboarding"
-                  options={{
-                    title: "Onboarding",
-                    drawerLabel: "Onboarding",
-                    headerShown: false,
-                  }}
-                />
-              </Drawer>
+              <ScreensSetup />
             </GestureHandlerRootView>
           </ThemeContextProvider>
         </HeaderContextProvider>
