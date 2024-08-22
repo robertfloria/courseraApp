@@ -32,8 +32,18 @@ export default function Presentation({
     >
       <ThemedView style={styles.presentationContainer}>
         <View style={styles.descriptionContainer}>
-          <ThemedText type='subtitle' lightColor={Colors.light.text} darkColor={Colors.light.text} >{appName}</ThemedText>
-          <ThemedText type='default' lightColor={Colors.light.text} darkColor={Colors.light.text} >
+          <ThemedText
+            type="subtitle"
+            lightColor={Colors.light.text}
+            darkColor={Colors.light.text}
+          >
+            {appName}
+          </ThemedText>
+          <ThemedText
+            type="default"
+            lightColor={Colors.light.text}
+            darkColor={Colors.light.text}
+          >
             {presentationDescription}
           </ThemedText>
         </View>
@@ -58,7 +68,7 @@ const styles = StyleSheet.create({
     display: "flex",
     width: "100%",
     gap: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   image: {
     width: 150,
@@ -66,7 +76,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   descriptionContainer: {
-    flex: 1, display: 'flex', justifyContent: 'center', gap: 5
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    gap: 5,
   },
   presentationContainer: {
     display: "flex",

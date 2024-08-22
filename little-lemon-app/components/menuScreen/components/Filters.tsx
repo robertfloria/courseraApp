@@ -43,12 +43,12 @@ const Filters = ({ onChange, selections, sections }: FiltersProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 10,
-    gap: 15
+    paddingHorizontal: 15,
+    gap: 15,
   },
   button: {
     borderRadius: 30,
-    display: 'flex',
+    display: "flex",
     padding: 10,
   },
 });

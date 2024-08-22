@@ -56,18 +56,30 @@ export const getImage = (imageName: string) => {
   const lowerCaseImageName = imageName.toLowerCase();
 
   switch (lowerCaseImageName) {
-    case 'greeksalad.jpg': return require(`../../../../assets/images/greeksalad.jpg`);
-    case 'bruschetta.jpg': return require(`../../../../assets/images/bruschetta.jpg`);
-    case 'grilledfish.jpg': return require(`../../../../assets/images/grilledfish.jpg`);
-    case 'pasta.jpg': return require(`../../../../assets/images/pasta.jpg`);
-    case 'lemondessert.jpg': return require(`../../../../assets/images/lemondessert.jpg`);
-    case 'watter.jpg': return require(`../../../../assets/images/watter.jpg`);
-    case 'lemonade.jpg': return require(`../../../../assets/images/lemonade.jpg`);
-    case 'orangejuice.jpg': return require(`../../../../assets/images/orangejuice.jpg`);
-    case 'quattroformaggi.jpg': return require(`../../../../assets/images/quattroformaggi.jpg`);
-    case 'speciallemonpizza.jpg': return require(`../../../../assets/images/speciallemonpizza.jpg`);
-    case 'margherita.jpg': return require(`../../../../assets/images/margherita.jpg`);
-    default: return require(`../../../../assets/images/little-lemon-logo-grey.png`);
+    case "greeksalad.jpg":
+      return require(`../../../../assets/images/greeksalad.jpg`);
+    case "bruschetta.jpg":
+      return require(`../../../../assets/images/bruschetta.jpg`);
+    case "grilledfish.jpg":
+      return require(`../../../../assets/images/grilledfish.jpg`);
+    case "pasta.jpg":
+      return require(`../../../../assets/images/pasta.jpg`);
+    case "lemondessert.jpg":
+      return require(`../../../../assets/images/lemondessert.jpg`);
+    case "watter.jpg":
+      return require(`../../../../assets/images/watter.jpg`);
+    case "lemonade.jpg":
+      return require(`../../../../assets/images/lemonade.jpg`);
+    case "orangejuice.jpg":
+      return require(`../../../../assets/images/orangejuice.jpg`);
+    case "quattroformaggi.jpg":
+      return require(`../../../../assets/images/quattroformaggi.jpg`);
+    case "speciallemonpizza.jpg":
+      return require(`../../../../assets/images/speciallemonpizza.jpg`);
+    case "margherita.jpg":
+      return require(`../../../../assets/images/margherita.jpg`);
+    default:
+      return require(`../../../../assets/images/little-lemon-logo-grey.png`);
   }
 };
 

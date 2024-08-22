@@ -2,15 +2,20 @@ import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { UserShoppingItem } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { FoodItem } from "../components/shoppingCartScreen/components/FoodItem";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { Divider } from "react-native-paper";
+import { HeaderContext } from "@/store/context/HeaderContext";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
+  const { resetCartCounter } = useContext(HeaderContext);
 
   useEffect(() => {
     (async () => {
@@ -21,24 +26,49 @@ export default function ShoppingCartScreen() {
 
       setData(shoppingCartItems);
     })();
-  }, [authentication]);
+  }, [authentication, resetCartCounter]);
+
+  const totalPrice = useMemo(() => {
+    let calculatedPrice = 0 as number;
+    data.map((item) => {
+      calculatedPrice = Math.abs(calculatedPrice + Number(item.price));
+    });
+    return calculatedPrice;
+  }, [data]);
 
   return (
-    <ThemedScrollView contentContainerStyle={styles.container}>
+    <ThemedView style={styles.container}>
       <FlatList
         data={data}
+        ListHeaderComponent={() => (
+          <ThemedText type="subtitle" style={{ marginBottom: 15 }}>
+            Items
+          </ThemedText>
+        )}
         renderItem={({ item }) => <FoodItem data={item} />}
         keyExtractor={(item) => item.id.toString()}
+        ItemSeparatorComponent={() => (
+          <Divider style={{ marginVertical: 10 }} />
+        )}
+        ListFooterComponent={() => (
+          <ThemedText
+            type="subtitle"
+            style={{ width: "100%", textAlign: "center", marginTop: 15 }}
+          >
+            Total:
+            <ThemedText type="title"> {totalPrice}$</ThemedText>
+          </ThemedText>
+        )}
       />
-    </ThemedScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flex: 1,
-    padding: 10,
+    display: "flex",
+    padding: 15,
     gap: 20,
   },
 });

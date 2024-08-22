@@ -34,7 +34,7 @@ export default function PickAvatarImage({ userInfo, setUserInfo }: Props) {
     ? userInfo.firstName.substring(0, 2)
     : "";
 
-  const firstColor = useThemeColor({}, 'firstColor');
+  const firstColor = useThemeColor({}, "firstColor");
 
   return (
     <ThemedView style={styles.container}>
@@ -43,8 +43,18 @@ export default function PickAvatarImage({ userInfo, setUserInfo }: Props) {
       ) : (
         <Avatar.Text size={100} label={avatarText} />
       )}
-      <ThemedButton textColor={firstColor} style={{ borderWidth: 2, borderColor: firstColor }} darkColor="transparent" lightColor="transparent" onPress={pickImage}>Change</ThemedButton>
-      <ThemedButton textColor={Colors.dark.text} onPress={removeImage}>Remove</ThemedButton>
+      <ThemedButton
+        textColor={firstColor}
+        style={{ borderWidth: 2, borderColor: firstColor }}
+        darkColor="transparent"
+        lightColor="transparent"
+        onPress={pickImage}
+      >
+        Change
+      </ThemedButton>
+      <ThemedButton textColor={Colors.dark.text} onPress={removeImage}>
+        Remove
+      </ThemedButton>
     </ThemedView>
   );
 }
@@ -61,5 +71,5 @@ const styles = StyleSheet.create({
   },
   changeBtn: {
     borderWidth: 2,
-  }
+  },
 });

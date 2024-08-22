@@ -14,7 +14,7 @@ type CounterProp = {
 };
 
 const Counter = ({ number }: CounterProp) => {
-  const backgroundColor = useThemeColor({}, 'firstColor');
+  const backgroundColor = useThemeColor({}, "firstColor");
   const color = Colors.dark.text;
 
   return (
@@ -50,7 +50,11 @@ export function BadgeCart() {
     <View style={styles.container}>
       <Counter number={count} />
       <Pressable onPress={navigateToCart}>
-        <MaterialIcons name="shopping-cart" color={Colors.light.text} size={30} />
+        <MaterialIcons
+          name="shopping-cart"
+          color={Colors.light.text}
+          size={30}
+        />
       </Pressable>
     </View>
   );
@@ -62,12 +66,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    padding: 3
+    padding: 3,
   },
   counter: {
     width: 15,
     height: 15,
-    maxWidth: 'auto',
+    maxWidth: "auto",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -79,6 +83,6 @@ const styles = StyleSheet.create({
   },
   counterNumber: {
     fontSize: 10,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 });

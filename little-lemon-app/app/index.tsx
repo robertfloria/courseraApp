@@ -46,7 +46,6 @@ export default function MenuScreen() {
 
   useEffect(() => {
     (async () => {
-
       await setupDatabase(db);
 
       let menuItems = await getMenuItems(db);
@@ -107,7 +106,7 @@ export default function MenuScreen() {
           setSearchBarText={setSearchBarText}
           searchBarText={searchBarText}
         />
-        <ThemedView style={{ paddingHorizontal: 10, position: 'relative' }}>
+        <ThemedView style={{ paddingHorizontal: 15, position: "relative" }}>
           <ThemedText type="defaultSemiBold">ORDER FOR DELIVARY!</ThemedText>
         </ThemedView>
         <Filters
@@ -160,6 +159,6 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     display: "flex",
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
   },
 });

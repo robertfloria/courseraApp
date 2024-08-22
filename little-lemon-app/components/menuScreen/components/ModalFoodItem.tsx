@@ -34,7 +34,7 @@ export const ModalFoodItem = ({ data }: Props) => {
   const authentication = useContext(AuthenticationContext);
   const { setResetResetCartCounter } = useContext(HeaderContext);
 
-  const descriptionColor = useThemeColor({}, 'grey');
+  const descriptionColor = useThemeColor({}, "grey");
 
   const addItemToCart = async () => {
     await addItemInShoppingCart(data.id, authentication.email, db);
@@ -51,16 +51,24 @@ export const ModalFoodItem = ({ data }: Props) => {
   return (
     <ThemedSafeAreaView style={styles.container}>
       <ThemedScrollView contentContainerStyle={styles.menuItemContainer}>
-        <Image
-          style={styles.menuItemImage}
-          source={image}
-          resizeMode="cover"
-        />
+        <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
         <ThemedView style={styles.menuItemDetailsContainer}>
-          <ThemedText style={{ fontSize: 18, lineHeight: 0 }} lightColor={descriptionColor} darkColor={descriptionColor}>{data?.description}</ThemedText>
-          <ThemedText style={{ fontSize: 30, lineHeight: 0 }}>${data?.price}</ThemedText>
+          <ThemedText
+            style={{ fontSize: 18, lineHeight: 0 }}
+            lightColor={descriptionColor}
+            darkColor={descriptionColor}
+          >
+            {data?.description}
+          </ThemedText>
+          <ThemedText style={{ fontSize: 30, lineHeight: 0 }}>
+            ${data?.price}
+          </ThemedText>
         </ThemedView>
-        <ThemedButton textColor={Colors.dark.text} style={styles.button} onPress={addItemToCart}>
+        <ThemedButton
+          textColor={Colors.dark.text}
+          style={styles.button}
+          onPress={addItemToCart}
+        >
           Add to cart
         </ThemedButton>
       </ThemedScrollView>
@@ -80,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     backgroundColor: "transparent",
-    gap: 15
+    gap: 15,
   },
   menuItemDetailsContainer: {
     flex: 1,
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
   menuItemImage: {
     width: "100%",
     height: 250,
-    borderRadius: 5
+    borderRadius: 5,
   },
   button: {
     width: "100%",

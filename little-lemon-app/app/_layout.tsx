@@ -51,7 +51,13 @@ export default function RootLayout() {
                     headerShown: true,
                     title: "Menu",
                     drawerLabel: "Menu",
-                    header: () => <CustomHeader backgroundColor={menuScreenHeaderColor} textColor={Colors.light.text} RightComponent={RightHeader} />,
+                    header: () => (
+                      <CustomHeader
+                        backgroundColor={menuScreenHeaderColor}
+                        textColor={Colors.light.text}
+                        RightComponent={RightHeader}
+                      />
+                    ),
                   }}
                 />
                 <Drawer.Screen

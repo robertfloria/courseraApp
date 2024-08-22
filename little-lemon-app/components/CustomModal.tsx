@@ -72,7 +72,11 @@ export default function CustomModal({
       >
         <ThemedView style={styles(pan).titleContainer}>
           <ThemedText type="subtitle">{title}</ThemedText>
-          <ThemedButton lightColor="transparent" darkColor="transparent" onPress={onModalClose}>
+          <ThemedButton
+            lightColor="transparent"
+            darkColor="transparent"
+            onPress={onModalClose}
+          >
             <MaterialIcons name="close" size={25} />
           </ThemedButton>
         </ThemedView>

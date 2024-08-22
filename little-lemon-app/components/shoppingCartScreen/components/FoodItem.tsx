@@ -21,25 +21,30 @@ export const FoodItem = ({ data }: Props) => {
 
   return (
     <ThemedView style={styles.menuItemContainer}>
-      <Image style={styles.menuItemImage} source={image} resizeMode="stretch" />
-      <ThemedText>{data.name}</ThemedText>
-      <ThemedText>${data.price}</ThemedText>
+      <ThemedView
+        style={{ flex: 1, gap: 10, flexDirection: "row", alignItems: "center" }}
+      >
+        <Image
+          style={styles.menuItemImage}
+          source={image}
+          resizeMode="stretch"
+        />
+        <ThemedText>{data.name}</ThemedText>
+      </ThemedView>
+      <ThemedText type="defaultSemiBold">${data.price}</ThemedText>
     </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   menuItemContainer: {
-    flex: 1,
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    padding: 16,
-    gap: 5,
   },
   menuItemImage: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
+    borderRadius: 5,
   },
 });

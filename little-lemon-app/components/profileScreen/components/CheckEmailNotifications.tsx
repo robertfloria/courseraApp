@@ -23,7 +23,7 @@ export default function CheckEmailNotifications({
 
   return (
     <ThemedView style={styles.notificationContainer}>
-      <ThemedText type='subtitle'>Email notifications</ThemedText>
+      <ThemedText type="subtitle">Email notifications</ThemedText>
       <FlatList
         data={checkNotificationsData}
         renderItem={({ item }) => {

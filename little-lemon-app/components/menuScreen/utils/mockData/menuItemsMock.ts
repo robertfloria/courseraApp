@@ -3,7 +3,8 @@ export const menuItemsMock = [
     id: 100,
     category: "Drinks",
     name: "Watter",
-    description: "Refreshing bottled water, pure and crisp, perfect for quenching your thirst.",
+    description:
+      "Refreshing bottled water, pure and crisp, perfect for quenching your thirst.",
     image: "watter.jpg",
     price: 8,
   },
@@ -11,7 +12,8 @@ export const menuItemsMock = [
     id: 101,
     category: "Drinks",
     name: "Lemonade",
-    description: "Freshly squeezed lemonade, bright and tangy, with just the right amount of sweetness.",
+    description:
+      "Freshly squeezed lemonade, bright and tangy, with just the right amount of sweetness.",
     image: "lemonade.jpg",
     price: 18,
   },
@@ -28,7 +30,8 @@ export const menuItemsMock = [
     id: 103,
     category: "Pizza",
     name: "Quattro Formaggi",
-    description: "Quattro Formaggi pizza, a rich blend of mozzarella, gorgonzola, parmesan, and fontina cheeses on a perfectly baked crust.",
+    description:
+      "Quattro Formaggi pizza, a rich blend of mozzarella, gorgonzola, parmesan, and fontina cheeses on a perfectly baked crust.",
     image: "quattroformaggi.jpg",
     price: 30,
   },

@@ -27,7 +27,7 @@ export default function ProfileScreen() {
   const authentication = useContext(AuthenticationContext);
   const { setResetPicture } = useContext(HeaderContext);
 
-  const firstColor = useThemeColor({}, 'firstColor');
+  const firstColor = useThemeColor({}, "firstColor");
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     image: "",
@@ -101,7 +101,7 @@ export default function ProfileScreen() {
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <ThemedScrollView contentContainerStyle={styles.container}>
-        <ThemedText type='subtitle'>Personal information</ThemedText>
+        <ThemedText type="subtitle">Personal information</ThemedText>
         <PickAvatarImage userInfo={userInfo} setUserInfo={setUserInfo} />
         <UserInfoFields userInfo={userInfo} setUserInfo={setUserInfo} />
         <Divider />
@@ -111,13 +111,31 @@ export default function ProfileScreen() {
         />
         <Divider />
         <ThemedView style={styles.handleChangesContainer}>
-          <ThemedView style={{ flex: 1, flexDirection: 'row', gap: 10 }}>
-            <ThemedButton textColor={Colors.dark.text} style={{ flex: 1 }} onPress={handleDiscardChanges}>
+          <ThemedView style={{ flex: 1, flexDirection: "row", gap: 10 }}>
+            <ThemedButton
+              textColor={Colors.dark.text}
+              style={{ flex: 1 }}
+              onPress={handleDiscardChanges}
+            >
               Discard changes
             </ThemedButton>
-            <ThemedButton textColor={Colors.dark.text} style={{ flex: 1 }} onPress={handleSaveChanges}>Save changes</ThemedButton>
+            <ThemedButton
+              textColor={Colors.dark.text}
+              style={{ flex: 1 }}
+              onPress={handleSaveChanges}
+            >
+              Save changes
+            </ThemedButton>
           </ThemedView>
-          <ThemedButton textColor={firstColor} style={{ borderWidth: 2, borderColor: firstColor }} darkColor="transparent" lightColor="transparent" onPress={handleLogOut}>Log Out</ThemedButton>
+          <ThemedButton
+            textColor={firstColor}
+            style={{ borderWidth: 2, borderColor: firstColor }}
+            darkColor="transparent"
+            lightColor="transparent"
+            onPress={handleLogOut}
+          >
+            Log Out
+          </ThemedButton>
         </ThemedView>
       </ThemedScrollView>
     </ThemedSafeAreaView>

@@ -23,7 +23,7 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
     setSelectedItem(data);
   };
 
-  const descriptionColor = useThemeColor({}, 'grey');
+  const descriptionColor = useThemeColor({}, "grey");
 
   useEffect(() => {
     if (data.image) {
@@ -41,8 +41,10 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
         <ThemedText type="subtitle" style={{ flex: 1 }}>
           {data.name}
         </ThemedText>
-        <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>{data.description}</ThemedText>
-        <ThemedText type='defaultSemiBold'>${data.price}</ThemedText>
+        <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>
+          {data.description}
+        </ThemedText>
+        <ThemedText type="defaultSemiBold">${data.price}</ThemedText>
       </ThemedView>
       <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
     </TouchableOpacity>
@@ -69,6 +71,6 @@ const styles = StyleSheet.create({
   menuItemImage: {
     width: 120,
     height: 120,
-    borderRadius: 5
+    borderRadius: 5,
   },
 });
