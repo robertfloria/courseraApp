@@ -1,15 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useRef } from "react";
-import {
-  Alert,
-  Animated,
-  Modal,
-  PanResponder,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Animated, Modal, PanResponder, StyleSheet } from "react-native";
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from "./ThemedText";
 import ThemedButton from "./ThemedButton";

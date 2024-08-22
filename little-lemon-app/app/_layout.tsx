@@ -4,17 +4,12 @@ import { SQLiteProvider } from "expo-sqlite";
 import { retrieveAuthentication } from "@/store/asyncStorage/getData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { Authentication } from "@/utils/interfaces";
-import CustomHeader from "@/components/layout/CustomHeader";
-import RightHeader from "../components/menuScreen/components/RightHeader/RightHeader";
-import { NavigateBackBtn } from "@/components/navigation/NavigateBackBtn";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Drawer } from "expo-router/drawer";
 import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
 import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { Colors } from "@/constants/Colors";
 import ScreensSetup from "@/components/navigation/ScreensSetup";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -22,9 +17,6 @@ export default function RootLayout() {
     firstName: "",
     email: "",
   });
-
-  // const menuScreenHeaderColor = useThemeColor({}, "secondColor");
-  // const drawerBackground = useThemeColor({}, "thirdColor");
 
   useEffect(() => {
     (async () => {
@@ -45,8 +37,14 @@ export default function RootLayout() {
         <HeaderContextProvider>
           <ThemeContextProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <ChangeThemeButton />
-              <ScreensSetup />
+              <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // Adjust if necessary
+              >
+                <ChangeThemeButton />
+                <ScreensSetup />
+              </KeyboardAvoidingView>
             </GestureHandlerRootView>
           </ThemeContextProvider>
         </HeaderContextProvider>

@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { UserInfo } from "../../../utils/interfaces";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 

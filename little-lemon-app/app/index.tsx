@@ -1,9 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import {
-  Text,
   StyleSheet,
   SectionList,
-  StatusBar,
   Alert,
   TouchableWithoutFeedback,
   Keyboard,

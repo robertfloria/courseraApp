@@ -2,7 +2,7 @@ import ThemedButton from "@/components/ThemedButton";
 import { removeAuthentication } from "@/store/asyncStorage/removeData";
 import { useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, View, Text, Alert, ScrollView } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import { fetchUserInfo } from "../components/profileScreen/utils/functions";
 import { EmailNotifications, UserInfo } from "../utils/interfaces";
 import PickAvatarImage from "../components/profileScreen/components/PickAvatarImage";

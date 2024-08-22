@@ -55,6 +55,12 @@ export default function MenuScreen() {
   };
 
   useEffect(() => {
+    if (authentication.email) {
+      router.push("/");
+    }
+  }, []);
+
+  useEffect(() => {
     const isFormValid = Boolean(firstName && email);
     if (validForm != isFormValid) {
       setValidForm(isFormValid);

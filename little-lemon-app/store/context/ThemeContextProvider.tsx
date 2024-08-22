@@ -9,9 +9,9 @@ type Props = {
 };
 
 export const ThemeContextProvider = ({ children }: Props) => {
-  const deviceTheme = useColorScheme() ?? ThemeType.light;
+  const deviceTheme = (useColorScheme() as ThemeType) ?? ThemeType.light;
 
-  const [theme, setTheme] = useState<string>(deviceTheme);
+  const [theme, setTheme] = useState<ThemeType>(deviceTheme);
 
   useUpdateEffect(() => {
     setTheme(deviceTheme);
