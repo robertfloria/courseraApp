@@ -17,11 +17,17 @@ import { HeaderContext } from "@/store/context/HeaderContext";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Colors } from "@/constants/Colors";
+import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
+import { Divider } from "react-native-paper";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { setResetPicture } = useContext(HeaderContext);
+
+  const firstColor = useThemeColor({}, 'firstColor');
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     image: "",
@@ -93,40 +99,39 @@ export default function ProfileScreen() {
   }, [authentication]);
 
   return (
-    <ThemedScrollView contentContainerStyle={styles.scrollContainer}>
-      <ThemedView style={styles.container}>
-        <ThemedText>Personal information</ThemedText>
+    <ThemedSafeAreaView style={{ flex: 1 }}>
+      <ThemedScrollView contentContainerStyle={styles.container}>
+        <ThemedText type='subtitle'>Personal information</ThemedText>
         <PickAvatarImage userInfo={userInfo} setUserInfo={setUserInfo} />
         <UserInfoFields userInfo={userInfo} setUserInfo={setUserInfo} />
+        <Divider />
         <CheckEmailNotifications
           checkNotifications={checkNotifications}
           setCheckNotifications={setCheckNotifications}
         />
-        <ThemedButton onPress={handleLogOut}>Log Out</ThemedButton>
+        <Divider />
         <ThemedView style={styles.handleChangesContainer}>
-          <ThemedButton onPress={handleDiscardChanges}>
-            Discard changes
-          </ThemedButton>
-          <ThemedButton onPress={handleSaveChanges}>Save changes</ThemedButton>
+          <ThemedView style={{ flex: 1, flexDirection: 'row', gap: 10 }}>
+            <ThemedButton textColor={Colors.dark.text} style={{ flex: 1 }} onPress={handleDiscardChanges}>
+              Discard changes
+            </ThemedButton>
+            <ThemedButton textColor={Colors.dark.text} style={{ flex: 1 }} onPress={handleSaveChanges}>Save changes</ThemedButton>
+          </ThemedView>
+          <ThemedButton textColor={firstColor} style={{ borderWidth: 2, borderColor: firstColor }} darkColor="transparent" lightColor="transparent" onPress={handleLogOut}>Log Out</ThemedButton>
         </ThemedView>
-      </ThemedView>
-    </ThemedScrollView>
+      </ThemedScrollView>
+    </ThemedSafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flex: 1,
-  },
   container: {
     display: "flex",
-    flex: 1,
-    padding: 10,
+    padding: 15,
     gap: 20,
   },
   handleChangesContainer: {
     display: "flex",
-    flexDirection: "row",
     width: "100%",
     justifyContent: "center",
     gap: 10,

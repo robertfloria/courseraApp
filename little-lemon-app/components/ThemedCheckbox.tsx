@@ -14,10 +14,11 @@ export function ThemedCheckbox({
   ...otherProps
 }: ThemedCheckboxProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const firstColor = useThemeColor({ light: lightColor, dark: darkColor }, "firstColor");
 
   return (
     <Checkbox.Item
-      color={color}
+      color={firstColor}
       label={label}
       labelStyle={[{ color: color }, labelStyle]}
       {...otherProps}

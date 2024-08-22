@@ -23,18 +23,19 @@ export default function CheckEmailNotifications({
 
   return (
     <ThemedView style={styles.notificationContainer}>
-      <ThemedText>Email notifications</ThemedText>
+      <ThemedText type='subtitle'>Email notifications</ThemedText>
       <FlatList
         data={checkNotificationsData}
         renderItem={({ item }) => {
           const key = item.id as keyof EmailNotifications;
           return (
             <ThemedCheckbox
-              status={checkNotifications[key] ? "checked" : "unchecked"}
+              status={checkNotifications[key] ? "checked" : "indeterminate"}
               onPress={() => handleChangeCheckNotifications(key)}
               label={item.label}
               position="leading"
               labelStyle={{ textAlign: "left" }}
+              uncheckedColor="blue"
             />
           );
         }}
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     height: "auto",
-    gap: 10,
+    gap: 5,
     width: "100%",
   },
 });
