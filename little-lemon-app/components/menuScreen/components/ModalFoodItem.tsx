@@ -19,6 +19,9 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedButton from "@/components/ThemedButton";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Colors } from "@/constants/Colors";
+import { Divider } from "react-native-paper";
 
 type Props = {
   data: MenuItems;
@@ -30,6 +33,8 @@ export const ModalFoodItem = ({ data }: Props) => {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { setResetResetCartCounter } = useContext(HeaderContext);
+
+  const descriptionColor = useThemeColor({}, 'grey');
 
   const addItemToCart = async () => {
     await addItemInShoppingCart(data.id, authentication.email, db);
@@ -49,15 +54,15 @@ export const ModalFoodItem = ({ data }: Props) => {
         <Image
           style={styles.menuItemImage}
           source={image}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
         <ThemedView style={styles.menuItemDetailsContainer}>
-          <ThemedText type="defaultSemiBold">{data?.description}</ThemedText>
-          <ThemedText>${data?.price}</ThemedText>
-          <ThemedButton style={styles.button} onPress={addItemToCart}>
-            Add to cart
-          </ThemedButton>
+          <ThemedText style={{ fontSize: 18, lineHeight: 0 }} lightColor={descriptionColor} darkColor={descriptionColor}>{data?.description}</ThemedText>
+          <ThemedText style={{ fontSize: 30, lineHeight: 0 }}>${data?.price}</ThemedText>
         </ThemedView>
+        <ThemedButton textColor={Colors.dark.text} style={styles.button} onPress={addItemToCart}>
+          Add to cart
+        </ThemedButton>
       </ThemedScrollView>
     </ThemedSafeAreaView>
   );
@@ -75,23 +80,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     backgroundColor: "transparent",
+    gap: 15
   },
   menuItemDetailsContainer: {
     flex: 1,
     display: "flex",
     width: "100%",
-    justifyContent: "space-between",
+    gap: 10,
     backgroundColor: "transparent",
   },
   menuItemImage: {
     width: "100%",
     height: 250,
+    borderRadius: 5
   },
   button: {
     width: "100%",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
   },
 });

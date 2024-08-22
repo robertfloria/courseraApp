@@ -72,8 +72,8 @@ export default function CustomModal({
       >
         <ThemedView style={styles(pan).titleContainer}>
           <ThemedText type="subtitle">{title}</ThemedText>
-          <ThemedButton onPress={onModalClose}>
-            <MaterialIcons name="close" color="#fff" size={22} />
+          <ThemedButton lightColor="transparent" darkColor="transparent" onPress={onModalClose}>
+            <MaterialIcons name="close" size={25} />
           </ThemedButton>
         </ThemedView>
         {children}
@@ -85,19 +85,12 @@ export default function CustomModal({
 const styles = (pan: any, backgroundColor?: string) =>
   StyleSheet.create({
     modalContent: {
-      height: "70%",
+      height: "80%",
       width: "100%",
       borderTopRightRadius: 18,
       borderTopLeftRadius: 18,
       position: "absolute",
       backgroundColor: backgroundColor,
-      // iOS Shadow Properties
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.8,
-      shadowRadius: 4,
-      // Android Elevation Property
-      elevation: 5,
       bottom: 0,
       transform: [{ translateY: pan.y }, { perspective: 1000 }],
     },
