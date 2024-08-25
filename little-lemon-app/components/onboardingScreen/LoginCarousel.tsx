@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { ThemedView } from '../ThemedView';
 import { ThemedText } from '../ThemedText';
@@ -15,15 +15,16 @@ function LoginCarousel({ setOnboarding }: Props) {
     const handleSetOnboarding = () => setOnboarding((prevState: boolean) => !prevState);
 
     return (
-        <ThemedView style={{ flex: 1, display: 'flex' }}>
+        <React.Fragment>
             <ThemedText type='subtitle'>Are you hungry?</ThemedText>
             <Carousel
                 loop
                 width={width}
-                height={50}
-                autoPlay={false}
+                autoPlay={true}
                 data={[...new Array(6).keys()]}
                 scrollAnimationDuration={1000}
+                autoPlayInterval={2000}
+                windowSize={120}
                 renderItem={({ index }) => (
                     <ThemedView
                         style={{
@@ -31,14 +32,14 @@ function LoginCarousel({ setOnboarding }: Props) {
                             justifyContent: 'center',
                         }}
                     >
-                        <ThemedText style={{ textAlign: 'center', fontSize: 30, lineHeight:0 }}>
+                        <ThemedText style={{ textAlign: 'center', fontSize: 30, lineHeight: 0 }}>
                             {index}
                         </ThemedText>
                     </ThemedView>
                 )}
             />
             <ThemedButton onPress={handleSetOnboarding}>Onboarding</ThemedButton>
-        </ThemedView>
+        </React.Fragment>
     );
 }
 
