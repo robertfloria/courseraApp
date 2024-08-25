@@ -1,4 +1,5 @@
 import LemonIcon from "@/assets/icons/LemonIcon";
+import LoginCarousel from "@/components/onboardingScreen/LoginCarousel";
 import { ScaleFingerPrint } from "@/components/onboardingScreen/ScaleFingerPrint";
 import { WaveSvg } from "@/components/svg/WaveSvg";
 import ThemedButton from "@/components/ThemedButton";
@@ -12,7 +13,7 @@ import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   StatusBar,
@@ -25,6 +26,7 @@ export default function MenuScreen() {
   const [firstName, setFirstName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [validForm, setValidForm] = useState<boolean>(false);
+  const [onboarding, setOnboarding] = useState<boolean>(false);
 
   const thirdColor = useThemeColor({}, "thirdColor");
   const secondColor = useThemeColor({}, "secondColor");
@@ -83,54 +85,60 @@ export default function MenuScreen() {
           </ThemedText>
         </LinearGradient>
         <ThemedSafeAreaView style={styles.infoContainer}>
-          <ScaleFingerPrint />
-          <LinearGradient
-            colors={[secondColor, firstColor]}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 1 }}
-            style={[{ padding: 2 }, styles.gradientButton]}
-          >
-            <ThemedTextInput
-              value={firstName}
-              onChangeText={setFirstName}
-              keyboardType="default"
-              textContentType="givenName"
-              placeholder={"Type first name"}
-              style={styles.input}
-            />
-          </LinearGradient>
-          <LinearGradient
-            colors={[secondColor, firstColor]}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 1 }}
-            style={[{ padding: 2 }, styles.gradientButton]}
-          >
-            <ThemedTextInput
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              placeholder={"Type your email"}
-              style={styles.input}
-            />
-          </LinearGradient>
-          <LinearGradient
-            colors={[secondColor, firstColor]}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 1 }}
-            style={[
-              { borderWidth: 1, borderColor: firstColor },
-              styles.gradientButton,
-            ]}
-          >
-            <ThemedButton
-              style={styles.button}
-              onPress={handleSubscribe}
-              disabled={!validForm}
-            >
-              Subscribe
-            </ThemedButton>
-          </LinearGradient>
+          {onboarding ?
+            <Fragment>
+              <ScaleFingerPrint />
+              <LinearGradient
+                colors={[secondColor, firstColor]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 1 }}
+                style={[{ padding: 2 }, styles.gradientButton]}
+              >
+                <ThemedTextInput
+                  value={firstName}
+                  onChangeText={setFirstName}
+                  keyboardType="default"
+                  textContentType="givenName"
+                  placeholder={"Type first name"}
+                  style={styles.input}
+                />
+              </LinearGradient>
+              <LinearGradient
+                colors={[secondColor, firstColor]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 1 }}
+                style={[{ padding: 2 }, styles.gradientButton]}
+              >
+                <ThemedTextInput
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
+                  placeholder={"Type your email"}
+                  style={styles.input}
+                />
+              </LinearGradient>
+              <LinearGradient
+                colors={[secondColor, firstColor]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 1 }}
+                style={[
+                  { borderWidth: 1, borderColor: firstColor },
+                  styles.gradientButton,
+                ]}
+              >
+                <ThemedButton
+                  style={styles.button}
+                  onPress={handleSubscribe}
+                  disabled={!validForm}
+                >
+                  Subscribe
+                </ThemedButton>
+              </LinearGradient>
+            </Fragment>
+            :
+            <LoginCarousel setOnboarding={setOnboarding} />
+          }
         </ThemedSafeAreaView>
       </ThemedView>
     </TouchableWithoutFeedback>
