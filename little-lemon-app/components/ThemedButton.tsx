@@ -6,6 +6,7 @@ import {
   PressableProps,
   StyleProp,
   ViewStyle,
+  Animated,
 } from "react-native";
 import { ThemedText } from "./ThemedText";
 
@@ -34,26 +35,50 @@ const ThemedButton = ({
     "firstColor",
   );
 
+  const [isPressed, setIsPressed] = React.useState(false);
+
   const color = useThemeColor({}, "text");
+
+  const scaleValue = new Animated.Value(1); // Initial scale value of 1
+
+  const handlePressIn = () => {
+    Animated.spring(scaleValue, {
+      toValue: 1.2, // Scale down to 95%
+      useNativeDriver: true, // Use native driver for better performance
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleValue, {
+      toValue: 1, // Return to original size
+      useNativeDriver: true,
+    }).start();
+  };
 
   return (
     <Pressable
       style={[
-        { backgroundColor: backgroundColor },
+        {
+          backgroundColor: backgroundColor
+        },
         styles(disabled).buttonWrapper,
         style,
       ]}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
       {...otherProps}
     >
-      <ThemedText
-        style={{
-          color: textColor ?? color,
-          fontSize: fontSize ?? 16,
-          fontWeight: "bold",
-        }}
-      >
-        {children}
-      </ThemedText>
+      <Animated.View style={[{ transform: [{ scale: scaleValue }] }]}>
+        <ThemedText
+          style={{
+            color: textColor ?? color,
+            fontSize: fontSize ?? 16,
+            fontWeight: "bold"
+          }}
+        >
+          {children}
+        </ThemedText>
+      </Animated.View>
     </Pressable>
   );
 };
