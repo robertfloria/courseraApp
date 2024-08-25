@@ -68,12 +68,14 @@ const ThemedButton = ({
       onPressOut={handlePressOut}
       {...otherProps}
     >
-      <Animated.View style={[{ transform: [{ scale: scaleValue }] }]}>
+      <Animated.View style={[{ display: 'flex', transform: [{ scale: scaleValue }] }]}>
         <ThemedText
           style={{
             color: textColor ?? color,
             fontSize: fontSize ?? 16,
-            fontWeight: "bold"
+            fontWeight: "bold",
+            textAlign: 'center',
+            display:'flex'
           }}
         >
           {children}
@@ -90,7 +92,7 @@ const styles = (disabled?: boolean) =>
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      alignItems: "center",
+      textAlign: 'center',
       padding: 10,
       opacity: disabled ? 0.5 : 1,
     },

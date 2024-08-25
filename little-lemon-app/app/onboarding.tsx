@@ -79,12 +79,12 @@ export default function MenuScreen() {
           style={styles.titleContainer}
         >
           <WaveSvg color={thirdColor} />
-          <LemonIcon width={150} height={150} />
+          <LemonIcon width={130} height={130} />
           <ThemedText type="title" style={{ color: thirdColor }}>
             Little lemon app
           </ThemedText>
         </LinearGradient>
-        <ThemedSafeAreaView style={styles.infoContainer}>
+        <ThemedSafeAreaView style={[{ flex: onboarding ? 2 : 1 }, styles.infoContainer]}>
           {onboarding ?
             <Fragment>
               <ScaleFingerPrint />
@@ -174,8 +174,7 @@ const styles = StyleSheet.create({
     gap: 20,
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "transparent",
-    flex: 2,
+    backgroundColor: "transparent"
   },
   titleContainer: {
     display: "flex",
