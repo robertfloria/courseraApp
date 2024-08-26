@@ -13,7 +13,7 @@ export const Colors = {
     inputPlaceholder: "#4b5a63",
     inputBorder: "#4b5a63",
     firstColor: "#7F30FF",
-    secondColor: "#FED766",
+    secondColor: "#ffd52b",
     thirdColor: "#EEE9F2",
     opacityGrey: "rgba(201, 201, 201, 0.2)",
     grey: "#757575",

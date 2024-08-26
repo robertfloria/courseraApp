@@ -84,8 +84,10 @@ export default function MenuScreen() {
             Little lemon app
           </ThemedText>
         </LinearGradient>
-        <ThemedSafeAreaView style={[{ flex: onboarding ? 2 : 1 }, styles.infoContainer]}>
-          {onboarding ?
+        <ThemedSafeAreaView
+          style={[{ flex: onboarding ? 2 : 1 }, styles.infoContainer]}
+        >
+          {onboarding ? (
             <Fragment>
               <ScaleFingerPrint />
               <LinearGradient
@@ -136,9 +138,9 @@ export default function MenuScreen() {
                 </ThemedButton>
               </LinearGradient>
             </Fragment>
-            :
+          ) : (
             <LoginCarousel setOnboarding={setOnboarding} />
-          }
+          )}
         </ThemedSafeAreaView>
       </ThemedView>
     </TouchableWithoutFeedback>
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
     gap: 20,
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   titleContainer: {
     display: "flex",

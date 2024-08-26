@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, ImageSourcePropType, StyleSheet } from "react-native";
+import { Alert, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
@@ -13,6 +13,8 @@ import ThemedButton from "@/components/ThemedButton";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import ItemCounter from "./ItemCounter";
 
 type Props = {
   data: MenuItems;
@@ -21,12 +23,14 @@ type Props = {
 
 export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
+  const [counter, setCounter] = useState<number>(1);
 
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { setResetResetCartCounter } = useContext(HeaderContext);
 
   const descriptionColor = useThemeColor({}, "grey");
+  const secondColor = useThemeColor({}, "secondColor");
 
   const addItemToCart = async () => {
     await addItemInShoppingCart(data.id, authentication.email, db);
@@ -54,16 +58,19 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
           >
             {data?.description}
           </ThemedText>
-          <ThemedText style={{ fontSize: 30, lineHeight: 0 }}>
-            ${data?.price}
-          </ThemedText>
+          <View style={styles.deliveryContainer}>
+            <MaterialIcons color={secondColor} name='delivery-dining' size={40} />
+            <ThemedText>Delivery time: </ThemedText>
+            <ThemedText type='defaultSemiBold'>20 minutes</ThemedText>
+          </View>
         </ThemedView>
+        <ItemCounter counter={counter} setCounter={setCounter} />
         <ThemedButton
           textColor={Colors.dark.text}
           style={styles.button}
           onPress={addItemToCart}
         >
-          Add to cart
+          Add for ${data?.price}
         </ThemedButton>
       </ThemedScrollView>
     </ThemedSafeAreaView>
@@ -78,14 +85,19 @@ const styles = StyleSheet.create({
   menuItemContainer: {
     flex: 1,
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    paddingHorizontal: 16,
     backgroundColor: "transparent",
     gap: 15,
   },
+  deliveryContainer: {
+    display: 'flex',
+    gap: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   menuItemDetailsContainer: {
-    flex: 1,
     display: "flex",
     width: "100%",
     gap: 10,
