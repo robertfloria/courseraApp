@@ -24,6 +24,7 @@ type Props = {
 export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
   const [counter, setCounter] = useState<number>(1);
+  const [finalPrice, setFinalPrice] = useState<number>(0);
 
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
@@ -33,7 +34,7 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
   const secondColor = useThemeColor({}, "secondColor");
 
   const addItemToCart = async () => {
-    await addItemInShoppingCart(data.id, authentication.email, db);
+    await addItemInShoppingCart(data.id, authentication.email, counter, db);
     setResetResetCartCounter((prevState: any) => !prevState);
     handleCloseModal();
     Alert.alert("Item added to cart!");
@@ -45,6 +46,10 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
       setImage(imagePath);
     }
   }, [data]);
+
+  useEffect(() => {
+    setFinalPrice(Math.abs(data.price * counter));
+  }, [data, counter])
 
   return (
     <ThemedSafeAreaView style={styles.container}>
@@ -70,7 +75,7 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
           style={styles.button}
           onPress={addItemToCart}
         >
-          Add for ${data?.price}
+          Add for ${finalPrice.toFixed(2)}
         </ThemedButton>
       </ThemedScrollView>
     </ThemedSafeAreaView>

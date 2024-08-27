@@ -46,15 +46,15 @@ export async function getUserShoppingItems(
 export async function addItemInShoppingCart(
   itemId: number,
   email: string,
+  amount: number,
   db: SQLiteDatabase,
 ) {
   const user = await getUser(db, email);
+  const valuesArray = Array(amount).fill(`(${user.id}, ${itemId})`).join(',');
 
   try {
-    await db.runAsync(
-      `INSERT INTO shoppingCart (userId, itemId) VALUES(?, ?)`,
-      user.id,
-      itemId,
+    await db.execAsync(
+      `INSERT INTO shoppingCart (userId, itemId) VALUES ${valuesArray};`
     );
   } catch (err) {
     Alert.alert("Sorry, there was an error!");
