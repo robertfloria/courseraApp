@@ -13,10 +13,11 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
   data: MenuItems;
+  horizontal?: boolean;
   setSelectedItem: (arg: any) => any;
 };
 
-export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
+export const SectionFoodItem = ({ data, horizontal = false, setSelectedItem }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
   const handleOpenModal = () => {
@@ -32,17 +33,25 @@ export const SectionFoodItem = ({ data, setSelectedItem }: Props) => {
     }
   }, [data.image]);
 
+  const handleDescription = (description: string) => {
+    if (horizontal && description.length > 10) {
+      return description.substring(0, 9) + '...';
+    }
+
+    return description;
+  }
+
   return (
     <TouchableOpacity
       onPress={handleOpenModal}
-      style={styles.menuItemContainer}
+      style={[styles.menuItemContainer]}
     >
       <ThemedView style={styles.menuItemDetailsContainer}>
         <ThemedText type="subtitle" style={{ flex: 1 }}>
           {data.name}
         </ThemedText>
         <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>
-          {data.description}
+          {handleDescription(data.description)}
         </ThemedText>
         <ThemedText type="defaultSemiBold">${data.price}</ThemedText>
       </ThemedView>

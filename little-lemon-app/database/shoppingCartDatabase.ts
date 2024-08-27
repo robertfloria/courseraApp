@@ -50,11 +50,11 @@ export async function addItemInShoppingCart(
   db: SQLiteDatabase,
 ) {
   const user = await getUser(db, email);
-  const valuesArray = Array(amount).fill(`(${user.id}, ${itemId})`).join(',');
+  const valuesArray = Array(amount).fill(`(${user.id}, ${itemId})`).join(",");
 
   try {
     await db.execAsync(
-      `INSERT INTO shoppingCart (userId, itemId) VALUES ${valuesArray};`
+      `INSERT INTO shoppingCart (userId, itemId) VALUES ${valuesArray};`,
     );
   } catch (err) {
     Alert.alert("Sorry, there was an error!");

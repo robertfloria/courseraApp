@@ -10,6 +10,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Divider } from "react-native-paper";
 import { HeaderContext } from "@/store/context/HeaderContext";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
+import FooterItem from "@/components/shoppingCartScreen/components/FooterItem";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
@@ -42,24 +43,21 @@ export default function ShoppingCartScreen() {
         <FlatList
           data={data}
           ListHeaderComponent={() => (
-            <ThemedText type="subtitle" style={{ marginBottom: 15 }}>
-              Items
-            </ThemedText>
+            <ThemedView style={styles.headerContainer}>
+              <ThemedText type="subtitle">
+                Order Summary
+              </ThemedText>
+            </ThemedView>
           )}
+          stickyHeaderIndices={[0]}
+          ListFooterComponentStyle={{ marginTop: 25 }}
+          ListHeaderComponentStyle={{ marginBottom: 15 }}
           renderItem={({ item }) => <FoodItem data={item} />}
           keyExtractor={(item) => item.id.toString()}
           ItemSeparatorComponent={() => (
             <Divider style={{ marginVertical: 10 }} />
           )}
-          ListFooterComponent={() => (
-            <ThemedText
-              type="subtitle"
-              style={{ width: "100%", textAlign: "center", marginTop: 15 }}
-            >
-              Total:
-              <ThemedText type="title"> {totalPrice.toFixed(2)}$</ThemedText>
-            </ThemedText>
-          )}
+          ListFooterComponent={() => <FooterItem totalPrice={totalPrice} />}
         />
       </ThemedView>
     </ThemedSafeAreaView>
@@ -73,4 +71,9 @@ const styles = StyleSheet.create({
     padding: 15,
     gap: 20,
   },
+  headerContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%'
+  }
 });

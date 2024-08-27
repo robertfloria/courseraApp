@@ -1,5 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  View,
+} from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
@@ -49,7 +55,7 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
 
   useEffect(() => {
     setFinalPrice(Math.abs(data.price * counter));
-  }, [data, counter])
+  }, [data, counter]);
 
   return (
     <ThemedSafeAreaView style={styles.container}>
@@ -64,9 +70,13 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
             {data?.description}
           </ThemedText>
           <View style={styles.deliveryContainer}>
-            <MaterialIcons color={secondColor} name='delivery-dining' size={40} />
+            <MaterialIcons
+              color={secondColor}
+              name="delivery-dining"
+              size={40}
+            />
             <ThemedText>Delivery time: </ThemedText>
-            <ThemedText type='defaultSemiBold'>20 minutes</ThemedText>
+            <ThemedText type="defaultSemiBold">20 minutes</ThemedText>
           </View>
         </ThemedView>
         <ItemCounter counter={counter} setCounter={setCounter} />
@@ -97,10 +107,10 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   deliveryContainer: {
-    display: 'flex',
+    display: "flex",
     gap: 5,
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   menuItemDetailsContainer: {
     display: "flex",

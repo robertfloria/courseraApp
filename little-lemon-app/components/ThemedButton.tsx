@@ -69,7 +69,14 @@ const ThemedButton = ({
       {...otherProps}
     >
       <Animated.View
-        style={[{ display: "flex", alignItems: 'center', justifyContent: 'center', transform: [{ scale: scaleValue }] }]}
+        style={[
+          {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: [{ scale: scaleValue }],
+          },
+        ]}
       >
         <ThemedText
           style={{

@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   button: {
-    width: 60,
-    height: 60,
+  padding:10,
     borderRadius: 100,
     display: "flex",
     alignItems: "center",
