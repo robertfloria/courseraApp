@@ -1,7 +1,4 @@
-import ThemedButton from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
-import { Colors } from "@/constants/Colors";
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { StyleSheet, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { deliveryPrice, servicePrice } from "../constants";
@@ -11,8 +8,6 @@ type Props = {
 };
 
 export default function Checkout({ totalPrice }: Props) {
-  const secondColor = useThemeColor({}, 'secondColor');
-
   return (
     <View style={styles.container}>
       <View style={styles.totalPriceContainer}>
@@ -39,7 +34,6 @@ export default function Checkout({ totalPrice }: Props) {
           <ThemedText type="subtitle">${totalPrice.toFixed(2)}</ThemedText>
         </View>
       </View>
-      <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text}>Checkout</ThemedButton>
     </View>
   );
 }

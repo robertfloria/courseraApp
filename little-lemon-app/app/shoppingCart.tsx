@@ -15,14 +15,20 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Checkout from "@/components/shoppingCartScreen/components/Checkout";
 import ExtraItemsList from "@/components/shoppingCartScreen/components/ExtraItemsList";
+import ThemedButton from "@/components/ThemedButton";
+import { Colors } from "@/constants/Colors";
+import CustomModal from "@/components/CustomModal";
+import ModalOrderConfirmation from "@/components/shoppingCartScreen/components/ModalOrderConfirmation";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { resetCartCounter } = useContext(HeaderContext);
+  const [openModal, setOpenModal] = useState(false);
 
   const color = useThemeColor({}, 'text');
+  const secondColor = useThemeColor({}, 'secondColor');
 
   useEffect(() => {
     (async () => {
@@ -70,6 +76,7 @@ export default function ShoppingCartScreen() {
                 scrollEnabled
               />
               <Checkout totalPrice={totalPrice} />
+              <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text} onPress={() => setOpenModal(true)}>Order</ThemedButton>
             </Fragment>
             :
             <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
@@ -78,6 +85,14 @@ export default function ShoppingCartScreen() {
             </View>
         }
       </ThemedView>
+      {openModal && (
+        <CustomModal
+          openModal={openModal}
+          onModalClose={() => setOpenModal(false)}
+        >
+          <ModalOrderConfirmation />
+        </CustomModal>
+      )}
     </ThemedSafeAreaView>
   );
 }
