@@ -19,12 +19,13 @@ import ThemedButton from "@/components/ThemedButton";
 import { Colors } from "@/constants/Colors";
 import CustomModal from "@/components/CustomModal";
 import ModalOrderConfirmation from "@/components/shoppingCartScreen/components/ModalOrderConfirmation";
+import { addOrder, getUserOrders, insertShoppingItemsOrderId } from "@/database/ordersDatabase";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { resetCartCounter } = useContext(HeaderContext);
+  const { resetCartCounter, setResetResetCartCounter } = useContext(HeaderContext);
   const [openModal, setOpenModal] = useState(false);
 
   const color = useThemeColor({}, 'text');
@@ -48,6 +49,24 @@ export default function ShoppingCartScreen() {
     });
     return calculatedPrice;
   }, [data]);
+
+  const handleOrder = async () => {
+    const min = 1000000000; // 10-digit number minimum (1 followed by 9 zeros)
+    const max = 9999999999; // 10-digit number maximum (9 followed by 9 nines)
+    const orderId = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+
+    setOpenModal(true);
+    const insertedOrderId = await addOrder(orderId, totalPrice, db);
+    await insertShoppingItemsOrderId(db, insertedOrderId, authentication.email);
+    setResetResetCartCounter((prevState: any) => !prevState);
+  }
+
+  useEffect(() => {
+    (async () => {
+      const cdv = await getUserOrders(db, authentication.email);
+      console.log(cdv)
+    })()
+  }, [])
 
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
@@ -76,7 +95,7 @@ export default function ShoppingCartScreen() {
                 scrollEnabled
               />
               <Checkout totalPrice={totalPrice} />
-              <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text} onPress={() => setOpenModal(true)}>Order</ThemedButton>
+              <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text} onPress={handleOrder}>Order</ThemedButton>
             </Fragment>
             :
             <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>

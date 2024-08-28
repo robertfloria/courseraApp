@@ -51,3 +51,10 @@ export interface Theme {
   light?: string;
   dark?: string;
 }
+
+export interface UserOrdersItems {
+  orderId: string;
+  finalPrice: number;
+  name: string;
+  createdDate: Date;
+};

@@ -1,4 +1,5 @@
 import { createMenuItemsTable } from "@/database/menuDatabase";
+import { createOrdersTable } from "@/database/ordersDatabase";
 import { createShoppingCartTable } from "@/database/shoppingCartDatabase";
 import { createUserTable } from "@/database/userDatabase";
 import { SQLiteDatabase } from "expo-sqlite";
@@ -86,5 +87,6 @@ export const getImage = (imageName: string) => {
 export const setupDatabase = async (db: SQLiteDatabase) => {
   await createUserTable(db);
   await createMenuItemsTable(db);
+  await createOrdersTable(db);
   await createShoppingCartTable(db);
 };

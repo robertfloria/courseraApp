@@ -12,7 +12,7 @@ export default function Checkout({ totalPrice }: Props) {
     <View style={styles.container}>
       <View style={styles.totalPriceContainer}>
         <View style={styles.itemContainer}>
-          <ThemedText type="defaultSemiBold">Subtotal</ThemedText>
+          <ThemedText type="subtitle">Subtotal</ThemedText>
         </View>
         <View style={styles.itemContainer}>
           <ThemedText>

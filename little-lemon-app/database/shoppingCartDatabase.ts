@@ -10,8 +10,10 @@ export async function createShoppingCartTable(db: SQLiteDatabase) {
     id integer primary key not null, 
     userId integer NOT NULL,
     itemId integer NOT NULL,
+    orderId integer NULL,
     FOREIGN KEY(userId) REFERENCES user(id),
-    FOREIGN KEY(itemId) REFERENCES menuitems(id)
+    FOREIGN KEY(itemId) REFERENCES menuitems(id),
+    FOREIGN KEY(orderId) REFERENCES orders(id)
     );
     `);
 }
@@ -23,7 +25,7 @@ export async function getUserShoppingItems(
   const user = await getUser(db, email);
   const userShoppingCartItemsId = (
     await db.getAllAsync(
-      `SELECT itemId FROM shoppingCart WHERE userId = ?`,
+      `SELECT itemId FROM shoppingCart WHERE userId = ? AND orderId IS NULL`,
       user.id,
     )
   ).map((item: any) => item.itemId);
