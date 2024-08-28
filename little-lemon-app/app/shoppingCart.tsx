@@ -2,16 +2,19 @@ import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { UserShoppingItem } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 import { FoodItem } from "../components/shoppingCartScreen/components/FoodItem";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Divider } from "react-native-paper";
 import { HeaderContext } from "@/store/context/HeaderContext";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
-import FooterItem from "@/components/shoppingCartScreen/components/FooterItem";
 import { deliveryPrice, servicePrice } from "@/components/shoppingCartScreen/constants";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import Checkout from "@/components/shoppingCartScreen/components/Checkout";
+import ExtraItemsList from "@/components/shoppingCartScreen/components/ExtraItemsList";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
@@ -19,6 +22,7 @@ export default function ShoppingCartScreen() {
   const authentication = useContext(AuthenticationContext);
   const { resetCartCounter } = useContext(HeaderContext);
 
+  const color = useThemeColor({}, 'text');
 
   useEffect(() => {
     (async () => {
@@ -40,29 +44,39 @@ export default function ShoppingCartScreen() {
   }, [data]);
 
   return (
-    <ThemedSafeAreaView style={styles.container}>
+    <ThemedSafeAreaView style={{ flex: 1 }}>
       <ThemedView style={styles.container}>
-        <FlatList
-          data={data}
-          ListHeaderComponent={() => (
-            <ThemedView style={styles.headerContainer}>
-              <ThemedText type="subtitle">
-                Order Summary
-              </ThemedText>
-            </ThemedView>
-          )}
-          stickyHeaderIndices={[0]}
-          ListFooterComponentStyle={{ paddingTop: 25 }}
-          ListHeaderComponentStyle={{ marginBottom: 15 }}
-          renderItem={({ item }) => <FoodItem data={item} />}
-          keyExtractor={(item) => item.id.toString()}
-          ItemSeparatorComponent={() => (
-            <Divider style={{ marginVertical: 10 }} />
-          )}
-          ListFooterComponent={() => <FooterItem totalPrice={totalPrice} />}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled
-        />
+        {
+          data.length ?
+            <Fragment>
+              <FlatList
+                data={data}
+                ListHeaderComponent={() => (
+                  <ThemedView style={styles.headerContainer}>
+                    <ThemedText type="subtitle">
+                      Order Summary
+                    </ThemedText>
+                  </ThemedView>
+                )}
+                stickyHeaderIndices={[0]}
+                ListFooterComponentStyle={{ paddingTop: 25 }}
+                renderItem={({ item }) => <FoodItem data={item} />}
+                keyExtractor={(item) => item.id.toString()}
+                ItemSeparatorComponent={() => (
+                  <Divider style={{ marginVertical: 10 }} />
+                )}
+                ListFooterComponent={() => <ExtraItemsList />}
+                showsVerticalScrollIndicator={false}
+                scrollEnabled
+              />
+              <Checkout totalPrice={totalPrice} />
+            </Fragment>
+            :
+            <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+              <MaterialIcons name='no-food' color={color} size={70} />
+              <ThemedText type='subtitle'>Please add items!</ThemedText>
+            </View>
+        }
       </ThemedView>
     </ThemedSafeAreaView>
   );
@@ -73,11 +87,12 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     padding: 15,
-    gap: 20,
+    gap: 30,
   },
   headerContainer: {
     display: 'flex',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    paddingBottom: 15
   }
 });

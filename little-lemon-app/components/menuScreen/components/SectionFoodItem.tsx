@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   menuItemDetailsContainer: {
     flex: 1,
     display: "flex",
-    height: "100%",
+    height: '100%',
     justifyContent: "space-between",
     gap: 10,
   },
