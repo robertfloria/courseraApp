@@ -7,10 +7,13 @@ import { getMenuItems } from "@/database/menuDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { deliveryPrice, servicePrice } from "../constants";
+import { addItemInShoppingCart } from "@/database/shoppingCartDatabase";
+import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { HeaderContext } from "@/store/context/HeaderContext";
 
 type Props = {
   totalPrice: number;
@@ -20,9 +23,16 @@ export default function FooterItem({ totalPrice }: Props) {
   const [data, setData] = useState<Array<MenuItems>>([]);
   const [selectedItem, setSelectedItem] = useState<MenuItems>();
   const db = useSQLiteContext();
+  const authentication = useContext(AuthenticationContext);
+  const { setResetResetCartCounter } = useContext(HeaderContext);
 
   const separatorColor = useThemeColor({}, 'opacityGrey');
   const secondColor = useThemeColor({}, 'secondColor');
+
+  const addItemToCart = useCallback(async (itemId: number) => {
+    await addItemInShoppingCart(itemId, authentication.email, 1, db);
+    setResetResetCartCounter((prevState: any) => !prevState);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -41,7 +51,7 @@ export default function FooterItem({ totalPrice }: Props) {
           data={data}
           horizontal={true}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <SectionFoodItem horizontal data={item} setSelectedItem={setSelectedItem} />}
+          renderItem={({ item }) => <SectionFoodItem horizontal data={item} onPress={() => addItemToCart(item.id)} />}
           showsHorizontalScrollIndicator={false}
           scrollEnabled
         />

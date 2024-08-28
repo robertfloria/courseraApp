@@ -96,6 +96,7 @@ export default function MenuScreen() {
   };
 
   const handleCloseModal = () => setSelectedItem(undefined);
+  const onPressItem = (item: any) => setSelectedItem(item);
 
   return (
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
@@ -117,7 +118,7 @@ export default function MenuScreen() {
           sections={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <SectionFoodItem data={item} setSelectedItem={setSelectedItem} />
+            <SectionFoodItem data={item} onPress={() => onPressItem(item)} />
           )}
           renderSectionHeader={({ section: { category } }) => (
             <ThemedText

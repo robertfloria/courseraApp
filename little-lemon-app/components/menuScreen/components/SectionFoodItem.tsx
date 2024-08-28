@@ -15,15 +15,11 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 type Props = {
   data: MenuItems;
   horizontal?: boolean;
-  setSelectedItem: (arg: any) => any;
+  onPress: (arg: any) => any;
 };
 
-export const SectionFoodItem = ({ data, horizontal = false, setSelectedItem }: Props) => {
+export const SectionFoodItem = ({ data, horizontal = false, onPress }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
-
-  const handleOpenModal = () => {
-    setSelectedItem(data);
-  };
 
   const descriptionColor = useThemeColor({}, "grey");
 
@@ -44,7 +40,7 @@ export const SectionFoodItem = ({ data, horizontal = false, setSelectedItem }: P
 
   return (
     <TouchableOpacity
-      onPress={handleOpenModal}
+      onPress={onPress}
       style={styles.menuItemContainer}
     >
       <ThemedView style={styles.menuItemDetailsContainer}>
