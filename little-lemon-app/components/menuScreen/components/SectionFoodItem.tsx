@@ -4,6 +4,7 @@ import {
   ImageSourcePropType,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { getImage } from "../utils/functions";
 import { MenuItems } from "@/utils/interfaces";
@@ -34,8 +35,8 @@ export const SectionFoodItem = ({ data, horizontal = false, setSelectedItem }: P
   }, [data.image]);
 
   const handleDescription = (description: string) => {
-    if (horizontal && description.length > 10) {
-      return description.substring(0, 9) + '...';
+    if (horizontal && description.length > 15) {
+      return description.substring(0, 14) + '...';
     }
 
     return description;
@@ -44,18 +45,20 @@ export const SectionFoodItem = ({ data, horizontal = false, setSelectedItem }: P
   return (
     <TouchableOpacity
       onPress={handleOpenModal}
-      style={[styles.menuItemContainer]}
+      style={styles.menuItemContainer}
     >
       <ThemedView style={styles.menuItemDetailsContainer}>
-        <ThemedText type="subtitle" style={{ flex: 1 }}>
+        <ThemedText type='defaultSemiBold'>
           {data.name}
         </ThemedText>
-        <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>
-          {handleDescription(data.description)}
-        </ThemedText>
+        <View>
+          <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>
+            {handleDescription(data.description)}
+          </ThemedText>
+        </View>
         <ThemedText type="defaultSemiBold">${data.price}</ThemedText>
       </ThemedView>
-      <Image style={styles.menuItemImage} source={image} resizeMode="cover" />
+      <Image style={[styles.menuItemImage, horizontal && { width: 100, height: 100 }]} source={image} resizeMode="cover" />
     </TouchableOpacity>
   );
 };
@@ -67,7 +70,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10,
     gap: 10,
   },
   menuItemDetailsContainer: {

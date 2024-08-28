@@ -120,19 +120,16 @@ export default function MenuScreen() {
             <SectionFoodItem data={item} setSelectedItem={setSelectedItem} />
           )}
           renderSectionHeader={({ section: { category } }) => (
-            <Fragment>
-              <Divider bold />
-              <ThemedText
-                type="title"
-                style={{ backgroundColor: thirdColor, paddingVertical: 10 }}
-              >
-                {category}
-              </ThemedText>
-            </Fragment>
+            <ThemedText
+              type="title"
+              style={{ backgroundColor: thirdColor, paddingVertical: 15 }}
+            >
+              {category}
+            </ThemedText>
           )}
-          ItemSeparatorComponent={() => {
-            return <Divider />;
-          }}
+          ItemSeparatorComponent={() => <Divider style={{ marginVertical: 10 }} />}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled
         />
         {selectedItem && (
           <CustomModal

@@ -11,12 +11,14 @@ import { Divider } from "react-native-paper";
 import { HeaderContext } from "@/store/context/HeaderContext";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import FooterItem from "@/components/shoppingCartScreen/components/FooterItem";
+import { deliveryPrice, servicePrice } from "@/components/shoppingCartScreen/constants";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { resetCartCounter } = useContext(HeaderContext);
+
 
   useEffect(() => {
     (async () => {
@@ -30,7 +32,7 @@ export default function ShoppingCartScreen() {
   }, [authentication, resetCartCounter]);
 
   const totalPrice = useMemo(() => {
-    let calculatedPrice = 0 as number;
+    let calculatedPrice = (deliveryPrice + servicePrice) as number;
     data.map((item) => {
       calculatedPrice = Math.abs(calculatedPrice + Number(item.price));
     });
@@ -50,7 +52,7 @@ export default function ShoppingCartScreen() {
             </ThemedView>
           )}
           stickyHeaderIndices={[0]}
-          ListFooterComponentStyle={{ marginTop: 25 }}
+          ListFooterComponentStyle={{ paddingTop: 25 }}
           ListHeaderComponentStyle={{ marginBottom: 15 }}
           renderItem={({ item }) => <FoodItem data={item} />}
           keyExtractor={(item) => item.id.toString()}
@@ -58,6 +60,8 @@ export default function ShoppingCartScreen() {
             <Divider style={{ marginVertical: 10 }} />
           )}
           ListFooterComponent={() => <FooterItem totalPrice={totalPrice} />}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled
         />
       </ThemedView>
     </ThemedSafeAreaView>
