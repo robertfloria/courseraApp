@@ -44,10 +44,6 @@ export default function MenuScreen() {
 
   useEffect(() => {
     (async () => {
-      // await db.execAsync('DROP TABLE orders')
-      // await db.execAsync('DROP TABLE shoppingCart')
-      
-
       await setupDatabase(db);
 
       let menuItems = await getMenuItems(db);

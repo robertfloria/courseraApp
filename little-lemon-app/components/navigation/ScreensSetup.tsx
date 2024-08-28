@@ -61,6 +61,15 @@ export default function ScreensSetup() {
         }}
       />
       <Drawer.Screen
+        name="trackOrder"
+        options={{
+          title: "Track Order",
+          drawerLabel: "Track Order",
+          headerShown: true,
+          header: () => <CustomHeader LeftComponent={NavigateBackBtn} />,
+        }}
+      />
+      <Drawer.Screen
         name="onboarding"
         options={{
           title: "Onboarding",

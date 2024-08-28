@@ -19,7 +19,7 @@ import ThemedButton from "@/components/ThemedButton";
 import { Colors } from "@/constants/Colors";
 import CustomModal from "@/components/CustomModal";
 import ModalOrderConfirmation from "@/components/shoppingCartScreen/components/ModalOrderConfirmation";
-import { addOrder, getUserOrders, insertShoppingItemsOrderId } from "@/database/ordersDatabase";
+import { addOrder, insertShoppingItemsOrderId } from "@/database/ordersDatabase";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
@@ -60,13 +60,6 @@ export default function ShoppingCartScreen() {
     await insertShoppingItemsOrderId(db, insertedOrderId, authentication.email);
     setResetResetCartCounter((prevState: any) => !prevState);
   }
-
-  useEffect(() => {
-    (async () => {
-      const cdv = await getUserOrders(db, authentication.email);
-      console.log(cdv)
-    })()
-  }, [])
 
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
