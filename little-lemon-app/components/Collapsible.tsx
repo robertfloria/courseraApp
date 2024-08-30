@@ -11,7 +11,7 @@ export function Collapsible({
   title,
 }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);
-  const textColor = useThemeColor({},'text');
+  const textColor = useThemeColor({}, "text");
 
   return (
     <ThemedView style={styles.container}>
@@ -33,19 +33,19 @@ export function Collapsible({
 }
 
 const styles = StyleSheet.create({
-  container:{
-    display:'flex',
-    width:'100%'
+  container: {
+    display: "flex",
+    width: "100%",
   },
   heading: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6
+    gap: 6,
   },
   content: {
     marginTop: 6,
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center'
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

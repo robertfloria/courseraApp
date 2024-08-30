@@ -10,6 +10,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { TrackDeliveryContext } from "@/store/context/TrackDeliveryContext";
 import { validateEmail } from "@/utils";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -33,6 +34,7 @@ export default function MenuScreen() {
   const firstColor = useThemeColor({}, "firstColor");
 
   const authentication = useContext(AuthenticationContext);
+  const { setIsOnboardingScreen } = useContext(TrackDeliveryContext);
 
   const router = useRouter();
 
@@ -57,6 +59,7 @@ export default function MenuScreen() {
   };
 
   useEffect(() => {
+    setIsOnboardingScreen(true);
     if (authentication.email) {
       router.push("/");
     }

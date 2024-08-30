@@ -46,7 +46,7 @@ export default function RootLayout() {
                   keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // Adjust if necessary
                 >
                   <ChangeThemeButton />
-                  <TrackOrderBar/>
+                  <TrackOrderBar />
                   <ScreensSetup />
                 </KeyboardAvoidingView>
               </GestureHandlerRootView>

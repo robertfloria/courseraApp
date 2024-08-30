@@ -7,22 +7,37 @@ import { ThemedText } from "../ThemedText";
 import { useRouter } from "expo-router";
 
 export default function TrackOrderBar() {
-  const { deliveryTime, delivered } = useContext(TrackDeliveryContext);
+  const { deliveryTime, delivered, isOnboardingScreen } = useContext(TrackDeliveryContext);
   const firstColor = useThemeColor({}, "firstColor");
   const secondColor = useThemeColor({}, "secondColor");
   const router = useRouter();
 
-  const handleTrackOrderNavigation = () => router.push('/trackOrder');
+  const handleTrackOrderNavigation = () => router.push("/trackOrder");
 
-  if (delivered || !deliveryTime) {
+  if (delivered || !deliveryTime || isOnboardingScreen) {
     return null;
   }
 
   return (
-    <TouchableOpacity style={[{ backgroundColor: secondColor }, styles.container]} onPress={handleTrackOrderNavigation}>
-      <AnimatedDeliveryIcon size={35} backgroundColor='transparent' />
-      <ThemedText type='defaultSemiBold' darkColor={firstColor} lightColor={firstColor}>Delivery time:</ThemedText>
-      <ThemedText type='subtitle' darkColor={firstColor} lightColor={firstColor}>{deliveryTime?.getHours() + ':' + deliveryTime?.getMinutes()}</ThemedText>
+    <TouchableOpacity
+      style={[{ backgroundColor: secondColor }, styles.container]}
+      onPress={handleTrackOrderNavigation}
+    >
+      <AnimatedDeliveryIcon size={35} backgroundColor="transparent" />
+      <ThemedText
+        type="defaultSemiBold"
+        darkColor={firstColor}
+        lightColor={firstColor}
+      >
+        Delivery time:
+      </ThemedText>
+      <ThemedText
+        type="subtitle"
+        darkColor={firstColor}
+        lightColor={firstColor}
+      >
+        {deliveryTime?.getHours() + ":" + deliveryTime?.getMinutes()}
+      </ThemedText>
     </TouchableOpacity>
   );
 }
@@ -33,12 +48,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     display: "flex",
     alignItems: "center",
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
+    justifyContent: "flex-start",
+    flexDirection: "row",
     zIndex: 90,
     gap: 5,
-    width: '100%',
+    width: "100%",
     borderTopRightRadius: 30,
-    borderTopLeftRadius: 30
+    borderTopLeftRadius: 30,
   },
 });

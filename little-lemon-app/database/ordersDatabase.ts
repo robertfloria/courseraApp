@@ -46,8 +46,8 @@ export async function getUserOrders(
   shoppingCartItems = shoppingCartItems.map((item) => {
     return {
       ...item,
-      finalised: tinyIntToBool(item.finalised)
-    }
+      finalised: tinyIntToBool(item.finalised),
+    };
   }) as Array<UserOrdersItems>;
 
   return shoppingCartItems;
@@ -83,9 +83,10 @@ export async function addOrder(
 ) {
   try {
     const result = await db.runAsync(
-      `INSERT INTO orders (orderId, finalPrice) VALUES (?, ?);`,
+      `INSERT INTO orders (orderId, finalPrice, finalised) VALUES (?, ?, ?);`,
       orderId,
       finalPrice,
+      0
     );
 
     return result.lastInsertRowId;
@@ -105,13 +106,13 @@ export async function finalisedOrders(
     await db.runAsync(
       `
       UPDATE orders
-      SET finalised = 1
+      SET finalised = '1'
       WHERE orderId IN (${placeholders})
        `,
-      ordersId
+      ordersId,
     );
   } catch (err) {
     Alert.alert("Sorry, there was an error!");
     throw err;
   }
-};
+}

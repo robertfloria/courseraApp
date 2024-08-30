@@ -1,6 +1,6 @@
 import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
-import { UserShoppingItem } from "@/utils/interfaces";
+import { MenuItems, UserShoppingItem } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
 import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
@@ -26,9 +26,12 @@ import {
   addOrder,
   insertShoppingItemsOrderId,
 } from "@/database/ordersDatabase";
+import { getMenuItems } from "@/database/menuDatabase";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
+  const [menuItems, setMenuItems] = useState<Array<MenuItems>>([]);
+
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { resetCartCounter, setResetResetCartCounter, setResetTrackOrder } =
@@ -56,6 +59,13 @@ export default function ShoppingCartScreen() {
     });
     return calculatedPrice;
   }, [data]);
+
+  useEffect(() => {
+    (async () => {
+      let menuItems = await getMenuItems(db);
+      setMenuItems(menuItems);
+    })();
+  }, []);
 
   const handleOrder = async () => {
     const min = 1000000000; // 10-digit number minimum (1 followed by 9 zeros)
@@ -92,7 +102,7 @@ export default function ShoppingCartScreen() {
               ItemSeparatorComponent={() => (
                 <Divider style={{ marginVertical: 10 }} />
               )}
-              ListFooterComponent={() => <ExtraItemsList />}
+              ListFooterComponent={() => <ExtraItemsList menuItems={menuItems} />}
               showsVerticalScrollIndicator={false}
               scrollEnabled
             />

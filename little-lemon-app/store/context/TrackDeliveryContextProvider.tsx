@@ -8,12 +8,15 @@ type Props = {
 export const TrackDeliveryContextProvider = ({ children }: Props) => {
   const [deliveryTime, setDeliveryTime] = useState<Date | null>(null);
   const [delivered, setDelivered] = useState<boolean>(false);
+  const [isOnboardingScreen, setIsOnboardingScreen] = useState<boolean>(false);
 
   useEffect(() => {
     if (deliveryTime) {
       const interval = setInterval(() => {
         const currentDate = new Date();
-        if (deliveryTime <= currentDate) { setDelivered(true); }
+        if (deliveryTime <= currentDate) {
+          setDelivered(true);
+        }
       }, 60000);
 
       if (delivered) {
@@ -22,7 +25,7 @@ export const TrackDeliveryContextProvider = ({ children }: Props) => {
 
       return () => clearInterval(interval);
     }
-  }, [delivered])
+  }, [delivered]);
 
   return (
     <TrackDeliveryContext.Provider
@@ -30,7 +33,9 @@ export const TrackDeliveryContextProvider = ({ children }: Props) => {
         deliveryTime: deliveryTime,
         setDeliveryTime: setDeliveryTime,
         delivered: delivered,
-        setDelivered: setDelivered
+        setDelivered: setDelivered,
+        isOnboardingScreen: isOnboardingScreen,
+        setIsOnboardingScreen: setIsOnboardingScreen
       }}
     >
       {children}

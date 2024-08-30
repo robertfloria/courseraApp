@@ -40,7 +40,7 @@ const styles = (direction: string) =>
     svg: {
       transform: [{ rotate: direction === "top" ? "180deg" : "0deg" }],
       zIndex: -1,
-      position: 'absolute',
+      position: "absolute",
       [direction]: -1,
     },
   });

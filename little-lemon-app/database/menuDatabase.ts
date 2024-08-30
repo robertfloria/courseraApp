@@ -27,16 +27,25 @@ export async function saveMenuItems(
   menuItems: Array<MenuItems>,
   db: SQLiteDatabase,
 ) {
-  menuItems.forEach(async (item) => {
-    await db.runAsync(
-      `INSERT INTO menuitems (name, price, category, description, image) VALUES (?, ?, ?, ?, ?)`,
+  if (menuItems.length === 0) {
+    return;
+  }
+
+  const placeholders = menuItems.map(() => '(?, ?, ?, ?, ?)').join(', ');
+  const values = menuItems.reduce((acc: any, item: any) => {
+    return [
+      ...acc,
       item.name,
       item.price.toString(),
       item.category,
       item.description,
       item.image,
-    );
-  });
+    ];
+  }, []);
+
+  const query = `INSERT INTO menuitems (name, price, category, description, image) VALUES ${placeholders}`;
+
+  await db.runAsync(query, values);
 }
 
 export async function filterByCategoryAndText(

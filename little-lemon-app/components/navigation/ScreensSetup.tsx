@@ -66,6 +66,7 @@ export default function ScreensSetup() {
           title: "Track Order",
           drawerLabel: "Track Order",
           headerShown: true,
+          drawerItemStyle: { display: 'none' },
           header: () => <CustomHeader LeftComponent={NavigateBackBtn} />,
         }}
       />
@@ -74,6 +75,7 @@ export default function ScreensSetup() {
         options={{
           title: "Onboarding",
           drawerLabel: "Onboarding",
+          drawerItemStyle: { display: 'none' },
           headerShown: false,
         }}
       />

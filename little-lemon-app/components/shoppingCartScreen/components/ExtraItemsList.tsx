@@ -1,17 +1,19 @@
 import { SectionFoodItem } from "@/components/menuScreen/components/SectionFoodItem";
 import { ThemedText } from "@/components/ThemedText";
-import { getMenuItems } from "@/database/menuDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
-import { Fragment, useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { addItemInShoppingCart } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { RerenderContext } from "@/store/context/RerenderContext";
 
-export default function ExtraItemsList() {
-  const [data, setData] = useState<Array<MenuItems>>([]);
+type Props = {
+  menuItems: Array<MenuItems>
+};
+
+export default function ExtraItemsList({ menuItems }: Props) {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { setResetResetCartCounter } = useContext(RerenderContext);
@@ -23,13 +25,6 @@ export default function ExtraItemsList() {
     setResetResetCartCounter((prevState: any) => !prevState);
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      let menuItems = await getMenuItems(db);
-      setData(menuItems);
-    })();
-  }, []);
-
   return (
     <View style={styles.container}>
       <ThemedText type="subtitle">Add More To Your Order!</ThemedText>
@@ -37,7 +32,7 @@ export default function ExtraItemsList() {
         ItemSeparatorComponent={() => (
           <View style={[{ borderColor: separatorColor }, styles.serparator]} />
         )}
-        data={data}
+        data={menuItems}
         horizontal={true}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (

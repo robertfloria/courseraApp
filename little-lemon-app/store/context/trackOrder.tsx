@@ -38,20 +38,24 @@ export default function TrackOrderScreen() {
       }, []).createdDate;
 
       maxCreatedDate = new Date(maxCreatedDate);
-      maxCreatedDate.setMinutes(maxCreatedDate.getMinutes() + estimatedDeliveryTime);
+      maxCreatedDate.setMinutes(
+        maxCreatedDate.getMinutes() + estimatedDeliveryTime,
+      );
 
       setEstimatedTime(maxCreatedDate);
     }
-  }, [data])
+  }, [data]);
 
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.iconContainer}>
           <AnimatedDeliveryIcon />
-          <ThemedView style={{ display: 'flex', gap: 5, flexDirection: 'row' }}>
-            <ThemedText type='defaultSemiBold'>Estimated time: </ThemedText>
-            <ThemedText type='subtitle'>{estimatedTime.toLocaleTimeString()}</ThemedText>
+          <ThemedView style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+            <ThemedText type="defaultSemiBold">Estimated time: </ThemedText>
+            <ThemedText type="subtitle">
+              {estimatedTime.toLocaleTimeString()}
+            </ThemedText>
           </ThemedView>
         </ThemedView>
         <SectionList
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10
+    gap: 10,
   },
   container: {
     flex: 1,
