@@ -13,10 +13,11 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 
 type Props = {
-  size?: number
+  size?: number,
+  backgroundColor?: string,
 };
 
-export function AnimatedDeliveryIcon({ size = 120 }: Props) {
+export function AnimatedDeliveryIcon({ size = 120, backgroundColor }: Props) {
   const translateX = useSharedValue(0);
   const secondColor = useThemeColor({}, "secondColor");
 
@@ -43,7 +44,7 @@ export function AnimatedDeliveryIcon({ size = 120 }: Props) {
   }));
 
   return (
-    <ThemedView style={[{ backgroundColor: secondColor }, styles.container]}>
+    <ThemedView style={[{ backgroundColor: backgroundColor ?? secondColor }, styles.container]}>
       <Animated.View style={animatedStyle}>
         <MaterialIcons
           name="delivery-dining"
