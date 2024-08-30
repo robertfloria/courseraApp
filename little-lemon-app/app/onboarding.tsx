@@ -49,6 +49,7 @@ export default function MenuScreen() {
         };
         await storeAuthentication(authenticationData);
         authentication.setAuthentication(authenticationData);
+        setIsOnboardingScreen(false);
         router.push("/");
       } else {
         Alert.alert("Email-ul introdus nu este corect!");
@@ -59,7 +60,6 @@ export default function MenuScreen() {
   };
 
   useEffect(() => {
-    setIsOnboardingScreen(true);
     if (authentication.email) {
       router.push("/");
     }

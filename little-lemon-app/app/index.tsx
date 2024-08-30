@@ -31,7 +31,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { menuItemsMock } from "@/components/menuScreen/utils/mockData/menuItemsMock";
 import { Divider } from "react-native-paper";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
-import { TrackDeliveryContext } from "@/store/context/TrackDeliveryContext";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -39,8 +38,6 @@ export default function MenuScreen() {
   const [searchBarText, setSearchBarText] = useState<string>("");
   const [filterSelections, setFilterSelections] = useState<Array<any>>([]);
   const [selectedItem, setSelectedItem] = useState<MenuItems>();
-
-  const { setIsOnboardingScreen } = useContext(TrackDeliveryContext);
 
   const db = useSQLiteContext();
 
@@ -51,8 +48,6 @@ export default function MenuScreen() {
       // await db.execAsync('drop table shoppingCart');
       // await db.execAsync('drop table orders');
       // await db.execAsync('drop table menuItems');
-
-      setIsOnboardingScreen(false);
       await setupDatabase(db);
 
       let menuItems = await getMenuItems(db);

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { TrackDeliveryContext } from "@/store/context/TrackDeliveryContext";

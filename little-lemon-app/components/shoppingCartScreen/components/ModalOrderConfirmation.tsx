@@ -1,12 +1,10 @@
 import ThemedButton from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
-import { routes } from "@/constants/Routes";
+import { routes } from "@/constants/routes";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { RerenderContext } from "@/store/context/RerenderContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
 type Props = {
@@ -16,10 +14,8 @@ type Props = {
 export default function ModalOrderConfirmation({ handleCloseModal }: Props) {
   const secondColor = useThemeColor({}, "secondColor");
   const router = useRouter();
-  const { setResetTrackOrder } = useContext(RerenderContext)
 
   const handleTrackOrder = () => {
-    setResetTrackOrder((prevState: any) => !prevState);
     router.push(routes.trackOrder);
     handleCloseModal();
   };

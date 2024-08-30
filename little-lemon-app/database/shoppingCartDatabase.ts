@@ -26,10 +26,9 @@ export async function getUserShoppingItems(
   const userShoppingCartItemsId = (
     await db.getAllAsync(
       `SELECT itemId FROM shoppingCart WHERE userId = ? AND orderId IS NULL`,
-      user.id,
+      [user.id],
     )
   ).map((item: any) => item.itemId);
-
   const placeholders = userShoppingCartItemsId.map(() => "?").join(", ");
 
   const shoppingCartItems = (await db.getAllAsync(
@@ -41,7 +40,7 @@ export async function getUserShoppingItems(
     `,
     userShoppingCartItemsId,
   )) as Array<UserShoppingItem>;
-
+  console.log(shoppingCartItems)
   return shoppingCartItems;
 }
 
@@ -52,12 +51,18 @@ export async function addItemInShoppingCart(
   db: SQLiteDatabase,
 ) {
   const user = await getUser(db, email);
-  const valuesArray = Array(amount).fill(`(${user.id}, ${itemId})`).join(",");
+  const valuesArray = [];
+  const placeholders = [];
+  for (let i = 0; i < amount; i++) {
+    valuesArray.push(user.id, itemId);
+    placeholders.push("(?, ?)");
+  }
+
+  // Construct the SQL query
+  const query = `INSERT INTO shoppingCart (userId, itemId) VALUES ${placeholders.join(", ")};`;
 
   try {
-    await db.execAsync(
-      `INSERT INTO shoppingCart (userId, itemId) VALUES ${valuesArray};`,
-    );
+    await db.runAsync(query, valuesArray);
   } catch (err) {
     Alert.alert("Sorry, there was an error!");
     throw err;
@@ -68,5 +73,5 @@ export async function deleteItemInShoppingCart(
   itemId: number,
   db: SQLiteDatabase,
 ) {
-  await db.runAsync(`DELETE FROM shoppingCart WHERE id = ?`, itemId);
+  await db.runAsync(`DELETE FROM shoppingCart WHERE id = ?`, [itemId]);
 }

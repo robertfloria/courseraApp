@@ -20,11 +20,14 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { Divider } from "react-native-paper";
+import { TrackDeliveryContext } from "@/store/context/TrackDeliveryContext";
 
 export default function ProfileScreen() {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
   const { setResetPicture } = useContext(RerenderContext);
+  const { setIsOnboardingScreen } = useContext(TrackDeliveryContext);
+
 
   const firstColor = useThemeColor({}, "firstColor");
 
@@ -49,6 +52,7 @@ export default function ProfileScreen() {
   const handleLogOut = async () => {
     await removeAuthentication();
     authentication.setAuthentication({ email: "", firstName: "" });
+    setIsOnboardingScreen(true);
     router.push("/onboarding");
   };
 

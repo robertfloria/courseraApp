@@ -67,8 +67,7 @@ export async function insertShoppingItemsOrderId(
       WHERE orderId IS NULL
       AND userId = ?
        `,
-      orderId,
-      user.id,
+      [orderId, user.id]
     );
   } catch (err) {
     Alert.alert("Sorry, there was an error!");
@@ -84,9 +83,7 @@ export async function addOrder(
   try {
     const result = await db.runAsync(
       `INSERT INTO orders (orderId, finalPrice, finalised) VALUES (?, ?, ?);`,
-      orderId,
-      finalPrice,
-      0
+      [orderId, finalPrice, 0]
     );
 
     return result.lastInsertRowId;
@@ -106,7 +103,7 @@ export async function finalisedOrders(
     await db.runAsync(
       `
       UPDATE orders
-      SET finalised = '1'
+      SET finalised = 1
       WHERE orderId IN (${placeholders})
        `,
       ordersId,

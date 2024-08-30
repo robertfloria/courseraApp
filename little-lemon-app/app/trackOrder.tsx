@@ -6,7 +6,7 @@ import { AnimatedDeliveryIcon } from "@/components/trackOrderScreen/AnimatedDeli
 import { getSectionListData } from "@/components/trackOrderScreen/utils/functions";
 import { Colors } from "@/constants/Colors";
 import { estimatedDeliveryTime } from "@/constants/constants";
-import { routes } from "@/constants/Routes";
+import { routes } from "@/constants/routes";
 import { finalisedOrders, getUserOrders } from "@/database/ordersDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
@@ -15,7 +15,7 @@ import { TrackDeliveryContext } from "@/store/context/TrackDeliveryContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { SectionList, StyleSheet, View } from "react-native";
 import { Divider } from "react-native-paper";
 
@@ -76,67 +76,75 @@ export default function TrackOrderScreen() {
     }
   }, [delivered, data]);
 
-  if (!estimatedTime) {
-    router.push(routes.home);
-  }
+  const navigateHome = () => router.push(routes.home);
 
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <ThemedView style={styles.container}>
-        <ThemedView style={styles.iconContainer}>
-          <AnimatedDeliveryIcon />
-          {estimatedTime && (
-            <ThemedView
-              style={{
-                display: "flex",
-                gap: 5,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <MaterialIcons name="timer" size={30} color={textColor} />
-              <ThemedText type="defaultSemiBold">Estimated time: </ThemedText>
-              <ThemedText type="title">
-                {estimatedTime?.getHours() + ":" + estimatedTime?.getMinutes()}
-              </ThemedText>
+        {data.length > 0 ?
+          <Fragment>
+            <ThemedView style={styles.iconContainer}>
+              <AnimatedDeliveryIcon />
+              {estimatedTime && (
+                <ThemedView
+                  style={{
+                    display: "flex",
+                    gap: 5,
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <MaterialIcons name="timer" size={30} color={textColor} />
+                  <ThemedText type="defaultSemiBold">Estimated time: </ThemedText>
+                  <ThemedText type="title">
+                    {estimatedTime?.getHours() + ":" + estimatedTime?.getMinutes()}
+                  </ThemedText>
+                </ThemedView>
+              )}
             </ThemedView>
-          )}
-        </ThemedView>
-        <SectionList
-          sections={data}
-          keyExtractor={(orderId) => orderId}
-          renderItem={({ item }) => (
-            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
-              <ThemedText>{item.multiply}x</ThemedText>
-              <ThemedText>{item.name}</ThemedText>
-            </View>
-          )}
-          renderSectionFooter={({ section: { finalPrice } }) => (
-            <View style={{ display: "flex", gap: 5, paddingVertical: 10 }}>
-              <ThemedText type="defaultSemiBold">Total</ThemedText>
-              <ThemedText
-                lightColor={firstColor}
-                darkColor={firstColor}
-                type="subtitle"
-              >
-                ${finalPrice.toFixed(2)}
-              </ThemedText>
-              <Divider />
-            </View>
-          )}
-          ListFooterComponent={() => <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text} onPress={cancelOrder}>Cancel order</ThemedButton>}
-          renderSectionHeader={({ section: { orderId } }) => (
-            <ThemedText type="defaultSemiBold" style={{ paddingBottom: 10 }}>
-              Order:
-              <ThemedText lightColor={grey} darkColor={grey}>
-                {" "}
-                #{orderId}
-              </ThemedText>
-            </ThemedText>
-          )}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled
-        />
+            <SectionList
+              sections={data}
+              keyExtractor={(orderId) => orderId}
+              renderItem={({ item }) => (
+                <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+                  <ThemedText>{item.multiply}x</ThemedText>
+                  <ThemedText>{item.name}</ThemedText>
+                </View>
+              )}
+              renderSectionFooter={({ section: { finalPrice } }) => (
+                <View style={{ display: "flex", gap: 5, paddingVertical: 10 }}>
+                  <ThemedText type="defaultSemiBold">Total</ThemedText>
+                  <ThemedText
+                    lightColor={firstColor}
+                    darkColor={firstColor}
+                    type="subtitle"
+                  >
+                    ${finalPrice.toFixed(2)}
+                  </ThemedText>
+                  <Divider />
+                </View>
+              )}
+              ListFooterComponent={() => <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text} onPress={cancelOrder}>Cancel order</ThemedButton>}
+              renderSectionHeader={({ section: { orderId } }) => (
+                <ThemedText type="defaultSemiBold" style={{ paddingBottom: 10 }}>
+                  Order:
+                  <ThemedText lightColor={grey} darkColor={grey}>
+                    {" "}
+                    #{orderId}
+                  </ThemedText>
+                </ThemedText>
+              )}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled
+            />
+          </Fragment>
+          :
+          <ThemedView style={styles.noItemContainer}>
+            <ThemedText>Nothing here!</ThemedText>
+            <ThemedButton onPress={navigateHome}>Return home</ThemedButton>
+          </ThemedView>
+        }
+
       </ThemedView>
     </ThemedSafeAreaView>
   );
@@ -154,4 +162,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     gap: 25,
   },
+  noItemContainer: {
+    flex: 1,
+    display: 'flex',
+    gap: 5,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
