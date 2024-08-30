@@ -25,7 +25,7 @@ export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { resetCartCounter, setResetResetCartCounter } = useContext(RerenderContext);
+  const { resetCartCounter, setResetResetCartCounter, setResetTrackOrder } = useContext(RerenderContext);
   const [openModal, setOpenModal] = useState(false);
 
   const color = useThemeColor({}, 'text');
@@ -59,6 +59,7 @@ export default function ShoppingCartScreen() {
     const insertedOrderId = await addOrder(orderId, totalPrice, db);
     await insertShoppingItemsOrderId(db, insertedOrderId, authentication.email);
     setResetResetCartCounter((prevState: any) => !prevState);
+    setResetTrackOrder((prevState: any) => !prevState);
   }
 
   return (

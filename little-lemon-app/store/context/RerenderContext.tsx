@@ -5,11 +5,15 @@ type Props = {
   setResetPicture: (arg: any) => any;
   resetCartCounter: boolean;
   setResetResetCartCounter: (arg: any) => any;
+  resetTrackOrder: boolean;
+  setResetTrackOrder: (arg: any) => any;
 };
 
 export const RerenderContext = createContext<Props>({
   resetPicture: false,
-  setResetPicture: () => {},
+  setResetPicture: () => { },
   resetCartCounter: false,
-  setResetResetCartCounter: () => {},
+  setResetResetCartCounter: () => { },
+  resetTrackOrder: false,
+  setResetTrackOrder: () => { },
 });

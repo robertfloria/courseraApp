@@ -30,6 +30,7 @@ import Presentation from "@/components/menuScreen/components/Presentation";
 import { ThemedView } from "@/components/ThemedView";
 import { menuItemsMock } from "@/components/menuScreen/utils/mockData/menuItemsMock";
 import { Divider } from "react-native-paper";
+import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 
 export default function MenuScreen() {
   const [data, setData] = useState<any>([]);
@@ -99,53 +100,55 @@ export default function MenuScreen() {
   const onPressItem = (item: any) => setSelectedItem(item);
 
   return (
-    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
-      <ThemedView style={styles.container}>
-        <Presentation
-          setSearchBarText={setSearchBarText}
-          searchBarText={searchBarText}
-        />
-        <ThemedView style={{ paddingHorizontal: 15, position: "relative" }}>
-          <ThemedText type="defaultSemiBold">ORDER FOR DELIVARY!</ThemedText>
-        </ThemedView>
-        <Filters
-          selections={filterSelections}
-          onChange={handleFiltersChange}
-          sections={categories}
-        />
-        <SectionList
-          style={styles.sectionList}
-          sections={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <SectionFoodItem data={item} onPress={() => onPressItem(item)} />
-          )}
-          renderSectionHeader={({ section: { category } }) => (
-            <ThemedText
-              type="title"
-              style={{ backgroundColor: thirdColor, paddingVertical: 15 }}
+    <ThemedSafeAreaView style={{ flex: 1 }}>
+      <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
+        <ThemedView style={styles.container}>
+          <Presentation
+            setSearchBarText={setSearchBarText}
+            searchBarText={searchBarText}
+          />
+          <ThemedView style={{ paddingHorizontal: 15, position: "relative" }}>
+            <ThemedText type="defaultSemiBold">ORDER FOR DELIVARY!</ThemedText>
+          </ThemedView>
+          <Filters
+            selections={filterSelections}
+            onChange={handleFiltersChange}
+            sections={categories}
+          />
+          <SectionList
+            style={styles.sectionList}
+            sections={data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <SectionFoodItem data={item} onPress={() => onPressItem(item)} />
+            )}
+            renderSectionHeader={({ section: { category } }) => (
+              <ThemedText
+                type="title"
+                style={{ backgroundColor: thirdColor, paddingVertical: 15 }}
+              >
+                {category}
+              </ThemedText>
+            )}
+            ItemSeparatorComponent={() => <Divider style={{ marginVertical: 10 }} />}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled
+          />
+          {selectedItem && (
+            <CustomModal
+              openModal={!!selectedItem}
+              onModalClose={handleCloseModal}
+              title={selectedItem.name}
             >
-              {category}
-            </ThemedText>
+              <ModalFoodItem
+                data={selectedItem}
+                handleCloseModal={handleCloseModal}
+              />
+            </CustomModal>
           )}
-          ItemSeparatorComponent={() => <Divider style={{ marginVertical: 10 }} />}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled
-        />
-        {selectedItem && (
-          <CustomModal
-            openModal={!!selectedItem}
-            onModalClose={handleCloseModal}
-            title={selectedItem.name}
-          >
-            <ModalFoodItem
-              data={selectedItem}
-              handleCloseModal={handleCloseModal}
-            />
-          </CustomModal>
-        )}
-      </ThemedView>
-    </TouchableWithoutFeedback>
+        </ThemedView>
+      </TouchableWithoutFeedback>
+    </ThemedSafeAreaView>
   );
 }
 

@@ -8,6 +8,7 @@ type Props = {
 export const RerenderContextProvider = ({ children }: Props) => {
   const [resetPicture, setResetPicture] = useState<boolean>(false);
   const [resetCartCounter, setResetResetCartCounter] = useState<boolean>(false);
+  const [resetTrackOrder, setResetTrackOrder] = useState<boolean>(false);
 
   return (
     <RerenderContext.Provider
@@ -16,6 +17,8 @@ export const RerenderContextProvider = ({ children }: Props) => {
         setResetPicture: setResetPicture,
         resetCartCounter: resetCartCounter,
         setResetResetCartCounter: setResetResetCartCounter,
+        resetTrackOrder: resetTrackOrder,
+        setResetTrackOrder: setResetTrackOrder
       }}
     >
       {children}

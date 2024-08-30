@@ -6,6 +6,7 @@ import { getSectionListData } from "@/components/trackOrderScreen/utils/function
 import { getUserOrders } from "@/database/ordersDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
 import { SectionList, StyleSheet, View } from "react-native";
@@ -15,6 +16,7 @@ export default function TrackOrderScreen() {
     const [data, setData] = useState<any>([]);
     const authentication = useContext(AuthenticationContext);
     const db = useSQLiteContext();
+    const { resetTrackOrder } = useContext(RerenderContext);
 
     const thirdColor = useThemeColor({}, 'thirdColor');
 
@@ -24,7 +26,7 @@ export default function TrackOrderScreen() {
             const sectionListData = getSectionListData(fetchData);
             setData(sectionListData);
         })()
-    }, []);
+    }, [resetTrackOrder]);
 
     return (
         <ThemedSafeAreaView style={{ flex: 1 }}>
@@ -42,10 +44,10 @@ export default function TrackOrderScreen() {
                         </View>
                     )}
                     renderSectionFooter={({ section: { finalPrice } }) => (
-                        <View style={{ display: 'flex', gap: 5, paddingVertical:10 }}>
+                        <View style={{ display: 'flex', gap: 5, paddingVertical: 10 }}>
                             <ThemedText type='defaultSemiBold'>Total</ThemedText>
                             <ThemedText type='subtitle'>{finalPrice.toFixed(2)}</ThemedText>
-                            <Divider/>
+                            <Divider />
                         </View>
                     )}
                     renderSectionHeader={({ section: { orderId } }) => (
@@ -75,6 +77,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 15,
-        gap:15
+        gap: 15
     }
 });
