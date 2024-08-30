@@ -8,7 +8,7 @@ import { FoodItem } from "../components/shoppingCartScreen/components/FoodItem";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Divider } from "react-native-paper";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { deliveryPrice, servicePrice } from "@/components/shoppingCartScreen/constants";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -25,7 +25,7 @@ export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { resetCartCounter, setResetResetCartCounter } = useContext(HeaderContext);
+  const { resetCartCounter, setResetResetCartCounter } = useContext(RerenderContext);
   const [openModal, setOpenModal] = useState(false);
 
   const color = useThemeColor({}, 'text');

@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { HeaderContext } from "./HeaderContext";
+import { RerenderContext } from "./RerenderContext";
 
 type Props = {
   children: React.ReactNode;
 };
 
-export const HeaderContextProvider = ({ children }: Props) => {
+export const RerenderContextProvider = ({ children }: Props) => {
   const [resetPicture, setResetPicture] = useState<boolean>(false);
   const [resetCartCounter, setResetResetCartCounter] = useState<boolean>(false);
 
   return (
-    <HeaderContext.Provider
+    <RerenderContext.Provider
       value={{
         resetPicture: resetPicture,
         setResetPicture: setResetPicture,
@@ -19,6 +19,6 @@ export const HeaderContextProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </HeaderContext.Provider>
+    </RerenderContext.Provider>
   );
 };

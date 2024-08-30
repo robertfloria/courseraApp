@@ -11,7 +11,7 @@ import { MenuItems } from "@/utils/interfaces";
 import { useSQLiteContext } from "expo-sqlite";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { addItemInShoppingCart } from "@/database/shoppingCartDatabase";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -34,7 +34,7 @@ export const ModalFoodItem = ({ data, handleCloseModal }: Props) => {
 
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { setResetResetCartCounter } = useContext(HeaderContext);
+  const { setResetResetCartCounter } = useContext(RerenderContext);
 
   const descriptionColor = useThemeColor({}, "grey");
   const secondColor = useThemeColor({}, "secondColor");

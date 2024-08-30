@@ -1,6 +1,6 @@
 import { getUser } from "@/database/userDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { Avatar } from "react-native-paper";
 export function ProfileScreenButton() {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { resetPicture } = useContext(HeaderContext);
+  const { resetPicture } = useContext(RerenderContext);
 
   const [image, setImage] = useState<any>("");
 

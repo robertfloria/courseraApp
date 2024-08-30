@@ -8,7 +8,7 @@ import { Swipeable } from "react-native-gesture-handler";
 import ThemedButton from "@/components/ThemedButton";
 import { deleteItemInShoppingCart } from "@/database/shoppingCartDatabase";
 import { useSQLiteContext } from "expo-sqlite";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 
@@ -19,7 +19,7 @@ type Props = {
 export const FoodItem = ({ data }: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
   const db = useSQLiteContext();
-  const { setResetResetCartCounter } = useContext(HeaderContext);
+  const { setResetResetCartCounter } = useContext(RerenderContext);
 
   const deleteColor = useThemeColor({}, "red");
 

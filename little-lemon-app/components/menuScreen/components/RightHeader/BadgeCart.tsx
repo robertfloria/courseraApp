@@ -2,7 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { getUserShoppingItems } from "@/database/shoppingCartDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
@@ -26,7 +26,7 @@ const Counter = ({ number }: CounterProp) => {
 
 export function BadgeCart() {
   const [count, setCount] = useState<number>(0);
-  const { resetCartCounter } = useContext(HeaderContext);
+  const { resetCartCounter } = useContext(RerenderContext);
 
   const router = useRouter();
   const db = useSQLiteContext();

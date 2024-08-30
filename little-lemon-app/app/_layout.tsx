@@ -5,7 +5,7 @@ import { retrieveAuthentication } from "@/store/asyncStorage/getData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { Authentication } from "@/utils/interfaces";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { HeaderContextProvider } from "@/store/context/HeaderContextProvider";
+import { RerenderContextProvider } from "@/store/context/RerenderContextProvider";
 import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
 import ScreensSetup from "@/components/navigation/ScreensSetup";
@@ -34,7 +34,7 @@ export default function RootLayout() {
       <AuthenticationContext.Provider
         value={{ ...authentication, setAuthentication: setAuthentication }}
       >
-        <HeaderContextProvider>
+        <RerenderContextProvider>
           <ThemeContextProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <KeyboardAvoidingView
@@ -47,7 +47,7 @@ export default function RootLayout() {
               </KeyboardAvoidingView>
             </GestureHandlerRootView>
           </ThemeContextProvider>
-        </HeaderContextProvider>
+        </RerenderContextProvider>
       </AuthenticationContext.Provider>
     </SQLiteProvider>
   );

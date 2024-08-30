@@ -13,7 +13,7 @@ import { editUserInfo } from "../database/userDatabase";
 import { storeAuthentication } from "@/store/asyncStorage/storeData";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { validateEmail } from "@/utils";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 import { ThemedScrollView } from "@/components/ThemedScrollView";
 import { ThemedView } from "@/components/ThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -24,7 +24,7 @@ import { Divider } from "react-native-paper";
 export default function ProfileScreen() {
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { setResetPicture } = useContext(HeaderContext);
+  const { setResetPicture } = useContext(RerenderContext);
 
   const firstColor = useThemeColor({}, "firstColor");
 

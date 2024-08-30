@@ -8,13 +8,13 @@ import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { addItemInShoppingCart } from "@/database/shoppingCartDatabase";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
-import { HeaderContext } from "@/store/context/HeaderContext";
+import { RerenderContext } from "@/store/context/RerenderContext";
 
 export default function ExtraItemsList() {
   const [data, setData] = useState<Array<MenuItems>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { setResetResetCartCounter } = useContext(HeaderContext);
+  const { setResetResetCartCounter } = useContext(RerenderContext);
 
   const separatorColor = useThemeColor({}, 'opacityGrey');
 
