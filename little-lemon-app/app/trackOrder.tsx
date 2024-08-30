@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { AnimatedDeliveryIcon } from "@/components/trackOrderScreen/AnimatedDeliveryIcon";
 import { getSectionListData } from "@/components/trackOrderScreen/utils/functions";
 import { estimatedDeliveryTime } from "@/constants/constants";
-import { getUserOrders } from "@/database/ordersDatabase";
+import { finalisedOrders, getUserOrders } from "@/database/ordersDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { RerenderContext } from "@/store/context/RerenderContext";
@@ -17,12 +17,12 @@ import { Divider } from "react-native-paper";
 
 export default function TrackOrderScreen() {
   const [data, setData] = useState<any>([]);
-  const [estimatedTime, setEstimatedTime] = useState<Date>(new Date());
+  const [estimatedTime, setEstimatedTime] = useState<Date | null>(null);
 
   const authentication = useContext(AuthenticationContext);
   const db = useSQLiteContext();
-  const { resetTrackOrder } = useContext(RerenderContext);
-  const { setDeliveryTime } = useContext(TrackDeliveryContext);
+  const { resetTrackOrder, setResetTrackOrder } = useContext(RerenderContext);
+  const { setDeliveryTime, delivered } = useContext(TrackDeliveryContext);
 
   const grey = useThemeColor({}, "grey");
   const textColor = useThemeColor({}, "text");
@@ -50,16 +50,28 @@ export default function TrackOrderScreen() {
     }
   }, [data])
 
+  useEffect(() => {
+    if (delivered && data) {
+      (async () => {
+        const ordersId = data.map((item: any) => item.orderId);
+        await finalisedOrders(db, ordersId);
+        setResetTrackOrder((prevState: any) => !prevState);
+      })();
+    }
+  }, [delivered, data])
+
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.iconContainer}>
           <AnimatedDeliveryIcon />
-          <ThemedView style={{ display: 'flex', gap: 5, flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialIcons name='timer' size={30} color={textColor} />
-            <ThemedText type='defaultSemiBold'>Estimated time: </ThemedText>
-            <ThemedText type='title'>{estimatedTime.getHours() + ':' + estimatedTime.getMinutes()}</ThemedText>
-          </ThemedView>
+          {estimatedTime &&
+            <ThemedView style={{ display: 'flex', gap: 5, flexDirection: 'row', alignItems: 'center' }}>
+              <MaterialIcons name='timer' size={30} color={textColor} />
+              <ThemedText type='defaultSemiBold'>Estimated time: </ThemedText>
+              <ThemedText type='title'>{estimatedTime?.getHours() + ':' + estimatedTime?.getMinutes()}</ThemedText>
+            </ThemedView>
+          }
         </ThemedView>
         <SectionList
           sections={data}
@@ -73,14 +85,14 @@ export default function TrackOrderScreen() {
           renderSectionFooter={({ section: { finalPrice } }) => (
             <View style={{ display: "flex", gap: 5, paddingVertical: 10 }}>
               <ThemedText type="defaultSemiBold">Total</ThemedText>
-              <ThemedText  lightColor={firstColor} darkColor={firstColor} type="subtitle">${finalPrice.toFixed(2)}</ThemedText>
+              <ThemedText lightColor={firstColor} darkColor={firstColor} type="subtitle">${finalPrice.toFixed(2)}</ThemedText>
               <Divider />
             </View>
           )}
           renderSectionHeader={({ section: { orderId } }) => (
             <ThemedText
               type="defaultSemiBold"
-              style={{  paddingBottom: 10 }}
+              style={{ paddingBottom: 10 }}
             >
               Order:
               <ThemedText lightColor={grey} darkColor={grey}> #{orderId}</ThemedText>

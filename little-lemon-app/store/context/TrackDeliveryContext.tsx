@@ -1,11 +1,15 @@
 import { createContext } from "react";
 
 type Props = {
-  deliveryTime: Date;
+  delivered: boolean,
+  setDelivered: (arg: any) => any;
+  deliveryTime: Date | null;
   setDeliveryTime: (arg: any) => any;
 };
 
 export const TrackDeliveryContext = createContext<Props>({
-  deliveryTime: new Date(),
-  setDeliveryTime: () => { }
+  deliveryTime: null,
+  setDeliveryTime: () => { },
+  delivered: false,
+  setDelivered: () => { }
 });

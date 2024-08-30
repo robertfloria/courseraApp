@@ -57,4 +57,5 @@ export interface UserOrdersItems {
   finalPrice: number;
   name: string;
   createdDate: Date;
+  finalised: boolean;
 }

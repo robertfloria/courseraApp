@@ -2,6 +2,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import { getUser } from "./userDatabase";
 import { UserOrdersItems } from "@/utils/interfaces";
 import { Alert } from "react-native";
+import { tinyIntToBool } from "@/utils/functions";
 
 export async function createOrdersTable(db: SQLiteDatabase) {
   await db.execAsync(`
@@ -9,7 +10,8 @@ export async function createOrdersTable(db: SQLiteDatabase) {
     id integer primary key not null, 
     orderId text,
     createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    finalPrice integer
+    finalPrice integer,
+    finalised BIT
     );
     `);
 }
@@ -28,17 +30,25 @@ export async function getUserOrders(
 
   const placeholders = userOrdersShoppingCartItemsId.map(() => "?").join(", ");
 
-  const shoppingCartItems = (await db.getAllAsync(
+  let shoppingCartItems = (await db.getAllAsync(
     `
-    SELECT ord.orderId, ord.finalPrice, ord.createdDate, mi.name
+    SELECT ord.orderId, ord.finalPrice, ord.createdDate, mi.name, ord.finalised
     FROM shoppingCart sc
     INNER JOIN menuitems mi ON mi.id = sc.itemId
     INNER JOIN orders ord ON ord.id = sc.orderId
     WHERE sc.itemId IN (${placeholders})
     AND sc.orderId IS NOT NULL
+    AND ord.finalised = 0
     `,
     userOrdersShoppingCartItemsId,
-  )) as Array<UserOrdersItems>;
+  )) as Array<any>;
+
+  shoppingCartItems = shoppingCartItems.map((item) => {
+    return {
+      ...item,
+      finalised: tinyIntToBool(item.finalised)
+    }
+  }) as Array<UserOrdersItems>;
 
   return shoppingCartItems;
 }
@@ -84,3 +94,24 @@ export async function addOrder(
     throw err;
   }
 }
+
+export async function finalisedOrders(
+  db: SQLiteDatabase,
+  ordersId: Array<string>,
+) {
+  try {
+    const placeholders = ordersId.map(() => "?").join(", ");
+
+    await db.runAsync(
+      `
+      UPDATE orders
+      SET finalised = 1
+      WHERE orderId IN (${placeholders})
+       `,
+      ordersId
+    );
+  } catch (err) {
+    Alert.alert("Sorry, there was an error!");
+    throw err;
+  }
+};
