@@ -10,6 +10,8 @@ import ChangeThemeButton from "@/components/layout/ChangeThemeButton";
 import { ThemeContextProvider } from "@/store/context/ThemeContextProvider";
 import ScreensSetup from "@/components/navigation/ScreensSetup";
 import { KeyboardAvoidingView, Platform } from "react-native";
+import { TrackDeliveryContextProvider } from "@/store/context/TrackDeliveryContextProvider";
+import TrackOrderBar from "@/components/layout/TrackOrderBar";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -36,16 +38,19 @@ export default function RootLayout() {
       >
         <RerenderContextProvider>
           <ThemeContextProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // Adjust if necessary
-              >
-                <ChangeThemeButton />
-                <ScreensSetup />
-              </KeyboardAvoidingView>
-            </GestureHandlerRootView>
+            <TrackDeliveryContextProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <KeyboardAvoidingView
+                  style={{ flex: 1 }}
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+                  keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // Adjust if necessary
+                >
+                  <ChangeThemeButton />
+                  <TrackOrderBar/>
+                  <ScreensSetup />
+                </KeyboardAvoidingView>
+              </GestureHandlerRootView>
+            </TrackDeliveryContextProvider>
           </ThemeContextProvider>
         </RerenderContextProvider>
       </AuthenticationContext.Provider>

@@ -18,7 +18,11 @@ type Props = {
   onPress: (arg: any) => any;
 };
 
-export const SectionFoodItem = ({ data, horizontal = false, onPress }: Props) => {
+export const SectionFoodItem = ({
+  data,
+  horizontal = false,
+  onPress,
+}: Props) => {
   const [image, setImage] = useState<ImageSourcePropType>();
 
   const descriptionColor = useThemeColor({}, "grey");
@@ -32,29 +36,34 @@ export const SectionFoodItem = ({ data, horizontal = false, onPress }: Props) =>
 
   const handleDescription = (description: string) => {
     if (horizontal && description.length > 15) {
-      return description.substring(0, 14) + '...';
+      return description.substring(0, 14) + "...";
     }
 
     return description;
-  }
+  };
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={styles.menuItemContainer}
-    >
+    <TouchableOpacity onPress={onPress} style={styles.menuItemContainer}>
       <ThemedView style={styles.menuItemDetailsContainer}>
-        <ThemedText type='defaultSemiBold'>
-          {data.name}
-        </ThemedText>
+        <ThemedText type="defaultSemiBold">{data.name}</ThemedText>
         <View>
-          <ThemedText lightColor={descriptionColor} darkColor={descriptionColor}>
+          <ThemedText
+            lightColor={descriptionColor}
+            darkColor={descriptionColor}
+          >
             {handleDescription(data.description)}
           </ThemedText>
         </View>
         <ThemedText type="defaultSemiBold">${data.price}</ThemedText>
       </ThemedView>
-      <Image style={[styles.menuItemImage, horizontal && { width: 100, height: 100 }]} source={image} resizeMode="cover" />
+      <Image
+        style={[
+          styles.menuItemImage,
+          horizontal && { width: 100, height: 100 },
+        ]}
+        source={image}
+        resizeMode="cover"
+      />
     </TouchableOpacity>
   );
 };
@@ -71,7 +80,7 @@ const styles = StyleSheet.create({
   menuItemDetailsContainer: {
     flex: 1,
     display: "flex",
-    height: '100%',
+    height: "100%",
     justifyContent: "space-between",
     gap: 10,
   },

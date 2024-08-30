@@ -11,9 +11,9 @@ type Props = {
 
 export const RerenderContext = createContext<Props>({
   resetPicture: false,
-  setResetPicture: () => { },
+  setResetPicture: () => {},
   resetCartCounter: false,
-  setResetResetCartCounter: () => { },
+  setResetResetCartCounter: () => {},
   resetTrackOrder: false,
-  setResetTrackOrder: () => { },
+  setResetTrackOrder: () => {},
 });

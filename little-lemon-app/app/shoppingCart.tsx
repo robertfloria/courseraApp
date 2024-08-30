@@ -10,7 +10,10 @@ import { ThemedText } from "@/components/ThemedText";
 import { Divider } from "react-native-paper";
 import { RerenderContext } from "@/store/context/RerenderContext";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
-import { deliveryPrice, servicePrice } from "@/components/shoppingCartScreen/constants";
+import {
+  deliveryPrice,
+  servicePrice,
+} from "@/components/shoppingCartScreen/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Checkout from "@/components/shoppingCartScreen/components/Checkout";
@@ -19,17 +22,21 @@ import ThemedButton from "@/components/ThemedButton";
 import { Colors } from "@/constants/Colors";
 import CustomModal from "@/components/CustomModal";
 import ModalOrderConfirmation from "@/components/shoppingCartScreen/components/ModalOrderConfirmation";
-import { addOrder, insertShoppingItemsOrderId } from "@/database/ordersDatabase";
+import {
+  addOrder,
+  insertShoppingItemsOrderId,
+} from "@/database/ordersDatabase";
 
 export default function ShoppingCartScreen() {
   const [data, setData] = useState<Array<UserShoppingItem>>([]);
   const db = useSQLiteContext();
   const authentication = useContext(AuthenticationContext);
-  const { resetCartCounter, setResetResetCartCounter, setResetTrackOrder } = useContext(RerenderContext);
+  const { resetCartCounter, setResetResetCartCounter, setResetTrackOrder } =
+    useContext(RerenderContext);
   const [openModal, setOpenModal] = useState(false);
 
-  const color = useThemeColor({}, 'text');
-  const secondColor = useThemeColor({}, 'secondColor');
+  const color = useThemeColor({}, "text");
+  const secondColor = useThemeColor({}, "secondColor");
 
   useEffect(() => {
     (async () => {
@@ -53,57 +60,70 @@ export default function ShoppingCartScreen() {
   const handleOrder = async () => {
     const min = 1000000000; // 10-digit number minimum (1 followed by 9 zeros)
     const max = 9999999999; // 10-digit number maximum (9 followed by 9 nines)
-    const orderId = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+    const orderId = (
+      Math.floor(Math.random() * (max - min + 1)) + min
+    ).toString();
 
     setOpenModal(true);
     const insertedOrderId = await addOrder(orderId, totalPrice, db);
     await insertShoppingItemsOrderId(db, insertedOrderId, authentication.email);
     setResetResetCartCounter((prevState: any) => !prevState);
     setResetTrackOrder((prevState: any) => !prevState);
-  }
+  };
+
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <ThemedView style={styles.container}>
-        {
-          data.length ?
-            <Fragment>
-              <FlatList
-                data={data}
-                ListHeaderComponent={() => (
-                  <ThemedView style={styles.headerContainer}>
-                    <ThemedText type="subtitle">
-                      Order Summary
-                    </ThemedText>
-                  </ThemedView>
-                )}
-                stickyHeaderIndices={[0]}
-                ListFooterComponentStyle={{ paddingTop: 25 }}
-                renderItem={({ item }) => <FoodItem data={item} />}
-                keyExtractor={(item) => item.id.toString()}
-                ItemSeparatorComponent={() => (
-                  <Divider style={{ marginVertical: 10 }} />
-                )}
-                ListFooterComponent={() => <ExtraItemsList />}
-                showsVerticalScrollIndicator={false}
-                scrollEnabled
-              />
-              <Checkout totalPrice={totalPrice} />
-              <ThemedButton darkColor={secondColor} lightColor={secondColor} textColor={Colors.light.text} onPress={handleOrder}>Order</ThemedButton>
-            </Fragment>
-            :
-            <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-              <MaterialIcons name='no-food' color={color} size={70} />
-              <ThemedText type='subtitle'>Please add items!</ThemedText>
-            </View>
-        }
+        {data.length ? (
+          <Fragment>
+            <FlatList
+              data={data}
+              ListHeaderComponent={() => (
+                <ThemedView style={styles.headerContainer}>
+                  <ThemedText type="subtitle">Order Summary</ThemedText>
+                </ThemedView>
+              )}
+              stickyHeaderIndices={[0]}
+              ListFooterComponentStyle={{ paddingTop: 25 }}
+              renderItem={({ item }) => <FoodItem data={item} />}
+              keyExtractor={(item) => item.id.toString()}
+              ItemSeparatorComponent={() => (
+                <Divider style={{ marginVertical: 10 }} />
+              )}
+              ListFooterComponent={() => <ExtraItemsList />}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled
+            />
+            <Checkout totalPrice={totalPrice} />
+            <ThemedButton
+              darkColor={secondColor}
+              lightColor={secondColor}
+              textColor={Colors.light.text}
+              onPress={handleOrder}
+            >
+              Order
+            </ThemedButton>
+          </Fragment>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+            }}
+          >
+            <MaterialIcons name="no-food" color={color} size={70} />
+            <ThemedText type="subtitle">Please add items!</ThemedText>
+          </View>
+        )}
       </ThemedView>
       {openModal && (
-        <CustomModal
-          openModal={openModal}
-          onModalClose={() => setOpenModal(false)}
-        >
-          <ModalOrderConfirmation />
+        <CustomModal openModal={openModal} onModalClose={handleCloseModal}>
+          <ModalOrderConfirmation handleCloseModal={handleCloseModal} />
         </CustomModal>
       )}
     </ThemedSafeAreaView>
@@ -118,9 +138,9 @@ const styles = StyleSheet.create({
     gap: 30,
   },
   headerContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-    paddingBottom: 15
-  }
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    paddingBottom: 15,
+  },
 });

@@ -16,7 +16,7 @@ export default function ExtraItemsList() {
   const authentication = useContext(AuthenticationContext);
   const { setResetResetCartCounter } = useContext(RerenderContext);
 
-  const separatorColor = useThemeColor({}, 'opacityGrey');
+  const separatorColor = useThemeColor({}, "opacityGrey");
 
   const addItemToCart = useCallback(async (itemId: number) => {
     await addItemInShoppingCart(itemId, authentication.email, 1, db);
@@ -32,13 +32,21 @@ export default function ExtraItemsList() {
 
   return (
     <View style={styles.container}>
-      <ThemedText type='subtitle'>Add More To Your Order!</ThemedText>
+      <ThemedText type="subtitle">Add More To Your Order!</ThemedText>
       <FlatList
-        ItemSeparatorComponent={() => <View style={[{ borderColor: separatorColor }, styles.serparator]} />}
+        ItemSeparatorComponent={() => (
+          <View style={[{ borderColor: separatorColor }, styles.serparator]} />
+        )}
         data={data}
         horizontal={true}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <SectionFoodItem horizontal data={item} onPress={() => addItemToCart(item.id)} />}
+        renderItem={({ item }) => (
+          <SectionFoodItem
+            horizontal
+            data={item}
+            onPress={() => addItemToCart(item.id)}
+          />
+        )}
         showsHorizontalScrollIndicator={false}
         scrollEnabled
       />
@@ -49,11 +57,11 @@ export default function ExtraItemsList() {
 const styles = StyleSheet.create({
   serparator: {
     borderLeftWidth: 1,
-    marginHorizontal: 20
+    marginHorizontal: 20,
   },
   container: {
     display: "flex",
     gap: 30,
-    flex: 1
+    flex: 1,
   },
 });

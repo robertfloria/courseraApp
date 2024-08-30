@@ -12,22 +12,26 @@ import { ThemedView } from "../ThemedView";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 
-export function AnimatedDeliveryIcon() {
+type Props = {
+  size?: number
+};
+
+export function AnimatedDeliveryIcon({ size = 120 }: Props) {
   const translateX = useSharedValue(0);
-  const secondColor = useThemeColor({}, 'secondColor');
+  const secondColor = useThemeColor({}, "secondColor");
 
   useEffect(() => {
     // Function to create the left-right bump effect every 3 seconds
     const interval = setInterval(() => {
       translateX.value = withRepeat(
         withSequence(
-          withTiming(20, { duration: 200 }),  // Move right
+          withTiming(20, { duration: 200 }), // Move right
           withTiming(-20, { duration: 200 }), // Move left, passing the starting point
-          withTiming(10, { duration: 150 }),  // Slight right again (overshoot)
-          withTiming(0, { duration: 150 })    // Back to the original position
+          withTiming(10, { duration: 150 }), // Slight right again (overshoot)
+          withTiming(0, { duration: 150 }), // Back to the original position
         ),
         2, // Repeat the movement twice
-        true // Reverse the animation for a smoother effect
+        true, // Reverse the animation for a smoother effect
       );
     }, 3000);
 
@@ -41,7 +45,11 @@ export function AnimatedDeliveryIcon() {
   return (
     <ThemedView style={[{ backgroundColor: secondColor }, styles.container]}>
       <Animated.View style={animatedStyle}>
-        <MaterialIcons name="delivery-dining" size={120} color={Colors.light.text} />
+        <MaterialIcons
+          name="delivery-dining"
+          size={size}
+          color={Colors.light.text}
+        />
       </Animated.View>
     </ThemedView>
   );
@@ -54,6 +62,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     padding: 15,
-    borderRadius: 100
+    borderRadius: 100,
   },
 });

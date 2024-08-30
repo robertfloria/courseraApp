@@ -8,8 +8,6 @@ import { getUserOrders } from "@/database/ordersDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
 import { RerenderContext } from "@/store/context/RerenderContext";
-import { TrackDeliveryContext } from "@/store/context/TrackDeliveryContext";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
 import { SectionList, StyleSheet, View } from "react-native";
@@ -22,11 +20,8 @@ export default function TrackOrderScreen() {
   const authentication = useContext(AuthenticationContext);
   const db = useSQLiteContext();
   const { resetTrackOrder } = useContext(RerenderContext);
-  const { setDeliveryTime } = useContext(TrackDeliveryContext);
 
-  const grey = useThemeColor({}, "grey");
-  const textColor = useThemeColor({}, "text");
-  const firstColor = useThemeColor({}, "firstColor");
+  const thirdColor = useThemeColor({}, "thirdColor");
 
   useEffect(() => {
     (async () => {
@@ -38,15 +33,14 @@ export default function TrackOrderScreen() {
 
   useEffect(() => {
     if (data.length) {
-      const maxCreatedDate = data.reduce(function (a: any, b: any) {
-        return a.createdDate > b.createdDate ? a.createdDate : b.createdDate;
-      }, []);
+      let maxCreatedDate = data.reduce(function (a: any, b: any) {
+        return a > b ? a : b;
+      }, []).createdDate;
 
-      let finalDeliveryTime = new Date(maxCreatedDate);
-      finalDeliveryTime.setMinutes(finalDeliveryTime.getMinutes() + estimatedDeliveryTime);
+      maxCreatedDate = new Date(maxCreatedDate);
+      maxCreatedDate.setMinutes(maxCreatedDate.getMinutes() + estimatedDeliveryTime);
 
-      setEstimatedTime(finalDeliveryTime);
-      setDeliveryTime(finalDeliveryTime);
+      setEstimatedTime(maxCreatedDate);
     }
   }, [data])
 
@@ -55,10 +49,9 @@ export default function TrackOrderScreen() {
       <ThemedView style={styles.container}>
         <ThemedView style={styles.iconContainer}>
           <AnimatedDeliveryIcon />
-          <ThemedView style={{ display: 'flex', gap: 5, flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialIcons name='timer' size={30} color={textColor} />
+          <ThemedView style={{ display: 'flex', gap: 5, flexDirection: 'row' }}>
             <ThemedText type='defaultSemiBold'>Estimated time: </ThemedText>
-            <ThemedText type='title'>{estimatedTime.getHours() + ':' + estimatedTime.getMinutes()}</ThemedText>
+            <ThemedText type='subtitle'>{estimatedTime.toLocaleTimeString()}</ThemedText>
           </ThemedView>
         </ThemedView>
         <SectionList
@@ -73,17 +66,17 @@ export default function TrackOrderScreen() {
           renderSectionFooter={({ section: { finalPrice } }) => (
             <View style={{ display: "flex", gap: 5, paddingVertical: 10 }}>
               <ThemedText type="defaultSemiBold">Total</ThemedText>
-              <ThemedText  lightColor={firstColor} darkColor={firstColor} type="subtitle">${finalPrice.toFixed(2)}</ThemedText>
+              <ThemedText type="subtitle">{finalPrice.toFixed(2)}</ThemedText>
               <Divider />
             </View>
           )}
           renderSectionHeader={({ section: { orderId } }) => (
             <ThemedText
               type="defaultSemiBold"
-              style={{  paddingBottom: 10 }}
+              style={{ backgroundColor: thirdColor, paddingBottom: 10 }}
             >
               Order:
-              <ThemedText lightColor={grey} darkColor={grey}> #{orderId}</ThemedText>
+              <ThemedText type="subtitle"> {orderId}</ThemedText>
             </ThemedText>
           )}
           showsVerticalScrollIndicator={false}
@@ -104,6 +97,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
-    gap: 25,
+    gap: 15,
   },
 });

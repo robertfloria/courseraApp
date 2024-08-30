@@ -130,7 +130,9 @@ export default function MenuScreen() {
                 {category}
               </ThemedText>
             )}
-            ItemSeparatorComponent={() => <Divider style={{ marginVertical: 10 }} />}
+            ItemSeparatorComponent={() => (
+              <Divider style={{ marginVertical: 10 }} />
+            )}
             showsVerticalScrollIndicator={false}
             scrollEnabled
           />

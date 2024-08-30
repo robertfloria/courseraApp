@@ -18,7 +18,7 @@ export const RerenderContextProvider = ({ children }: Props) => {
         resetCartCounter: resetCartCounter,
         setResetResetCartCounter: setResetResetCartCounter,
         resetTrackOrder: resetTrackOrder,
-        setResetTrackOrder: setResetTrackOrder
+        setResetTrackOrder: setResetTrackOrder,
       }}
     >
       {children}
