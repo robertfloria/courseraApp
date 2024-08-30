@@ -2,30 +2,33 @@ export function getSectionListData(data: any) {
     let sectionList: Array<any> = data.reduce(
         (accumulator: any, currentValue: any) => {
             const orderId = currentValue.orderId;
+            const finalPrice = currentValue.finalPrice;
+
             let orderIdGroup = accumulator.find(
                 (item: any) => item.orderId === orderId,
             );
+            let itemAppearance = 0;
 
             if (!orderIdGroup) {
                 orderIdGroup = {
                     orderId: orderId,
+                    finalPrice:finalPrice,
                     data: [],
                 };
                 accumulator.push(orderIdGroup);
             }
 
-            const itemAppearance = orderIdGroup.filter(
-                (item: any) => item.orderId === orderId && item.data.some((data: any) => data.name == currentValue.name)
-            );
-
-            if (itemAppearance.length > 0) {
-                orderIdGroup.data.multiply = itemAppearance.length + 1;
+            if (orderIdGroup.orderId == orderId) {
+                itemAppearance = orderIdGroup.data.filter((item: any) => item.name == currentValue.name).length;
+            }
+            
+            if (itemAppearance > 0) {
+                orderIdGroup.data[0].multiply = itemAppearance + 1;
             }
             else {
                 orderIdGroup.data.push({
                     id: currentValue.orderId,
                     createdDate: currentValue.createdDate,
-                    finalPrice: currentValue.finalPrice,
                     name: currentValue.name,
                     multiply: 1,
                 });

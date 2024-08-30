@@ -6,10 +6,10 @@ import { getSectionListData } from "@/components/trackOrderScreen/utils/function
 import { getUserOrders } from "@/database/ordersDatabase";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { AuthenticationContext } from "@/store/context/AuthenticationContext";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useSQLiteContext } from "expo-sqlite";
 import { useContext, useEffect, useState } from "react";
 import { SectionList, StyleSheet, View } from "react-native";
+import { Divider } from "react-native-paper";
 
 export default function TrackOrderScreen() {
     const [data, setData] = useState<any>([]);
@@ -17,7 +17,6 @@ export default function TrackOrderScreen() {
     const db = useSQLiteContext();
 
     const thirdColor = useThemeColor({}, 'thirdColor');
-    const secondColor = useThemeColor({}, 'secondColor');
 
     useEffect(() => {
         (async () => {
@@ -31,25 +30,31 @@ export default function TrackOrderScreen() {
         <ThemedSafeAreaView style={{ flex: 1 }}>
             <ThemedView style={styles.container}>
                 <ThemedView style={styles.iconContainer}>
-                    <AnimatedDeliveryIcon/>
+                    <AnimatedDeliveryIcon />
                 </ThemedView>
                 <SectionList
                     sections={data}
                     keyExtractor={(index) => index}
                     renderItem={({ item }) => (
-                        <View style={{ display: 'flex' }}>
-                            <ThemedText>{item.finalPrice}</ThemedText>
+                        <View style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
+                            <ThemedText>{item.multiply}x</ThemedText>
                             <ThemedText>{item.name}</ThemedText>
-                            <ThemedText>{item.createdDate}</ThemedText>
-                            <ThemedText>{item.multiply}</ThemedText>
+                        </View>
+                    )}
+                    renderSectionFooter={({ section: { finalPrice } }) => (
+                        <View style={{ display: 'flex', gap: 5, paddingVertical:10 }}>
+                            <ThemedText type='defaultSemiBold'>Total</ThemedText>
+                            <ThemedText type='subtitle'>{finalPrice.toFixed(2)}</ThemedText>
+                            <Divider/>
                         </View>
                     )}
                     renderSectionHeader={({ section: { orderId } }) => (
                         <ThemedText
-                            type="subtitle"
-                            style={{ backgroundColor: thirdColor, paddingVertical: 15 }}
+                            type='defaultSemiBold'
+                            style={{ backgroundColor: thirdColor, paddingBottom: 10 }}
                         >
-                            Order: {orderId}
+                            Order:
+                            <ThemedText type='subtitle'> {orderId}</ThemedText>
                         </ThemedText>
                     )}
                     showsVerticalScrollIndicator={false}
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        gap:15
     }
 });

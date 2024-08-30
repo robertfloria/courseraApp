@@ -41,7 +41,7 @@ export function AnimatedDeliveryIcon() {
   return (
     <ThemedView style={[{ backgroundColor: secondColor }, styles.container]}>
       <Animated.View style={animatedStyle}>
-        <MaterialIcons name="delivery-dining" size={100} color={Colors.light.text} />
+        <MaterialIcons name="delivery-dining" size={120} color={Colors.light.text} />
       </Animated.View>
     </ThemedView>
   );
